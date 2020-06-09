@@ -21,8 +21,5 @@ module.exports = {
       }
     ]
   },
-  sidebar: 'auto',
-  extraWatchFiles: [
-    './README.md'
-  ]
+  sidebar: 'auto'
 }
