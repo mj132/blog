@@ -5,24 +5,36 @@ module.exports = {
   head: [
     ['link', {rel: 'icon', href: '/img/clock.gif'}]
   ],
+  port: '8888',
   themeConfig: {
-    nav: [{
+    nav: [
+      {
         text: "主页",
         link: "/"
       },
       {
         text: "前端",
-        link: "/webframe/"
+        link: "/web-frame/"
+      },
+      {
+        text: "每日·壹题",
+        link: "/interview/"
+      },
+      {
+        text: "GitHub",
+        link: "https://github.com/mj132"
       },
       // {
       //   text: "node",
       //   link: "/node/"
       // },
-      {
-        text: "面试问题",
-        link: "/interview/"
-      }
     ]
   },
-  sidebar: 'auto'
+  markdown: {
+    lineNumbers: true
+  },
+  sidebar: 'auto',
+  plugins: [
+    '@vuepress/back-to-top'
+  ]
 }

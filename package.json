@@ -2,15 +2,27 @@
   "name": "blog",
   "version": "1.0.0",
   "author": "MJ",
-  "keywords": ["前端", "博客", "javascript", "node"],
+  "keywords": [
+    "javascript",
+    "node",
+    "前端",
+    "博客"
+  ],
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
-    "deploy": "bash deploy.sh"
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs",
+    "eject": "vuepress eject docs",
+    "deploy": "bash deploy.sh",
+    "server": "vuepress build docs && pm2 start app.js --name='blog'"
   },
   "devDependencies": {
-    "vuepress": "^1.2.0"
+    "@vuepress/plugin-back-to-top": "^1.5.0",
+    "vuepress": "^1.5.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "pm2": "^4.4.0"
   }
 }
