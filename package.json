@@ -2,12 +2,7 @@
   "name": "blog",
   "version": "1.0.0",
   "author": "MJ",
-  "keywords": [
-    "javascript",
-    "node",
-    "前端",
-    "博客"
-  ],
+  "keywords": ["javascript", "node", "css", "front-end"],
   "main": "index.js",
   "license": "MIT",
   "scripts": {

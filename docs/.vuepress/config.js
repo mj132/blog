@@ -18,13 +18,13 @@ module.exports = {
         link: "/front-end/"
       },
       {
-        text: "每日·壹题",
+        text: "面试题",
         link: "/interview/"
       },
-      // {
-      //   text: "node",
-      //   link: "/node/"
-      // },
+      {
+        text: "数据库",
+        link: "/database/"
+      },
       {
         text: "CSDN",
         link: "https://blog.csdn.net/weixin_42569598"
@@ -35,7 +35,6 @@ module.exports = {
   markdown: {
     lineNumbers: true
   },
-  sidebar: 'auto',
   plugins: [
     '@vuepress/back-to-top'
   ]

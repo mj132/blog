@@ -1,47 +1,55 @@
 module.exports = {
+  sidebarDepth: 2,
   '/front-end/': [
     {
       title: 'javascript',
       children: [
         {
           path: '/front-end/javascript/',
-          title: '数据类型',
-          sidebarDepth: 0
+          title: '数据类型'
         },
         {
-          path: '/front-end/javascript/scope',
+          path: '/front-end/javascript/scope.html',
           title: '作用域链'
         }
       ]
     },
+    // {
+    //   title: 'vue',
+    //   children: [
+    //     {
+    //       path: '/front-end/vue/',
+    //       title: '生命周期分析',
+    //     },
+    //     {
+    //       path: '/front-end/vue/nexttick.html',
+    //       title: 'NextTick原理分析'
+    //     },
+    //   ]
+    // },
   ],
   '/interview/': [
     {
       title: '面试题-css',
-      sidebarDepth: 0,
-      children: [
-        {
-          path: '/interview/css/',
-          title: 'css高频面试题'
-        }, {
-          path: '/interview/css/layout',
-          title: '多种布局'
-        }
-      ]
+      path: '/interview/css/'
     },
-  ],
+    {
+      title: '面试题-js',
+      path: '/interview/javascript/'
+    },
+  ], 
   '/database/': [
     {
       title: '数据库基础',
       path: '/database/'
     },
     {
-      title: 'SQL 和 NoSQL 的区别',
-      path: '/database/nosql'
+      title: 'MySQL基础架构',
+      path: '/database/mysql.html'
     },
-    {
-      title: 'MySQL基础知识',
-      path: '/database/mysql'
-    },
+    // {
+    //   title: 'SQL 和 NoSQL 的区别',
+    //   path: '/database/nosql.html'
+    // },
   ]
 }
