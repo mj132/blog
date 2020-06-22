@@ -1,5 +1,6 @@
 # javascrip数据类型
 ![数据转换](https://imgvip.meishubao.com/msb_global/img/js_datatype.png)
+
 在开发中遇到很多小问题，因此写下这篇文章来巩固javascrip数据类型基础知识。
 > 基础很重要，只有基础好才会很少出`bug`，大多数的`bug`都是基础不扎实造成的。
 

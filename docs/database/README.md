@@ -1,8 +1,4 @@
 # 如何写优雅的SQL原生语句？
-## 前言：
-上一篇讲Mysql基本架构时，以“sql查询语句在MySql架构中具体是怎么执行的？”进行了全面的讲解。知道了sql查询语句在MySql架构中的具体执行流程，但是为了能够更好更快的写出sql语句，我觉得非常有必要知道sql语句中各子句的执行顺序。看过上一篇文章的小伙伴应该都知道，sql语句最后各子句的执行应该是在执行器中完成的，存储引擎对执行器提供的数据读写接口。现在开始我们的学习
-
-
 ## 语句中各子句完整执行顺序概括（按照顺序号执行）
 1. from (注:这里也包括from中的子语句)
 2. join 
@@ -73,7 +69,7 @@ LIMIT 9;
 ```
 查询结果：
 
-![](https://user-gold-cdn.xitu.io/2019/6/1/16b0ea85ba531a1a?w=1008&h=122&f=png&s=39868)
+![](https://imgvip.meishubao.com/msb_global/img/sql_01.png)
 
 - 先简要说一下我要查询的内容：
 
@@ -106,7 +102,7 @@ ORDER BY `pkrecord`.`score` DESC
 LIMIT 9;
 ```
 查询结果
-![](https://user-gold-cdn.xitu.io/2019/6/1/16b0ea8fae4441e6?w=920&h=116&f=png&s=27790)
+![](https://imgvip.meishubao.com/msb_global/img/sql_02.png)
 
 2. 在子查询中对数据已经进行排序后，外层排序方式如果和子查询排序分数相同，都是分数倒序，外层的排序可以去掉，没有必要写两遍。
 ## sql语句中的别名

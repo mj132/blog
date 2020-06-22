@@ -21,15 +21,16 @@ module.exports = {
         text: "面试题",
         link: "/interview/"
       },
-      {
-        text: "数据库",
-        link: "/database/"
-      },
+      // {
+      //   text: "数据库",
+      //   link: "/database/"
+      // },
       {
         text: "CSDN",
         link: "https://blog.csdn.net/weixin_42569598"
       }
     ],
+    sidebarDepth: 2,
     sidebar: require('./sidebar.js')
   },
   markdown: {
