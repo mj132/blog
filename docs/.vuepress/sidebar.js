@@ -22,10 +22,43 @@ module.exports = {
       ]
     },
     {
+      title: 'CSS',
+      children: [
+        {
+          path: 'css/01.html',
+          title: '01: 让一个元素水平垂直居中，到底有多少种方案？'
+        },
+        {
+          path: 'css/02.html',
+          title: '02: 浮动布局的优点？有什么缺点？清除浮动有哪些方式？'
+        },
+        {
+          path: 'css/03.html',
+          title: '03: 实现div垂直居中，左右10px，高度始终为宽度一半'
+        },
+        {
+          path: 'css/04.html',
+          title: '04: CSS如何进行品字布局？'
+        },
+        {
+          path: 'css/05.html',
+          title: '05: CSS如何进行圣杯布局？'
+        },
+        {
+          path: 'css/06.html',
+          title: '06: CSS如何进行双飞翼布局？'
+        },
+        {
+          path: 'css/07.html',
+          title: '07: BFC应用'
+        },
+      ]
+    },
+    {
       title: 'JS',
       children: [
         {
-          path: 'javascript/',
+          path: 'javascript/datatype.html',
           title: '数据类型'
         },
         {
