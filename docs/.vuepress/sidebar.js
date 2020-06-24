@@ -1,14 +1,35 @@
 module.exports = {
   '/front-end/': [
     {
-      title: 'javascript',
+      title: 'HTML',
       children: [
         {
-          path: '/front-end/javascript/',
+          path: 'html/01.html',
+          title: '01: HTML5和HTML4究竟有哪些不同？'
+        },
+        {
+          path: 'html/02.html',
+          title: '02: meta标签属性有哪些？'
+        },
+        {
+          path: 'html/03.html',
+          title: '03: src和href的区别是什么？'
+        },
+        {
+          path: 'html/04.html',
+          title: '04: script标签中defer和async的区别是什么？'
+        },
+      ]
+    },
+    {
+      title: 'JS',
+      children: [
+        {
+          path: 'javascript/',
           title: '数据类型'
         },
         {
-          path: '/front-end/javascript/scope.html',
+          path: 'javascript/scope.html',
           title: '作用域链'
         }
       ]
@@ -17,11 +38,11 @@ module.exports = {
     //   title: 'vue',
     //   children: [
     //     {
-    //       path: '/front-end/vue/',
+    //       path: 'vue/lifecycle.html',
     //       title: '生命周期分析',
     //     },
     //     {
-    //       path: '/front-end/vue/nexttick.html',
+    //       path: 'vue/nexttick.html',
     //       title: 'NextTick原理分析'
     //     },
     //   ]
@@ -30,7 +51,7 @@ module.exports = {
       title: '浏览器',
       children: [
         {
-          path: '/front-end/browser/',
+          path: 'browser/01.html',
           title: '渲染树',
         },
       ]
@@ -39,25 +60,25 @@ module.exports = {
   '/interview/': [
     {
       title: '面试题-css',
-      path: '/interview/'
+      path: './'
     },
     {
       title: '面试题-js',
-      path: '/interview/javascript.html'
+      path: 'javascript.html'
     },
   ], 
   // '/database/': [
   //   {
   //     title: '数据库基础',
-  //     path: '/database/'
+  //     path: './'
   //   },
   //   {
   //     title: 'MySQL基础架构',
-  //     path: '/database/mysql.html'
+  //     path: 'mysql.html'
   //   },
   //   {
   //     title: 'SQL 和 NoSQL 的区别',
-  //     path: '/database/nosql.html'
+  //     path: 'nosql.html'
   //   },
   // ]
 }
