@@ -19,6 +19,7 @@
 
 - [数据类型](javascript/datatype.html)
 - [作用域链](javascript/scope.html)
+- [闭包](javascript/closure.html)
 
 
 <!-- ## vue相关

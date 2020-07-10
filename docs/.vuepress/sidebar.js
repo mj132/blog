@@ -64,7 +64,11 @@ module.exports = {
         {
           path: 'javascript/scope.html',
           title: '作用域链'
-        }
+        },
+        {
+          path: 'javascript/closure.html',
+          title: '闭包'
+        },
       ]
     },
     // {
