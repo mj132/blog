@@ -3,7 +3,16 @@ module.exports = {
   title: '大前端',
   description: '前端技术博客，记录成长轨迹',
   head: [
-    ['link', {rel: 'icon', href: '/img/logo.png'}]
+    ['link', {rel: 'icon', href: '/img/logo.png'}],
+    ['script', {}, `
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?4d49147fc5053438fb9687c3abc37043";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+      `]
   ],
   port: '8888',
   themeConfig: {
