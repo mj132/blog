@@ -18,6 +18,7 @@
 ## JS相关
 
 - [数据类型](javascript/datatype.html)
+- [原型链](javascript/prototype.html)
 - [作用域链](javascript/scope.html)
 - [闭包](javascript/closure.html)
 

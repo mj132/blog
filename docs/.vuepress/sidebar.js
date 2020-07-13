@@ -62,6 +62,10 @@ module.exports = {
           title: '数据类型'
         },
         {
+          path: 'javascript/prototype.html',
+          title: '原型链'
+        },
+        {
           path: 'javascript/scope.html',
           title: '作用域链'
         },
