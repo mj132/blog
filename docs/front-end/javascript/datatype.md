@@ -1,4 +1,5 @@
 ## javascrip数据类型
+
 ![数据转换](https://imgvip.meishubao.com/msb_global/img/js_datatype.png)
 
 在开发中遇到很多小问题，因此写下这篇文章来巩固javascrip数据类型基础知识。
@@ -23,7 +24,7 @@ var obj1 = {
    a:1,
    b:2
 }
-console.log('2'+obj1)；
+console.log('2'+obj1);
 
 var obj2 = {
     toString:function(){
@@ -540,7 +541,7 @@ undefined + 1 // NaN
 -'abc' // NaN
 ```
 
-# 误区
+## 误区
 ### `toString`和`String`的区别  
 - `toString`
 1. `toString()`可以将数据都转为字符串，但是`null`和`undefined`不可以转换。
@@ -564,7 +565,7 @@ undefined + 1 // NaN
     
 - `String`
 
-1.  `String()`可以将`null`和`undefined`转换为字符串，但是没法转进制字符串
+1. `String()`可以将`null`和`undefined`转换为字符串，但是没法转进制字符串
 
     ```javascript
     console.log(String(null));
