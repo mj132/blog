@@ -1,4 +1,4 @@
-# javascrip数据类型
+## javascrip数据类型
 ![数据转换](https://imgvip.meishubao.com/msb_global/img/js_datatype.png)
 
 在开发中遇到很多小问题，因此写下这篇文章来巩固javascrip数据类型基础知识。
@@ -78,14 +78,14 @@ outer();
 ### 对象类型
 对象类型也叫引用类型，`array`和`function`是对象的子类型。对象在逻辑上是属性的无序集合，是存放各种值的容器。对象值存储的是引用地址，所以和基本类型值不可变的特性不同，对象值是可变的。
 
-# js弱类型语言
+## js弱类型语言
 > 面试官：说说你对`javascript`是弱类型语言的理解?
 
 `JavaScript` 是弱类型语言，而且`JavaScript` 声明变量的时候并没有预先确定的类型，变量的类型就是其值的类型，也就是说**变量当前的类型由其值所决定**,夸张点说上一秒种的`String`，下一秒可能就是个`Number`类型了，这个过程可能就进行了某些操作发生了强制类型转换。虽然弱类型的这种**不需要预先确定类型**的特性给我们带来了便利，同时也会给我们带来困扰，为了能充分利用该特性就必须掌握类型转换的原理。
 
 
 
-# js中的强制转换规则
+## js中的强制转换规则
 
 > 面试官：`javascript`中强制类型转换是一个非常易出现`bug`的点，知道强制转换时候的规则吗？
 
@@ -198,7 +198,7 @@ console.log(obj.valueOf());//1
 - `true` 转换为 `'true'`，`false` 转换为 `'false'`
 - 数字转换遵循通用规则，极大极小的数字使用指数形式
 
-> 注意：对象这里要先转换为原始值，调用`ToPrimitive`转换，`type`就指定为`string`了，继续回到`ToPrimitive`进行转换(上面有将到`ToPrimitive`的转换规则)。
+> 注意：对象这里要先转换为原始值，调用`ToPrimitive`转换，`type`就指定为`string`了，继续回到`ToPrimitive`进行转换(上面有说到`ToPrimitive`的转换规则)。
 
 
 ```javascript
@@ -245,7 +245,7 @@ Boolean(new Boolean(false)) // true
 ```
 
 
-# js转换规则不同场景应用
+## js转换规则不同场景应用
 > 面试官问：知道了具体转换成什么的规则，但是都在什么情况下发生什么样的转换呢？
 
 
@@ -378,16 +378,16 @@ var obj1 = {
 1 == obj1  //true
 //obj1转为原始值，调用obj1.valueOf()
 //返回原始值'1'
-//'1'toNumber得到 1 然后比较 1 == 1
+//Number('1')得到 1 然后比较 1 == 1
 [] == ![] //true
-//[]作为对象ToPrimitive得到 ''  
-//![]作为boolean转换得到0 
+//[]作为对象ToPrimitive,先[].valueOf(),不是原始值，再[].toString()得到 ''  
+//![]作为boolean,false.valueOf()为false，Number(false)转换得到0 
 //'' == 0 
 //转换为 0==0 //true
 ```
 
 
-3. 存在`boolean`，按照`ToNumber`将`boolean`转换为1或者0，再进行后面比较
+3. 存在`boolean`，按照`Number`将`boolean`转换为1或者0，再进行后面比较
 
 ```javascript
 //boolean 先转成number，按照上面的规则得到1  
@@ -401,7 +401,7 @@ var obj1 = {
 4.如果`x`为`string`，`y`为`number`，`x`转成`number`进行比较
 
 ```javascript
-//'0' toNumber()得到 0  
+//Number('0')得到 0  
 //0 == 0 true
 '0' == 0 //true
 ```
@@ -428,7 +428,7 @@ expression ? true : false
 !! expression
 ```
 
-# js中的数据类型判断
+## js中的数据类型判断
 
 > 面试官问：如何判断数据类型？怎么判断一个值到底是数组类型还是对象?
 
@@ -451,8 +451,7 @@ typeof(() => {})    // 'function'
 ```
 
 上面代码的输出结果可以看出，
-1.  `null` 的判定有误差，得到的结果
-如果使用 `typeof`，`null`得到的结果是`object`
+1.  `null` 的判定有误差，如果使用 `typeof`，`null`得到的结果是`object`
 
 2. 操作符对对象类型及其子类型，例如函数（可调用对象）、数组（有序索引对象）等进行判定，则除了函数都会得到 `object` 的结果。
 
