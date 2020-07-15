@@ -70,6 +70,10 @@ module.exports = {
           title: '作用域链'
         },
         {
+          path: 'javascript/this.html',
+          title: 'this关键字'
+        },
+        {
           path: 'javascript/closure.html',
           title: '闭包'
         },
