@@ -1,7 +1,3 @@
-
-
-## this绑定全面解析
-
 我们知道this绑定规则一共有5种情况：
 
 - 1、默认绑定（严格/非严格模式）
@@ -188,9 +184,9 @@ function getThisType () {
 getThisType.call(number);
 getThisType.apply(string); 
 // 输出结果
-// this指向内容 [Number: 1]
+// this指向内容 Number {1}
 // object
-// this指向内容 [String: '大前端']
+// this指向内容 String {"大前端"}
 // object
 ```
 #### bind函数
@@ -210,10 +206,10 @@ var publicAccounts = {
     }
 }
 
-publicAccounts.subscribe('小明')   // 输出结果: "小明 大前端"
+publicAccounts.subscribe('小明 ')   // 输出结果: "小明 大前端"
 
-var subscribe1 = publicAccounts.subscribe.bind({ name: '大前端', author: 'mj' }, '小明 ')
-subscribe1()       // 输出结果: "小明 大前端"
+var subscribe1 = publicAccounts.subscribe.bind({ name: '全栈', author: 'xm' }, 'mj ')
+subscribe1()       // 输出结果: "mj 全栈"
 ```
 
 ### new 绑定
@@ -225,42 +221,44 @@ subscribe1()       // 输出结果: "小明 大前端"
 
 例子:
 ```javascript
-function study(name){
+function Study(name){
     this.name = name;
 	
 }
-var studyDay = new study('mj');
+var studyDay = new Study('mj');
 console.log(studyDay);
 console.log('Hello,', studyDay.name);
 // 输出结果
-// study { name: 'mj' } 
-// hello，mj
+// Study { name: 'mj' } 
+// Hello，mj
 ```
-在`new study('mj')`的时候，会改变this指向，将`this指向指定到了studyDay对象`。
+在`new Study('mj')`的时候，会改变this指向，将`this指向指定到了studyDay对象`。
 注意:如果创建新的对象，构造函数不传值的话，新对象中的属性不会有值，但是新的对象中会有这个属性。
 
 #### 手动实现一个new创建对象代码(多种实现方式哦)
 ```javascript
 function New(func) {
-    var res = {};
-    if (func.prototype !== null) {
-        res.__proto__ = func.prototype;
-    }
+    var res = Object.create(func.prototype);
     var ret = func.apply(res, Array.prototype.slice.call(arguments, 1));
-    if ((typeof ret === "object" || typeof ret === "function") && ret !== null) {
-        return ret;
-    }
-    return res;
+    return ret instanceof Object ? ret : res;
 }
-var obj = New(A, 1, 2);
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+}
+var person1 = New(Person, 'mj', 16);
 // equals to
-var obj = new A(1, 2);
+var person2 = new Person('mj', 16);
 ```
 
 ## this绑定优先级
 上面介绍了 this 的四种绑定规则，但是一段代码有时候会同时应用多种规则，这时候 this 应该如何指向呢？其实它们也是有一个先后顺序的，具体规则如下:
 
 **new绑定 > 显式绑定 > 隐式绑定 > 默认绑定**
+
+图中的流程只针对于单个规则。
+
+![](https://imgvip.meishubao.com/msb_global/img/js_this.png)
 
 ## 箭头函数绑定
 ### 箭头函数
@@ -305,13 +303,13 @@ let funNew = new fun();
 例子:
 ```javascript
 let fun = ()=>{}
-console.loh(fun.prototype); // undefined
+console.log(fun.prototype); // undefined
 ```
 - 箭头函数中没有 super
 
 上面说了没有原型，连原型都没有，自然也不能通过 super 来访问原型的属性，所以箭头函数也是没有 super 的，不过跟 this、arguments、new.target 一样，这些值由外围最近一层非箭头函数决定。
 
-- `箭头函数中没有自己的this`
+- 箭头函数中没有自己的this
 
 箭头函数中没有自己的 this，箭头函数中的 this 不能用 call()、apply()、bind() 这些方法改变 this 的指向，箭头函数中的 this 直接指向的是`调用函数的 上一层运行时`。
 ```javascript
@@ -327,6 +325,7 @@ let obj = {
 obj.foo()             // 输出结果: "mj"
 ```
 看完输出结果，怕大家有疑问还是分析一下，前面我说的箭头函数中this直接指向的是`调用函数的上一层运行时`，这段代码`obj.foo`在调用的时候如果是不使用箭头函数this应该指向的是 obj ，但是使用了箭头函数，往上一层查找，指向的就是全局了，所以输出结果是`mj`。
+
 ### 自执行函数
 什么是自执行函数？
 自执行函数在我们在代码只能够定义后，无需调用，会自动执行。开发过程中有时间测试某一小段代码报错会使用。
@@ -354,7 +353,7 @@ obj.foo()             // 输出结果: "mj"
 
 代码如下：
 ```javascript
-var length = 10;
+var length = 8;
 function fn() {
     console.log(this.length);
 }
@@ -367,7 +366,7 @@ var obj = {
   }
 };
  
-obj.method(fn, 1);//输出是什么？
+obj.method(fn, 1, 2);//输出是什么？
 ```
 
-这段代码的输出结果是:`10,2`
+这段代码的输出结果是:`8 3`
