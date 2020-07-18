@@ -77,6 +77,10 @@ module.exports = {
           path: 'javascript/closure.html',
           title: '闭包'
         },
+        {
+          path: 'javascript/higherFunc.html',
+          title: '高阶函数'
+        },
       ]
     },
     // {

@@ -22,6 +22,7 @@
 - [作用域链](javascript/scope.html)
 - [this关键字](javascript/this.html)
 - [闭包](javascript/closure.html)
+- [高阶函数](javascript/higherFunc.html)
 
 
 <!-- ## vue相关
