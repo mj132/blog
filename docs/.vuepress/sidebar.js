@@ -62,12 +62,24 @@ module.exports = {
           title: '数据类型'
         },
         {
+          path: 'javascript/prototype.html',
+          title: '原型链'
+        },
+        {
           path: 'javascript/scope.html',
           title: '作用域链'
         },
         {
+          path: 'javascript/this.html',
+          title: 'this关键字'
+        },
+        {
           path: 'javascript/closure.html',
           title: '闭包'
+        },
+        {
+          path: 'javascript/higherFunc.html',
+          title: '高阶函数'
         },
       ]
     },

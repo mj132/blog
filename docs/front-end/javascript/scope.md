@@ -52,9 +52,9 @@ let globleVariable = "animal"; // Error, thing has already been declared
 另一方面如果你使用`var`申明变量，第二个申明的同样的变量将覆盖前面的,这样会使你的代码很难调试。
 
 ```javascript
-var name = 'koala'
-var name = 'xiaoxiao'
-console.log(name);  // xiaoxiao
+var name = 'mj'
+var name = 'zhangsan'
+console.log(name);  // zhangsan
 ```
 
 ### 2.2局部作用域
@@ -66,7 +66,7 @@ console.log(name);  // xiaoxiao
 ```javascript
 //全局作用域
 function test(){
-    var num = 9;
+    var num = 6;
     // 内部可以访问
     console.log("test中："+num);
 }
@@ -89,7 +89,7 @@ console.log('外部:'+thing)
 - 任何一对花括号`｛...｝`中的语句集都属于一个块, 在es6之前，在块语句中定义的变量将保留在它已经存在的作用域中：
 
 ```javascript
-var name = '程序员成长指北';
+var name = '大前端';
 for(var i=0; i<5; i++){
     console.log(i)
 }
@@ -134,32 +134,32 @@ console在输出的时候，tmp变量仅仅申明了但未定义。所以输出u
 看一个例子：
 ```javascript
 // var
-var name = 'koloa';
-console.log(name); // koala
+var name = 'mj';
+console.log(name); // mj
 if(true){
-    var name = '程序员成长指北';
-    console.log(name); // 程序员成长指北
+    var name = '大前端';
+    console.log(name); // 大前端
 }
-console.log(name); // 程序员成长指北
+console.log(name); // 大前端
 
 ```
- 虽然看起来里面name申明了两次，但上面说了，js的var变量只有全局作用域和函数作用域两种，且申明会被提升，因此实际上name只会在最顶上开始的地方申明一次，`var name='`程序员成长指北'的申明会被忽略，仅用于赋值。也就是说上面的代码实际上跟下面是一致的。
+ 虽然看起来里面name申明了两次，但上面说了，js的var变量只有全局作用域和函数作用域两种，且申明会被提升，因此实际上name只会在最顶上开始的地方申明一次，`var name='大前端'`的申明会被忽略，仅用于赋值。也就是说上面的代码实际上跟下面是一致的。
 ```javascript
 // var
-var name = 'koloa';
-    console.log(name); // koala
+var name = 'mj';
+    console.log(name); // mj
 if(true){
-    name = '程序员成长指北';
-    console.log(name); // 程序员成长指北
+    name = '大前端';
+    console.log(name); // 大前端
 }
-console.log(name); // 程序员成长指北
+console.log(name); // 大前端
 ```
 ##### 变量和函数同时出现的提升
 如果有函数和变量同时声明了，会出现什么情况呢？看下面但代码
 
 ```JavaScript
 console.log(foo);
-var foo ='i am koala';
+var foo ='i am mj';
 function foo(){}
 
 ```
@@ -169,7 +169,7 @@ function foo(){}
 
 ```JavaScript
 console.log(foo);
-var foo ='i am koala';
+var foo ='i am mj';
 var foo=function (){}
 ```
 输出结果是`undefined`
@@ -186,12 +186,12 @@ var foo=function (){}
 ```JavaScript
 var foo=function (){}
 console.log(foo);
-var foo ='i am koala';
+var foo ='i am mj';
 ```
 
 原因是：
 1. 函数声明被提升到最顶上；
-2. 申明只进行一次，因此后面`var foo='i am koala'`的申明会被忽略。
+2. 申明只进行一次，因此后面`var foo='i am mj'`的申明会被忽略。
 3. 函数申明的优先级优于变量申明，且函数声明会连带定义一起被提升（这里与变量不同）
 
 
@@ -218,16 +218,16 @@ ES6的`let`和`const`不允许反复声明，与`var`不同
 ```javascript
 // var
 function test(){
-    var name = 'koloa';
-    var name = '程序员成长指北';
-    console.log(name); // 程序员成长指北
+    var name = 'mj';
+    var name = '大前端';
+    console.log(name); // 大前端
 }
 
 // let || const
 function test2(){
-    var name ='koloa';
-    let name= '程序员成长指北'; 
-    // Uncaught SyntaxError: Identifier 'count' has already been declared
+    var name ='mj';
+    let name= '大前端'; 
+    // Uncaught SyntaxError: Identifier 'name' has already been declared
 }
 ```
 
@@ -238,7 +238,8 @@ function test2(){
 在讲解作用域链之前先说一下，先了解一下 JavaScript是如何执行的？
 ### 3.1JavaScript是如何执行的？
 
-![](https://user-gold-cdn.xitu.io/2019/6/27/16b94c342168e6da?w=2198&h=1138&f=png&s=308834)
+![](https://imgvip.meishubao.com/msb_global/img/js_scope_01.png)
+
 JavaScript代码执行分为两个阶段：
 #### 3.1.1 分析阶段
 javascript编译器编译完成，生成代码后进行分析
@@ -296,7 +297,7 @@ AO = {}
 // 则将function age(){}付给AO.age
 AO.age = function age() {}
 ```
-**函数声明注意点**：AO上如果有与函数名同名的属性,则会被此函数覆盖。但是一下面这种情况
+**函数声明注意点**：AO上如果有与函数名同名的属性,则会被此函数覆盖。但是下面这种情况
 
 ```javascript
 var age = function () {
