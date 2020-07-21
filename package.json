@@ -2,7 +2,12 @@
   "name": "blog",
   "version": "1.0.0",
   "author": "MJ",
-  "keywords": ["javascript", "node", "css", "front-end"],
+  "keywords": [
+    "javascript",
+    "node",
+    "css",
+    "front-end"
+  ],
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -14,6 +19,7 @@
   },
   "devDependencies": {
     "@vuepress/plugin-back-to-top": "^1.5.0",
+    "@vuepress/plugin-medium-zoom": "^1.5.2",
     "vuepress": "^1.5.1"
   },
   "dependencies": {

@@ -3,7 +3,7 @@ module.exports = {
   title: '大前端',
   description: '前端技术博客，记录成长轨迹',
   head: [
-    ['link', {rel: 'icon', href: '/img/logo.png'}],
+    ['link', { rel: 'icon', href: '/img/logo.png' }],
     ['script', {}, `
       var _hmt = _hmt || [];
       (function () {
@@ -12,7 +12,7 @@ module.exports = {
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
       })();
-      `]
+    `]
   ],
   port: '8888',
   themeConfig: {
@@ -46,6 +46,12 @@ module.exports = {
     lineNumbers: true
   },
   plugins: [
-    '@vuepress/back-to-top'
+    ['@vuepress/back-to-top', true],
+    ['@vuepress/medium-zoom', {
+      options: {
+        margin: 16,
+        background: 'rgba(30, 30, 30, .9)'
+      }
+    }]
   ]
 }
