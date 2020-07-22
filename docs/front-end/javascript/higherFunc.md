@@ -57,7 +57,6 @@ console.log( arr1 );
 ###  map高阶函数注意点
 callback需要有return值，否则会出现所有项映射为undefind；
 ```javascript
-// kaola
 const arr1 = [1, 2, 3, 4];
 const arr2 = arr1.map(item => {});
 
@@ -208,13 +207,13 @@ array.filter(callback,[ thisObject]);
 const arr1 = [1, 2, 1, 2, 3, 5, 4, 5, 3, 4, 4, 4, 4];
 const arr2 = [];
 for (let i = 0; i < arr1.length; i++) {
-  if (arr1.indexOf( arr1[i] ) === i) {
-    arr2.push( arr1[i] );
+  if (arr1.indexOf(arr1[i]) === i) {
+    arr2.push(arr1[i]);
   }
 }
-console.log( arr2 );
+console.log(arr2);
 // [1, 2, 3, 5, 4]
-console.log( arr1 );
+console.log(arr1);
 // [1, 2, 1, 2, 3, 5, 4, 5, 3, 4, 4, 4, 4]
 ```
 
@@ -222,8 +221,8 @@ console.log( arr1 );
 
 ```JavaScript
 const arr1 = [1, 2, 1, 2, 3, 5, 4, 5, 3, 4, 4, 4, 4];
-const arr2 = arr1.filter( (element, index, self) => {
-    return self.indexOf( element ) === index;
+const arr2 = arr1.filter((element, index, self) => {
+  return self.indexOf(element) === index;
 });
 
 console.log( arr2 );
@@ -242,7 +241,7 @@ var arrayFilter = arr.filter(function(item) {
 });
 console.log(arrayFilter); // [1, 2, 3]
 ```
-通过例子可以看出:过滤测试的返回值只要是弱等于== true/false就可以了，而非非得返回 === true/false.
+通过例子可以看出:过滤测试的返回值只要是弱等于== true/false就可以了，而不是必须 === true/false.
 
 
 
@@ -278,16 +277,16 @@ arr.sort([compareFunction])
 
 // 指明compareFunction函数
 'use strict';
-var arr = [10, 20, 1, 2];
-    arr.sort(function (x, y) {
-        if (x < y) {
-            return -1;
-        }
-        if (x > y) {
-            return 1;
-        }
-        return 0;
-    });
+let arr = [10, 20, 1, 2];
+arr.sort(function (x, y) {
+  if (x < y) {
+    return -1;
+  }
+  if (x > y) {
+    return 1;
+  }
+  return 0;
+});
 console.log(arr); // [1, 2, 10, 20]
 ```
 
@@ -322,31 +321,29 @@ V8 引擎 sort 函数只给出了两种排序 `InsertionSort`和 `QuickSort`，*
 对于要比较数字而非字符串，比较函数可以简单的以 a 减 b，如下的函数将会将数组升序排列，降序排序则使用b-a。
 
 ```JavaScript
-let compareNumbers= function (a, b) {
+let compareNumbers = function (a, b) {
     return a - b;
 }
-let koala=[10, 20, 1, 2].sort(compareNumbers)
+let arr = [10, 20, 1, 2].sort(compareNumbers)
 
-console.log(koala);
+console.log(arr);
 // [1 , 2 , 10 , 20]
 ```
 
 
 ## 函数作为返回值输出
 
-
 返回一个函数，下面直接看两个例子来加深理解。
 
 ### isType 函数
 我们知道在判断类型的时候可以通过`Object.prototype.toString.call` 来获取对应对象返回的字符串，比如：
 
-
 ```JavaScript
-let isString = obj => Object.prototype.toString.call( obj ) === '[object String]';
+let isString = obj => Object.prototype.toString.call(obj) === '[object String]';
 
-let isArray = obj => Object.prototype.toString.call( obj ) === '[object Array]';
+let isArray = obj => Object.prototype.toString.call(obj) === '[object Array]';
 
-let isNumber = obj => Object.prototype.toString.call( obj ) === '[object Number]';
+let isNumber = obj => Object.prototype.toString.call(obj) === '[object Number]';
 ```
 
 可以发现上面三行代码有很多重复代码，只需要把具体的类型抽离出来就可以封装成一个判断类型的方法了，代码如下。
@@ -372,22 +369,21 @@ add(1)(2);  // 3
 add(1)(2)(3)； // 6
 ```
 
-
 分析面试题的结构，都是将函数作为返回值输出，然后接收新的参数并进行计算。
 
-我们知道打印函数时会自动调用 `toString()`方法（如果不知道的可以去看我的这篇文章），函数 add(a) 返回一个sum(b)函数，函数 sum() 中累加计算 a = a + b，只需要重写sum.toString()方法返回变量 a 就可以了。
+我们知道打印函数时会自动调用 `toString()`方法，函数 add(a) 返回一个sum(b)函数，函数 sum() 中累加计算 a = a + b，只需要重写sum.toString()方法返回变量 a 就可以了。
 
 
 ```JavaScript
 function add(a) {
-    function sum(b) { // 使用闭包
-        a = a + b; // 累加
-        return sum;
-     }
-     sum.toString = function() { // 重写toString()方法
-        return a;
-    }
-     return sum; // 返回一个函数
+  function sum(b) { // 使用闭包
+    a = a + b; // 累加
+    return sum;
+  }
+  sum.toString = function() { // 重写toString()方法
+    return a;
+  }
+  return sum; // 返回一个函数
 }
 
 add(1); // 1
@@ -405,16 +401,16 @@ add(1)(2)(3)； // 6
 ```JavaScript
 const strArray=['JavaScript','PHP','JAVA','C','Python'];
 function mapForEach(arr,fn){
-    const newArray = [];
-    for(let i = 0; i<arr.length;i++){
-        newArray.push({
-            fn(arr[i])
-        );
-    }
-    return newArray;
+  const newArray = [];
+  for(let i=0; i<arr.length; i++){
+    newArray.push(
+      fn(arr[i])
+    );
+  }
+  return newArray;
 }
 const lenArray = mapForEach(strArray,function(item){
-    return item.length;
+  return item.length;
 });
 
 console.log(lenArray);//[10,3,4,1,6]
@@ -427,4 +423,4 @@ console.log(lenArray);//[10,3,4,1,6]
 
 
 ## 总结
-我们已经了解了高阶函数和一些内置的高阶函数，还学习了如何创建自己的高阶函数。简而言之，高阶函数是一个可以接收函数作为参数，甚至返回一个函数的函数。 它就像常规函数一样，只是多了接收和返回其他函数的附加能力，即参数和输出。
+我们已经了解了高阶函数和一些内置的高阶函数，还学习了如何创建自己的高阶函数。简而言之，高阶函数是一个可以接收函数作为参数，甚至返回一个函数的函数。它就像常规函数一样，只是多了接收和返回其他函数的附加能力，即参数和输出。
