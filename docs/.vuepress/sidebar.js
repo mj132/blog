@@ -81,6 +81,14 @@ module.exports = {
           path: 'javascript/higherFunc.html',
           title: '高阶函数'
         },
+        {
+          path: 'javascript/promise.html',
+          title: 'promise'
+        },
+        {
+          path: 'javascript/async-await.html',
+          title: 'async-await'
+        },
       ]
     },
     // {

@@ -23,6 +23,8 @@
 - [this关键字](javascript/this.html)
 - [闭包](javascript/closure.html)
 - [高阶函数](javascript/higherFunc.html)
+- [promise](javascript/promise.html)
+- [async-await](javascript/async-await.html)
 
 
 <!-- ## vue相关
