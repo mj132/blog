@@ -9,7 +9,7 @@ features:
 - title: 博文
   details: 针对前端的知识难点进行细致入微的讲解，让你的进阶之路不再崎岖！
 - title: MJ
-  details: 一个有趣的且乐于分享的人。座右铭：今日事今日毕。
+  details: 立于当下，面向未来。居安思危，学习不止。座右铭：今日事今日毕。
 footer: MJ personal blog
 
 ---

@@ -4,14 +4,16 @@
   "author": "MJ",
   "keywords": [
     "javascript",
-    "node",
+    "vue",
     "css",
+    "html",
+    "node",
     "front-end"
   ],
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "vuepress dev docs",
+    "start": "vuepress dev docs",
     "build": "vuepress build docs",
     "eject": "vuepress eject docs",
     "deploy": "bash deploy.sh",
