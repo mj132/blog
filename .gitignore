@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules/
 
 # vuepress build output
-.vuepress/dist
+docs/.vuepress/dist
 
 package-lock.json
+yarn.lock
