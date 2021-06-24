@@ -123,6 +123,10 @@ module.exports = {
       title: '面试题-js',
       path: 'javascript.html'
     },
+    {
+      title: '面试题-手写js',
+      path: 'handwriteJs.html'
+    },
   ], 
   // '/database/': [
   //   {
