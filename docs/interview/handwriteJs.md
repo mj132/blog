@@ -411,3 +411,193 @@ function myInstanceof(left, right) {
   }
 }
 ```
+
+## 11. 柯里化
+
+柯里化（Currying），又称部分求值（Partial Evaluation），是把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，并且返回接受余下的参数而且返回结果的新函数的技术。核心思想是把多参数传入的函数拆成单参数（或部分）函数，内部再返回调用下一个单参数（或部分）函数，依次处理剩余的参数。
+
+#### 实现代码如下:
+
+```javascript
+function currying(fn, ...args) {
+  const length = fn.length
+  let allArgs = [...args]
+  const res = (...newArgs) => {
+    allArgs = [...allArgs, ...newArgs]
+    if (allArgs.length === length) {
+      return fn(...allArgs)
+    } else {
+      return res
+    }
+  }
+  return res
+}
+
+// 用法如下：
+// const add = (a, b, c) => a + b + c
+// const a = currying(add, 1)
+// console.log(a(2, 3))
+```
+
+## 12. 冒泡排序--时间复杂度 n^2
+
+#### 实现代码如下:
+
+```javascript
+function bubbleSort(arr) {
+  // 缓存数组长度
+  const len = arr.length
+  // 外层循环用于控制从头到尾的比较+交换到底有多少轮
+  for (let i = 0; i < len; i++) {
+    // 内层循环用于完成每一轮遍历过程中的重复比较+交换
+    for (let j = 0; j < len - 1; j++) {
+      // 若相邻元素前面的数比后面的大
+      if (arr[j] > arr[j + 1]) {
+        // 交换两者
+        ;[arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
+      }
+    }
+  }
+  // 返回数组
+  return arr
+}
+// console.log(bubbleSort([3, 6, 2, 4, 1]))
+```
+
+## 13. 选择排序--时间复杂度 n^2
+
+#### 实现代码如下:
+
+```javascript
+function selectSort(arr) {
+  // 缓存数组长度
+  const len = arr.length
+  // 定义 minIndex，缓存当前区间最小值的索引，注意是索引
+  let minIndex
+  // i 是当前排序区间的起点
+  for (let i = 0; i < len - 1; i++) {
+    // 初始化 minIndex 为当前区间第一个元素
+    minIndex = i
+    // i、j分别定义当前区间的上下界，i是左边界，j是右边界
+    for (let j = i + 1; j < len; j++) {
+      // 若 j 处的数据项比当前最小值还要小，则更新最小值索引为 j
+      if (arr[j] < arr[minIndex]) {
+        minIndex = j
+      }
+    }
+    // 如果 minIndex 对应元素不是目前的头部元素，则交换两者
+    if (minIndex !== i) {
+      ;[arr[i], arr[minIndex]] = [arr[minIndex], arr[i]]
+    }
+  }
+  return arr
+}
+// console.log(selectSort([3, 6, 2, 4, 1]))
+```
+
+## 14. 插入排序--时间复杂度 n^2
+
+#### 实现代码如下:
+
+```javascript
+function insertSort(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    let j = i
+    while (j > 0 && arr[j] < arr[j - 1]) {
+      ;[arr[j], arr[j - 1]] = [arr[j - 1], arr[j]]
+      j--
+    }
+  }
+  return arr
+}
+// console.log(insertSort([3, 6, 2, 4, 1]))
+```
+
+## 15. 快速排序--时间复杂度 nlogn~ n^2 之间
+
+#### 实现代码如下:
+
+```javascript
+function quickSort(arr) {
+  if (arr.length < 2) return arr
+
+  const cur = arr[0]
+  const left = arr.filter((v, i) => v <= cur && i !== 0)
+  const right = arr.filter((v) => v > cur)
+  return [...quickSort(left), cur, ...quickSort(right)]
+}
+// console.log(quickSort([3, 6, 2, 4, 1]))
+```
+
+## 16. 归并排序--时间复杂度 nlog(n)
+
+#### 实现代码如下:
+
+```javascript
+function merge(left, right) {
+  const res = []
+  let i = 0
+  let j = 0
+  while (i < left.length && j < right.length) {
+    if (left[i] < right[j]) {
+      res.push(left[i])
+      i++
+    } else {
+      res.push(right[j])
+      j++
+    }
+  }
+  if (i < left.length) {
+    res.push(...left.slice(i))
+  } else {
+    res.push(...right.slice(j))
+  }
+  return res
+}
+
+function mergeSort(arr) {
+  if (arr.length < 2) return arr
+
+  const mid = Math.floor(arr.length / 2)
+  const left = mergeSort(arr.slice(0, mid))
+  const right = mergeSort(arr.slice(mid))
+  return merge(left, right)
+}
+// console.log(mergeSort([3, 6, 2, 4, 1]))
+```
+
+## 17. 二分查找--时间复杂度 log2(n)
+
+如何确定一个数在一个有序数组中的位置
+
+#### 实现代码如下:
+
+```javascript
+function search(arr, target, start, end) {
+  let targetIndex = -1
+
+  let mid = Math.floor((start + end) / 2)
+
+  if (arr[mid] === target) {
+    targetIndex = mid
+    return targetIndex
+  }
+
+  if (start >= end) {
+    return targetIndex
+  }
+
+  if (arr[mid] < target) {
+    return search(arr, target, mid + 1, end)
+  } else {
+    return search(arr, target, start, mid - 1)
+  }
+}
+const dataArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+const position = search(dataArr, 6, 0, dataArr.length - 1)
+if (position !== -1) {
+  console.log(`目标元素在数组中的位置:${position}`)
+} else {
+  console.log('目标元素不在数组中')
+}
+```
