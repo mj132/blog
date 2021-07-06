@@ -601,3 +601,163 @@ if (position !== -1) {
   console.log('目标元素不在数组中')
 }
 ```
+
+## 18. 实现 LazyMan
+
+题目描述：
+
+```javascript
+实现一个LazyMan，可以按照以下方式调用:
+LazyMan(“Hank”)输出:
+Hi! This is Hank!
+
+LazyMan(“Hank”).sleep(10).eat(“dinner”)输出
+Hi! This is Hank!
+//等待10秒..
+Wake up after 10
+Eat dinner~
+
+LazyMan(“Hank”).eat(“dinner”).eat(“supper”)输出
+Hi This is Hank!
+Eat dinner~
+Eat supper~
+
+LazyMan(“Hank”).eat(“supper”).sleepFirst(5)输出
+//等待5秒
+Wake up after 5
+Hi This is Hank!
+Eat supper
+```
+
+#### 实现代码如下:
+
+```javascript
+class _LazyMan {
+  constructor(name) {
+    this.tasks = []
+    const task = () => {
+      console.log(`Hi! This is ${name}`)
+      this.next()
+    }
+    this.tasks.push(task)
+    setTimeout(() => {
+      // 把 this.next() 放到调用栈清空之后执行
+      this.next()
+    }, 0)
+  }
+  next() {
+    const task = this.tasks.shift() // 取第一个任务执行
+    task && task()
+  }
+  sleep(time) {
+    this._sleepWrapper(time, false)
+    return this // 链式调用
+  }
+  sleepFirst(time) {
+    this._sleepWrapper(time, true)
+    return this
+  }
+  _sleepWrapper(time, first) {
+    const task = () => {
+      setTimeout(() => {
+        console.log(`Wake up after ${time}`)
+        this.next()
+      }, time * 1000)
+    }
+    if (first) {
+      this.tasks.unshift(task) // 放到任务队列顶部
+    } else {
+      this.tasks.push(task) // 放到任务队列尾部
+    }
+  }
+  eat(name) {
+    const task = () => {
+      console.log(`Eat ${name}`)
+      this.next()
+    }
+    this.tasks.push(task)
+    return this
+  }
+}
+function LazyMan(name) {
+  return new _LazyMan(name)
+}
+```
+
+## 19 防抖节流
+
+#### 实现代码如下:
+
+```javascript
+// 防抖
+function debounce(fn, delay = 300) {
+  //默认300毫秒
+  let timer
+  return function() {
+    const args = arguments
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      fn.apply(this, args) // 改变this指向为调用debounce所指的对象
+    }, delay)
+  }
+}
+
+window.addEventListener(
+  'scroll',
+  debounce(() => {
+    console.log(111)
+  }, 1000)
+)
+
+// 节流
+// 设置一个标志
+function throttle(fn, delay) {
+  let flag = true
+  return () => {
+    if (!flag) return
+    flag = false
+    timer = setTimeout(() => {
+      fn()
+      flag = true
+    }, delay)
+  }
+}
+
+window.addEventListener(
+  'scroll',
+  throttle(() => {
+    console.log(111)
+  }, 1000)
+)
+```
+
+## 20 写版本号排序的方法(降序)
+
+题目描述:有一组版本号如下['0.1.1', '2.2.2', '0.301.1', '4.2', '4.3.5', '4.3.4.5']。现在需要对其进行排序，排序的结果为 ['4.3.5','4.3.4.5','2.2.2','0.301.1','0.1.1']
+
+#### 实现代码如下:
+
+```javascript
+arr = ['0.1.1', '2.2.2', '0.301.1', '4.2', '4.3.5', '4.3.4.5']
+arr.sort((a, b) => {
+  let i = 0
+  const arr1 = a.split('.')
+  const arr2 = b.split('.')
+
+  while (true) {
+    const s1 = arr1[i]
+    const s2 = arr2[i]
+    i++
+    if (s1 === undefined || s2 === undefined) {
+      return arr2.length - arr1.length
+    }
+
+    if (s1 === s2) continue
+
+    return s2 - s1
+  }
+})
+console.log(arr)
+```
