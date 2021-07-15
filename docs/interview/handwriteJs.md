@@ -1005,3 +1005,144 @@ promise1
     }
   )
 ```
+
+## 24 动态规划求解硬币找零问题
+
+题目描述：给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1
+
+```javascript
+示例1：
+输入: coins = [1, 2, 5, 6], amount = 11
+输出: 2
+解释: 11 = 5 + 6
+
+示例2：
+输入: coins = [2], amount = 3
+输出: -1
+```
+
+#### 实现代码如下:
+
+```javascript
+const coinChange = function(coins, amount) {
+  // 用于保存每个目标总额对应的最小硬币个数
+  const f = []
+  // 提前定义已知情况
+  f[0] = 0
+  // 遍历 [1, amount] 这个区间的硬币总额
+  for (let i = 1; i <= amount; i++) {
+    // 求的是最小值，因此我们预设为无穷大，确保它一定会被更小的数更新
+    f[i] = Infinity
+    // 循环遍历每个可用硬币的面额
+    for (let j = 0; j < coins.length; j++) {
+      // 若硬币面额小于目标总额，则问题成立
+      if (i - coins[j] >= 0) {
+        // 状态转移方程
+        f[i] = Math.min(f[i], f[i - coins[j]] + 1)
+      }
+    }
+  }
+  // 若目标总额对应的解为无穷大，则意味着没有一个符合条件的硬币总数来更新它，本题无解，返回-1
+  if (f[amount] === Infinity) {
+    return -1
+  }
+  // 若有解，直接返回解的内容
+  return f[amount]
+}
+```
+
+## 25 请实现 DOM2JSON 一个函数，可以把一个 DOM 节点输出 JSON 的格式
+
+题目描述：将真实 Dom 转化为虚拟 Dom，将虚拟 Dom 转化为真实 Dom
+
+```javascript
+<div>
+  <span>
+    <a></a>
+  </span>
+  <span>
+    <a></a>
+    <a></a>
+  </span>
+</div>
+
+// 把上诉dom结构转成下面的JSON格式
+
+{
+  tag: 'DIV',
+  children: [
+    {
+      tag: 'SPAN',
+      children: [
+        { tag: 'A', children: [] }
+      ]
+    },
+    {
+      tag: 'SPAN',
+      children: [
+        { tag: 'A', children: [] },
+        { tag: 'A', children: [] }
+      ]
+    }
+  ]
+}
+```
+
+#### 实现代码如下:
+
+```javascript
+function dom2Json(domtree) {
+  const obj = {}
+  obj.name = domtree.tagName
+  obj.children = []
+  domtree.childNodes.forEach((child) => obj.children.push(dom2Json(child)))
+  return obj
+}
+// json2dom 真正的渲染函数
+function _render(vnode) {
+  // 如果是数字类型转化为字符串
+  if (typeof vnode === 'number') {
+    vnode = String(vnode)
+  }
+  // 字符串类型直接就是文本节点
+  if (typeof vnode === 'string') {
+    return document.createTextNode(vnode)
+  }
+  // 普通DOM
+  const dom = document.createElement(vnode.tag)
+  if (vnode.attrs) {
+    // 遍历属性
+    Object.entries(vnode.attrs).forEach(([key, value]) => {
+      dom.setAttribute(key, value)
+    })
+  }
+  // 子数组进行递归操作
+  vnode.children.forEach((child) => dom.appendChild(_render(child)))
+  return dom
+}
+```
+
+## 26 Object.is 实现
+
+题目描述：
+#Object.is 不会转换被比较的两个值的类型，这点和===更为相似，他们之间也存在一些区别。
+
+1. NaN 在===中是不相等的，而在 Object.is 中是相等的
+2. +0 和-0 在===中是相等的，而在 Object.is 中是不相等的
+
+#### 实现代码如下:
+
+```javascript
+Object.is = function(x, y) {
+  if (x === y) {
+    // 当前情况下，只有一种情况是特殊的，即 +0 -0
+    // 如果 x !== 0，则返回true
+    // 如果 x === 0，则需要判断+0和-0，则可以直接使用 1/+0 === Infinity 和 1/-0 === -Infinity来进行判断
+    return x !== 0 || 1 / x === 1 / y
+  }
+
+  // x !== y 的情况下，只需要判断是否为NaN，如果x!==x，则说明x是NaN，同理y也一样
+  // x和y同时为NaN时，返回true
+  return x !== x && y !== y
+}
+```
