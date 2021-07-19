@@ -1146,3 +1146,87 @@ Object.is = function(x, y) {
   return x !== x && y !== y
 }
 ```
+
+## 27 AJAX 实现
+
+题目描述：利用 XMLHttpRequest 手写 AJAX 实现
+
+#### 实现代码如下:
+
+```javascript
+const myAjax = function(url) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', url, false)
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) return
+      if (xhr.status === 200 || xhr.status === 304) {
+        resolve(xhr.responseText)
+      } else {
+        reject(new Error(xhr.responseText))
+      }
+    }
+    xhr.send()
+  })
+}
+```
+
+## 28 分片思想解决大数据量渲染问题
+
+题目描述：渲染百万条结构简单的大数据时 怎么使用分片思想优化渲染
+
+#### 实现代码如下:
+
+```javascript
+const ul = document.getElementById('container')
+// 插入十万条数据
+const total = 100000
+// 一次插入 20 条
+const once = 20
+//总页数
+const page = total / once
+//每条记录的索引
+const index = 0
+//循环加载数据
+function loop(curTotal, curIndex) {
+  if (curTotal <= 0) {
+    return false
+  }
+  //每页多少条
+  const pageCount = Math.min(curTotal, once)
+  window.requestAnimationFrame(function() {
+    for (let i = 0; i < pageCount; i++) {
+      let li = document.createElement('li')
+      li.innerText = curIndex + i + ' : ' + ~~(Math.random() * total)
+      ul.appendChild(li)
+    }
+    loop(curTotal - pageCount, curIndex + pageCount)
+  })
+}
+loop(total, index)
+```
+
+## 29 实现模板字符串解析功能
+
+题目描述：
+
+```javascript
+const template = '我是{{name}}，年龄{{age}}，性别{{sex}}'
+const data = {
+  name: 'mj',
+  age: 18,
+  sex: 'man'
+}
+render(template, data) // 我是mj，年龄18，性别man
+```
+
+#### 实现代码如下:
+
+```javascript
+function templateAnalysis(template, data) {
+  return template.replace(/\{\{(\w+)\}\}/g, function(match, key) {
+    return data[key]
+  })
+}
+```
