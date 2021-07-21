@@ -1216,7 +1216,7 @@ const template = '我是{{name}}，年龄{{age}}，性别{{sex}}'
 const data = {
   name: 'mj',
   age: 18,
-  sex: 'man'
+  sex: 'man',
 }
 render(template, data) // 我是mj，年龄18，性别man
 ```
@@ -1228,5 +1228,84 @@ function templateAnalysis(template, data) {
   return template.replace(/\{\{(\w+)\}\}/g, function(match, key) {
     return data[key]
   })
+}
+```
+
+## 30 列表与树形结构互相转换
+
+#### 实现代码如下:
+
+```javascript
+// 列表转成树结构
+function listToTree(data) {
+  let temp = {}
+  let treeData = []
+  for (let i = 0; i < data.length; i++) {
+    temp[data[i].id] = data[i]
+  }
+  for (let i in temp) {
+    if (+temp[i].parentId != 0) {
+      if (!temp[temp[i].parentId].children) {
+        temp[temp[i].parentId].children = []
+      }
+      temp[temp[i].parentId].children.push(temp[i])
+    } else {
+      treeData.push(temp[i])
+    }
+  }
+  return treeData
+}
+// 树结构转成列表
+function treeToList(data) {
+  const res = []
+  const dfs = (tree) => {
+    tree.forEach((item) => {
+      if (item.children) {
+        dfs(item.children)
+        delete item.children
+      }
+      res.push(item)
+    })
+  }
+  dfs(data)
+  return res
+}
+```
+
+## 31 实现一个 add 方法完成两个大数相加
+
+题目描述：
+
+```javascript
+let a = '1007199254740999'
+let b = '1884567899999999999'
+
+function add(a, b) {
+  //...
+}
+```
+
+#### 实现代码如下:
+
+```javascript
+function add(a, b) {
+  //取两个数字的最大长度
+  const maxLength = Math.max(a.length, b.length)
+  //用0去补齐长度
+  a = a.padStart(maxLength, 0) //"0001007199254740999"
+  b = b.padStart(maxLength, 0) //"1884567899999999999"
+  //定义加法过程中需要用到的变量
+  let t = 0
+  let f = 0 //进位
+  let sum = ''
+  for (let i = maxLength - 1; i >= 0; i--) {
+    t = parseInt(a[i]) + parseInt(b[i]) + f
+    f = Math.floor(t / 10)
+    sum = (t % 10) + sum
+  }
+  if (f !== 0) {
+    sum = '' + f + sum
+  }
+  return sum
 }
 ```
