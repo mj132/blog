@@ -148,8 +148,8 @@ div{
 .box{
   height:600px;
   display:flex;
-  justify-content:center;  //子元素水平居中
-  align-items:center;      //子元素垂直居中
+  justify-content:center;  /* 子元素水平居中 */
+  align-items:center;      /* 子元素垂直居中 */
   /* aa只要三句话就可以实现不定宽高水平垂直居中。 */
 }
 .box>div{

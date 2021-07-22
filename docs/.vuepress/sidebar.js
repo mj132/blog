@@ -111,6 +111,10 @@ module.exports = {
           path: 'browser/01.html',
           title: '渲染树',
         },
+        {
+          path: 'browser/GC.html',
+          title: '垃圾回收机制',
+        },
       ]
     },
   ],
