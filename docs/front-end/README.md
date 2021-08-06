@@ -28,8 +28,8 @@
 - [promise](javascript/promise.html)
 - [async-await](javascript/async-await.html)
 
-<!-- ## vue相关
-- [生命周期分析](vue/) -->
+## vue相关
+- [生命周期分析](vue/lifecycle.html)
 
 ## 浏览器相关
 
