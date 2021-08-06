@@ -91,19 +91,19 @@ module.exports = {
         },
       ]
     },
-    // {
-    //   title: 'vue',
-    //   children: [
-    //     {
-    //       path: 'vue/lifecycle.html',
-    //       title: '生命周期分析',
-    //     },
-    //     {
-    //       path: 'vue/nexttick.html',
-    //       title: 'NextTick原理分析'
-    //     },
-    //   ]
-    // },
+    {
+      title: 'vue',
+      children: [
+        {
+          path: 'vue/lifecycle.html',
+          title: '生命周期分析',
+        },
+        // {
+        //   path: 'vue/nexttick.html',
+        //   title: 'NextTick原理分析'
+        // },
+      ]
+    },
     {
       title: '浏览器',
       children: [
