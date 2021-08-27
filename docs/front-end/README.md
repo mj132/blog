@@ -30,6 +30,7 @@
 
 ## vue相关
 - [生命周期分析](vue/lifecycle.html)
+- [响应式数据原理](vue/responsiveData.html)
 - [nextTick异步更新原理分析](vue/nextTick.html)
 
 ## 浏览器相关

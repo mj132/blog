@@ -99,6 +99,10 @@ module.exports = {
           title: '生命周期分析',
         },
         {
+          path: 'vue/responsiveData.html',
+          title: '响应式数据原理'
+        },
+        {
           path: 'vue/nextTick.html',
           title: 'NextTick异步更新原理分析'
         },
