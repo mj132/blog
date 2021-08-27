@@ -98,10 +98,10 @@ module.exports = {
           path: 'vue/lifecycle.html',
           title: '生命周期分析',
         },
-        // {
-        //   path: 'vue/nexttick.html',
-        //   title: 'NextTick原理分析'
-        // },
+        {
+          path: 'vue/nextTick.html',
+          title: 'NextTick异步更新原理分析'
+        },
       ]
     },
     {

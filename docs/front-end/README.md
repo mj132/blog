@@ -30,6 +30,7 @@
 
 ## vue相关
 - [生命周期分析](vue/lifecycle.html)
+- [nextTick异步更新原理分析](vue/nextTick.html)
 
 ## 浏览器相关
 
