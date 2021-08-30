@@ -104,7 +104,11 @@ module.exports = {
         },
         {
           path: 'vue/nextTick.html',
-          title: 'NextTick异步更新原理分析'
+          title: 'NextTick异步更新原理'
+        },
+        {
+          path: 'vue/compile.html',
+          title: '模板编译原理'
         },
       ]
     },
@@ -118,6 +122,15 @@ module.exports = {
         {
           path: 'browser/GC.html',
           title: '垃圾回收机制',
+        },
+      ]
+    },
+    {
+      title: '正则表达式',
+      children: [
+        {
+          path: 'reg/01.html',
+          title: '正则表达式介绍',
         },
       ]
     },

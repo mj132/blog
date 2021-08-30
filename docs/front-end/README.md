@@ -31,9 +31,13 @@
 ## vue相关
 - [生命周期分析](vue/lifecycle.html)
 - [响应式数据原理](vue/responsiveData.html)
-- [nextTick异步更新原理分析](vue/nextTick.html)
+- [nextTick异步更新原理](vue/nextTick.html)
+- [模板编译原理](vue/compile.html)
 
 ## 浏览器相关
 
 - [渲染树](browser/01.html)
 - [垃圾回收机制](browser/GC.html)
+
+## 正则表达式
+- [正则表达式介绍](reg/01.html)
