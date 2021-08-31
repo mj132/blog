@@ -110,6 +110,10 @@ module.exports = {
           path: 'vue/compile.html',
           title: '模板编译原理'
         },
+        {
+          path: 'vue/initialRender.html',
+          title: '初始渲染原理'
+        },
       ]
     },
     {

@@ -33,6 +33,7 @@
 - [响应式数据原理](vue/responsiveData.html)
 - [nextTick异步更新原理](vue/nextTick.html)
 - [模板编译原理](vue/compile.html)
+- [初始渲染原理](vue/initialRender.html)
 
 ## 浏览器相关
 
