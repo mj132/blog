@@ -103,16 +103,20 @@ module.exports = {
           title: '响应式数据原理'
         },
         {
-          path: 'vue/nextTick.html',
-          title: 'NextTick异步更新原理'
-        },
-        {
           path: 'vue/compile.html',
           title: '模板编译原理'
         },
         {
           path: 'vue/initialRender.html',
           title: '初始渲染原理'
+        },
+        {
+          path: 'vue/update.html',
+          title: '渲染更新原理'
+        },
+        {
+          path: 'vue/nextTick.html',
+          title: 'NextTick异步更新原理'
         },
       ]
     },
