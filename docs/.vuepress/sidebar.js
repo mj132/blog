@@ -92,7 +92,7 @@ module.exports = {
       ]
     },
     {
-      title: 'vue',
+      title: 'Vue',
       children: [
         {
           path: 'vue/lifecycle.html',
