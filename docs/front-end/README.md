@@ -28,15 +28,6 @@
 - [promise](javascript/promise.html)
 - [async-await](javascript/async-await.html)
 
-## vue 相关
-
-- [生命周期分析](vue/lifecycle.html)
-- [响应式数据原理](vue/responsiveData.html)
-- [模板编译原理](vue/compile.html)
-- [初始渲染原理](vue/initialRender.html)
-- [渲染更新原理](vue/update.html)
-- [nextTick 异步更新原理](vue/nextTick.html)
-
 ## 浏览器相关
 
 - [渲染树](browser/01.html)

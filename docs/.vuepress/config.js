@@ -27,6 +27,10 @@ module.exports = {
         link: "/front-end/"
       },
       {
+        text: "Vue",
+        link: "/vue/"
+      },
+      {
         text: "面试题",
         link: "/interview/"
       },

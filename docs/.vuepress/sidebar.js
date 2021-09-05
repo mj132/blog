@@ -92,35 +92,6 @@ module.exports = {
       ]
     },
     {
-      title: 'Vue',
-      children: [
-        {
-          path: 'vue/lifecycle.html',
-          title: '生命周期分析',
-        },
-        {
-          path: 'vue/responsiveData.html',
-          title: '响应式数据原理'
-        },
-        {
-          path: 'vue/compile.html',
-          title: '模板编译原理'
-        },
-        {
-          path: 'vue/initialRender.html',
-          title: '初始渲染原理'
-        },
-        {
-          path: 'vue/update.html',
-          title: '渲染更新原理'
-        },
-        {
-          path: 'vue/nextTick.html',
-          title: 'NextTick异步更新原理'
-        },
-      ]
-    },
-    {
       title: '浏览器',
       children: [
         {
@@ -141,6 +112,32 @@ module.exports = {
           title: '正则表达式介绍',
         },
       ]
+    },
+  ],
+  '/vue/': [
+    {
+      path: './',
+      title: '生命周期分析',
+    },
+    {
+      path: 'responsiveData.html',
+      title: '响应式数据原理'
+    },
+    {
+      path: 'compile.html',
+      title: '模板编译原理'
+    },
+    {
+      path: 'initialRender.html',
+      title: '初始渲染原理'
+    },
+    {
+      path: 'update.html',
+      title: '渲染更新原理'
+    },
+    {
+      path: 'nextTick.html',
+      title: 'NextTick异步更新原理'
     },
   ],
   '/interview/': [
