@@ -139,6 +139,10 @@ module.exports = {
       path: 'nextTick.html',
       title: 'NextTick异步更新原理'
     },
+    {
+      path: 'diff.html',
+      title: 'diff算法原理'
+    },
   ],
   '/interview/': [
     {
