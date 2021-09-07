@@ -77,11 +77,11 @@ export function patch(oldVnode, vnode) {
 
 我们直接看 else 分支 代表的是渲染更新过程 可以分为以下几步
 
-1.diff 只进行同级比较
+1. diff 只进行同级比较
 
 ![diff_01](./images/diff_01.jpg)
 
-2.根据新老 vnode 子节点不同情况分别处理
+2. 根据新老 vnode 子节点不同情况分别处理
 
 ![diff_02](./images/diff_02.jpg)
 
@@ -205,7 +205,7 @@ function updateChildren(parent, oldCh, newCh) {
   // 如果老节点循环完毕了 但是新节点还有  证明  新节点需要被添加到头部或者尾部
   if (newStartIndex <= newEndIndex) {
     for (let i = newStartIndex; i <= newEndIndex; i++) {
-      // 这是一个优化写法 insertBefore的第一个参数是null等同于appendChild作用
+      // 这是一个优化写法 insertBefore的第二个参数是null等同于appendChild
       const ele = newCh[newEndIndex + 1] == null ? null : newCh[newEndIndex + 1].el
       parent.insertBefore(createElm(newCh[i]), ele)
     }

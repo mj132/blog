@@ -143,6 +143,10 @@ module.exports = {
       path: 'diff.html',
       title: 'diff算法原理'
     },
+    {
+      path: 'mixin.html',
+      title: 'Mixin混入原理'
+    },
   ],
   '/interview/': [
     {
