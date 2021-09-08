@@ -147,6 +147,10 @@ module.exports = {
       path: 'mixin.html',
       title: 'Mixin混入原理'
     },
+    {
+      path: 'component.html',
+      title: '组件原理'
+    },
   ],
   '/interview/': [
     {
