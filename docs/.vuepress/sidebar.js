@@ -151,6 +151,14 @@ module.exports = {
       path: 'component.html',
       title: '组件原理'
     },
+    {
+      path: 'watch.html',
+      title: '侦听属性原理'
+    },
+    {
+      path: 'computed.html',
+      title: '计算属性原理'
+    },
   ],
   '/interview/': [
     {
