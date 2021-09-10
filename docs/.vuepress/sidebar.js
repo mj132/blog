@@ -159,6 +159,10 @@ module.exports = {
       path: 'computed.html',
       title: '计算属性原理'
     },
+    {
+      path: 'globalApi.html',
+      title: '全局api原理'
+    },
   ],
   '/interview/': [
     {
