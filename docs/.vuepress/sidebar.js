@@ -113,6 +113,15 @@ module.exports = {
         },
       ]
     },
+    {
+      title: 'Nginx',
+      children: [
+        {
+          path: 'nginx/01.html',
+          title: '前端开发者必备的Nginx知识',
+        },
+      ]
+    },
   ],
   '/vue/': [
     {

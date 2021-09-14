@@ -93,7 +93,7 @@ function createWatcher(vm, exprOrFn, handler, options = {}) {
 
 initWatch 初始化 Watch 对数组进行处理 createWatcher 处理 Watch 的兼容性写法 包含字符串 函数 数组 以及对象 最后调用\$watch 传入处理好的参数进行创建用户 Watcher
 
-### 2.\$watch
+### 2.$watch
 
 ```javascript
 // src/state.js
