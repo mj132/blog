@@ -187,18 +187,18 @@ module.exports = {
       path: 'handwriteJs.html'
     },
   ], 
-  // '/database/': [
-  //   {
-  //     title: '数据库基础',
-  //     path: './'
-  //   },
-  //   {
-  //     title: 'MySQL基础架构',
-  //     path: 'mysql.html'
-  //   },
-  //   {
-  //     title: 'SQL 和 NoSQL 的区别',
-  //     path: 'nosql.html'
-  //   },
-  // ]
+  '/database/': [
+    {
+      title: '数据库基础',
+      path: './'
+    },
+    // {
+    //   title: 'MySQL基础架构',
+    //   path: 'mysql.html'
+    // },
+    // {
+    //   title: 'SQL 和 NoSQL 的区别',
+    //   path: 'nosql.html'
+    // },
+  ]
 }
