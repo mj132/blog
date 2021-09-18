@@ -82,6 +82,7 @@ limit 后面的参数可以是 一个 limit m ，也可以是 limit m n，表示
 SELECT `userspk`.`avatar` AS `user_avatar`,
 `a`.`user_id`,
 `a`.`answer_record`,
+`a`.`id`,
  MAX(`score`) AS `score`
 FROM (select * from pkrecord  order by score desc) as a
 INNER JOIN `userspk` AS `userspk`
@@ -125,7 +126,7 @@ WHERE `pkrecord`.`status` = 1
 AND `pkrecord`.`user_id` != 'm_6da5d9e0-4629-11e9-b5f7-694ced396953'
 GROUP BY `user_id`
 ORDER BY `pkrecord`.`score` DESC
-LIMIT 9;
+LIMIT 9
 ```
 
 查询结果
@@ -202,22 +203,22 @@ delete t1,t2 from t_a t1 , t_b t2 where t1.id = t2.id
 
 #### 为了增强性能的注意
 
-- 不要使用“select \* from ……”返回所有列，只检索需要的列，可避免后续因表结构变化导致的不必要的程序修改，还可降低额外消耗的资源
+- 不要使用`select * from ……`返回所有列，只检索需要的列，可避免后续因表结构变化导致的不必要的程序修改，还可降低额外消耗的资源
 - 不要检索已知的列
 
 ```sql
-select  user_id,name from User where user_id = ‘10000050’
+select  user_id,name from User where user_id = '10000050'
 ```
 
 - 使用可参数化的搜索条件，如=, >, >=, <, <=, between, in, is null 以及 like `<literal>%`；尽量不要使用非参数化的负向查询，这将导致无法使用索引，如<>, !=, !>, !<, not in, not like, not exists, not between, is not null, like `%<literal>`
 
-- 当需要验证是否有符合条件的记录时，使用 exists，不要使用 count(\*)，前者在第一个匹配记录处返回，后者需要遍历所有匹配记录
+- 当需要验证是否有符合条件的记录时，使用 exists，不要使用 count(*)，前者在第一个匹配记录处返回，后者需要遍历所有匹配记录
 
 - Where 子句中列的顺序与需使用的索引顺序保持一致，不是所有数据库的优化器都能对此顺序进行优化，保持良好编程习惯（索引相关）
 
 - 不要在 where 子句中对字段进行运算或函数（索引相关）
 
-1. 如 where amount / 2 > 100，即使 amount 字段有索引，也无法使用，改成 where amount > 100 \* 2 就可使用 amount 列上的索引
+1. 如 where amount / 2 > 100，即使 amount 字段有索引，也无法使用，改成 where amount > 100 * 2 就可使用 amount 列上的索引
 
 2. 如 where substring( Lastname, 1, 1) = ‘F’就无法使用 Lastname 列上的索引，而 where Lastname like ‘F%’或者 where Lastname >= ‘F’ and Lastname < ‘G’就可以
 
