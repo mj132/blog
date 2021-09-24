@@ -187,6 +187,12 @@ module.exports = {
       path: 'handwriteJs.html'
     },
   ], 
+  '/node/': [
+    {
+      title: 'node是什么',
+      path: './'
+    },
+  ],
   '/database/': [
     {
       title: '数据库基础',

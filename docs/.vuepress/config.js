@@ -35,6 +35,10 @@ module.exports = {
         link: "/interview/"
       },
       {
+        text: "node",
+        link: "/node/"
+      },
+      {
         text: "数据库",
         link: "/database/"
       },
