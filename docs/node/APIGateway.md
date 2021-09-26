@@ -30,7 +30,7 @@ API 网关是微服务架构中的一种服务，它为客户端提供共享层�
 我们的系统可以有一个或多个 API 网关，具体取决于客户的需求。例如，我们可以为桌面浏览器、移动应用程序和公共 API 提供单独的网关。
 
 <!-- ![](https://user-gold-cdn.xitu.io/2020/4/7/171554cdb4df51e1?w=667&h=235&f=png&s=34074) -->
-![](../.vuepress/public/images/171554cdb4df51e1.png)
+<!-- ![](../.vuepress/public/images/171554cdb4df51e1.png) -->
 API 网关作为微服务的切入点
 
 
@@ -44,7 +44,7 @@ Netflix 成功地使用 Node.js API 网关及其 Java 后端来支持广泛的�
 
 
 <!-- ![](https://user-gold-cdn.xitu.io/2020/4/7/1715551ad47c8f64?w=646&h=361&f=png&s=101526) -->
-![](../.vuepress/public/images/1715551ad47c8f64.png)
+<!-- ![](../.vuepress/public/images/1715551ad47c8f64.png) -->
 
 ## API 网关功能
 我们之前讨论过，可以将通用共享逻辑放入您的 API 网关，本节将介绍最常见的网关职责。
@@ -53,7 +53,7 @@ Netflix 成功地使用 Node.js API 网关及其 Java 后端来支持广泛的�
 我们将 API网关定义为您的微服务的入口点。在网关服务中，你可以指定从客户端路由到特定服务的路由请求。甚至可以通过路由处理版本或更改后端接口，而公开的接口可以保持不变。你还可以在您的API网关中定义与多个服务配合的新端点。
 
 <!-- ![](https://user-gold-cdn.xitu.io/2020/4/7/17155592280ae05a?w=602&h=250&f=png&s=26546) -->
-![](../.vuepress/public/images/17155592280ae05a.png)
+<!-- ![](../.vuepress/public/images/17155592280ae05a.png) -->
 API 网关作为微服务入口点
 
 ### 网关设计的进化
@@ -65,7 +65,7 @@ API网关方法可以帮助你**分解整体应用程序**。在大多数情况�
 
 
 <!-- ![](https://user-gold-cdn.xitu.io/2020/4/8/1715562a16cae517?w=626&h=198&f=png&s=20052) -->
-![](../.vuepress/public/images/1715562a16cae517.png)
+<!-- ![](../.vuepress/public/images/1715562a16cae517.png) -->
 
 ### 认证方式
 
@@ -73,7 +73,7 @@ API网关方法可以帮助你**分解整体应用程序**。在大多数情况�
 
 在微服务架构中，你可以通过网络配置将服务保留在DMZ（保护区）中，并通过API网关将其**公开**给客户端。该网关还可以处理多种身份验证方法，例如，您可以同时支持基于cookie和token的身份验证。
 
-![具有认证功能的 API 网关](./../.vuepress/public/images/17155705b7258e79.png)
+<!-- ![具有认证功能的 API 网关](./../.vuepress/public/images/17155705b7258e79.png) -->
 
 ### 数据汇总
 
@@ -83,14 +83,14 @@ API网关方法可以帮助你**分解整体应用程序**。在大多数情况�
 
 
 <!-- ![](https://user-gold-cdn.xitu.io/2020/4/8/1715575e175699a0) -->
-![](../.vuepress/public/images/1715575e175699a0.jpg)
+<!-- ![](../.vuepress/public/images/1715575e175699a0.jpg) -->
 
 ### 序列化格式转换
 
 我们可能需要支持具有**不同数据序列化格式**要求的客户端。 想象一下这种情况：我们的微服务使用JSON，但是我们的一位客户只能使用XML API。在这种情况下，我们可以在API网关中将JSON转换为XML，而不是在所有微服务中去实现。
 
 <!-- ![](https://user-gold-cdn.xitu.io/2020/4/8/1715579141fbe5a3?w=628&h=213&f=png&s=22403) -->
-![](./../.vuepress/public/images/1715579141fbe5a3.png)
+<!-- ![](./../.vuepress/public/images/1715579141fbe5a3.png) -->
 
 ### 协议转换
 
@@ -101,7 +101,7 @@ API 网关还可以处理客户端和微服务器之间的协议转换。
 在下一张图片中，您可以看到客户端希望通过 HTTP REST 进行的所有通信，而内部的微服务使用 gRPC 和 GraphQL 。
 
 <!-- ![](https://user-gold-cdn.xitu.io/2020/4/8/17155832ea38ff46?w=609&h=176&f=png&s=22476) -->
-![](./../.vuepress/public/images/1715579141fbe5a3.png)
+<!-- ![](./../.vuepress/public/images/1715579141fbe5a3.png) -->
 
 ### 限速和缓存
 在前面的例子中，您可以看到我们可以把通用的共享逻辑（如身份验证）放在 API 网关中。除了身份验证之外，您还可以在 API 网关中实现速率限制，缓存以及各种可靠性功能。

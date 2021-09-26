@@ -192,6 +192,10 @@ module.exports = {
       title: 'node是什么',
       path: './'
     },
+    {
+      title: 'node事件循环',
+      path: 'event_loop.html'
+    },
   ],
   '/database/': [
     {
