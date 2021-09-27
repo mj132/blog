@@ -200,6 +200,10 @@ module.exports = {
       title: 'node核心模块-path',
       path: 'path.html'
     },
+    {
+      title: 'node核心模块-fs',
+      path: 'fs.html'
+    },
   ],
   '/database/': [
     {
