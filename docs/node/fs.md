@@ -401,7 +401,7 @@ const fs = require('fs')
 fs.readdir('./file', function(err, data) {
   if (err) return
   //data为一个数组
-  console.log('读取的数据为：' + data[0])
+  console.log('读取的数据为：', data)
 })
 ```
 
@@ -428,8 +428,7 @@ fs.readFile(fileName1, function(err, data) {
     return
   }
   // 得到文件内容
-  var dataStr = data.toString()
-
+  const dataStr = data.toString()
   // 写入文件
   const fileName2 = path.resolve(__dirname, 'copyData.txt')
   fs.writeFile(fileName2, dataStr, function(err) {
@@ -449,33 +448,34 @@ fs.readFile(fileName1, function(err, data) {
 
 如果是一个大文件几百 M 一次性读取写入不现实，所以需要多次读取多次写入，接下来使用文件操作的高级方法对大文件和文件大小未知的情况实现一个 copy 函数。当然除了这种方式还有我在之前的文章讲过的 stream 模块也可以实现，而且性能更好，但是这里就不再重复说明，本篇主要讲 fs 模块。
 
-demo:
-
 ```javascript
 // copy 方法
-function copy(src, dest, size = 16 * 1024, callback) {
+function copy(src, target, size = 16 * 1024, callback) {
   // 打开源文件
   fs.open(src, 'r', (err, readFd) => {
     // 打开目标文件
-    fs.open(dest, 'w', (err, writeFd) => {
-      let buf = Buffer.alloc(size);
-      let readed = 0; // 下次读取文件的位置
-      let writed = 0; // 下次写入文件的位置
+    fs.open(target, 'w', (err, writeFd) => {
+      const buf = Buffer.alloc(size)
+      let readed = 0 // 下次读取文件的位置
+      let writed = 0 // 下次写入文件的位置
 
-      (function next() {
+      !function next() {
         // 读取
         fs.read(readFd, buf, 0, size, readed, (err, bytesRead) => {
           readed += bytesRead
 
-          // 如果都不到内容关闭文件
-          if (!bytesRead) fs.close(readFd, err => console.log('关闭源文件'));
+          // 如果读不到内容关闭文件
+          if (!bytesRead) {
+            fs.close(readFd, err => console.log('关闭源文件'))
+            return
+          }
 
           // 写入
           fs.write(writeFd, buf, 0, bytesRead, writed, (err, bytesWritten) => {
             // 如果没有内容了同步缓存，并关闭文件后执行回调
             if (!bytesWritten) {
               fs.fsync(writeFd, err => {
-                fs.close(writeFd, err => return !err && callback());
+                fs.close(writeFd, err => !err && callback())
               })
             }
             writed += bytesWritten
@@ -484,7 +484,8 @@ function copy(src, dest, size = 16 * 1024, callback) {
             next()
           })
         })
-      })()
+      }()
+
     })
   })
 }
