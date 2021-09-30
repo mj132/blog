@@ -208,6 +208,10 @@ module.exports = {
       title: 'node核心模块-stream',
       path: 'stream.html'
     },
+    {
+      title: 'node核心模块-buffer',
+      path: 'buffer.html'
+    },
   ],
   '/database/': [
     {
