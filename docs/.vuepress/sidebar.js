@@ -212,6 +212,10 @@ module.exports = {
       title: 'node核心模块-buffer',
       path: 'buffer.html'
     },
+    {
+      title: '深入理解Node.js 中的进程与线程',
+      path: 'processAndThread.html'
+    },
   ],
   '/database/': [
     {
