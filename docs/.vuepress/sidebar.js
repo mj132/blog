@@ -216,6 +216,10 @@ module.exports = {
       title: '深入理解Node.js 中的进程与线程',
       path: 'processAndThread.html'
     },
+    {
+      title: '一文彻底搞懂Events模块',
+      path: 'events.html'
+    },
   ],
   '/database/': [
     {

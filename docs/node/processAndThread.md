@@ -467,7 +467,7 @@ forever 就不特殊说明了，官网地址:
 说明:
 
 ```
-    root 20158  0.0  5.0 1251592 95396 ?  Sl   5月17   1:19 node /srv/mini-program-api/launch_pm2.js
+  root 20158  0.0  5.0 1251592 95396 ?  Sl   5月17   1:19 node /srv/mini-program-api/launch_pm2.js
 ```
 
 上面是执行命令后在 linux 中显示的结果，第二个参数就是进程对应的 PID
@@ -476,12 +476,12 @@ forever 就不特殊说明了，官网地址:
 
 1.  以优雅的方式结束进程
 
-    `kill -l PID`
+`kill -l PID`
 
-        `-l`选项告诉 `kill` 命令用好像启动进程的用户已注销的方式结束进程。
+    `-l`选项告诉 `kill` 命令用好像启动进程的用户已注销的方式结束进程。
 
-    当使用该选项时，`kill`命令也试图杀死所留下的子进程。
-    但这个命令也不是总能成功--或许仍然需要先手工杀死子进程，然后再杀死父进程。
+当使用该选项时，`kill`命令也试图杀死所留下的子进程。
+但这个命令也不是总能成功--或许仍然需要先手工杀死子进程，然后再杀死父进程。
 
 2.  kill 命令用于终止进程
 
@@ -489,31 +489,31 @@ forever 就不特殊说明了，官网地址:
 
 `-9` 表示强迫进程立即停止
 
-    这个强大和危险的命令迫使进程在运行时突然终止，进程在结束后不能自我清理。
-    危害是导致系统资源无法正常释放，一般不推荐使用，除非其他办法都无效。
-    当使用此命令时，一定要通过ps -ef确认没有剩下任何僵尸进程。
-    只能通过终止父进程来消除僵尸进程。如果僵尸进程被init收养，问题就比较严重了。
-    杀死init进程意味着关闭系统。
-    如果系统中有僵尸进程，并且其父进程是init，
-    而且僵尸进程占用了大量的系统资源，那么就需要在某个时候重启机器以清除进程表了。
+这个强大和危险的命令迫使进程在运行时突然终止，进程在结束后不能自我清理。
+危害是导致系统资源无法正常释放，一般不推荐使用，除非其他办法都无效。
+当使用此命令时，一定要通过 ps -ef 确认没有剩下任何僵尸进程。
+只能通过终止父进程来消除僵尸进程。如果僵尸进程被 init 收养，问题就比较严重了。
+杀死 init 进程意味着关闭系统。
+如果系统中有僵尸进程，并且其父进程是 init，
+而且僵尸进程占用了大量的系统资源，那么就需要在某个时候重启机器以清除进程表了。
 
 1. killall 命令
 
-   杀死同一进程组内的所有进程。其允许指定要终止的进程的名称，而非 PID。
+杀死同一进程组内的所有进程。其允许指定要终止的进程的名称，而非 PID。
 
-   `killall httpd`
+`killall httpd`
 
 ### Node.js 线程
 
 #### Node.js 关于单线程的误区
 
-```
-const http = require('http');
+```javascript
+const http = require('http')
 
-const server = http.createServer();
-server.listen(3000,()=>{
-    process.title='mj测试进程';
-    console.log('进程id',process.pid)
+const server = http.createServer()
+server.listen(3000, () => {
+  process.title = 'mj测试进程'
+  console.log('进程id', process.pid)
 })
 ```
 
@@ -554,11 +554,11 @@ process.env.UV_THREADPOOL_SIZE = 64
 
 ##### Libuv
 
-Libuv 是一个跨平台的异步 IO 库，它结合了 UNIX 下的 libev 和 Windows 下的 IOCP 的特性，最早由 Node 的作者开发，专门为 Node 提供多平台下的异步 IO 支持。Libuv 本身是由 C++语言实现的，Node 中的非苏塞 IO 以及事件循环的底层机制都是由 libuv 实现的。
+Libuv 是一个跨平台的异步 IO 库，它结合了 UNIX 下的 libev 和 Windows 下的 IOCP 的特性，最早由 Node 的作者开发，专门为 Node 提供多平台下的异步 IO 支持。Libuv 本身是由 C++语言实现的，Node 中的非阻塞 IO 以及事件循环的底层机制都是由 libuv 实现的。
 
 libuv 架构图
 
-![](http://img.xiaogangzai.cn/progress_008.jpg)
+![process_09](./images/process_09.jpg)
 
 在 Window 环境下，libuv 直接使用 Windows 的 IOCP 来实现异步 IO。在非 Windows 环境下，libuv 使用多线程来模拟异步 IO。
 
@@ -590,8 +590,8 @@ function workerThread() {
   console.log(`worker: workerDate ${workerData}`)
   parentPort.on('message', (msg) => {
     console.log(`worker: receive ${msg}`)
-  }),
-    parentPort.postMessage(workerData)
+  })
+  parentPort.postMessage(workerData)
 }
 
 if (isMainThread) {
@@ -605,11 +605,12 @@ if (isMainThread) {
 
 由于 worker_thread 目前仍然处于实验阶段，所以启动时需要增加 --experimental-worker flag，运行后观察活动监视器，开启了 5 个子线程
 
-![](http://img.xiaogangzai.cn/progress_009.jpg)
+![process_10](./images/process_10.jpg)
 
 ##### worker_thread 模块
 
-worker_thread 核心代码（地址https://github.com/nodejs/node/blob/master/lib/worker_threads.js）
+[worker_thread 核心代码](https://github.com/nodejs/node/blob/master/lib/worker_threads.js)
+
 worker_thread 模块中有 4 个对象和 2 个类，可以自己去看上面的源码。
 
 - isMainThread: 是否是主线程，源码中是通过 threadId === 0 进行判断的。
@@ -637,8 +638,5 @@ worker_thread 模块中有 4 个对象和 2 个类，可以自己去看上面的
 
 参考文章：
 
-- Node 中 child_process 模块的使用:https://juejin.im/post/5b10a814f265da6e2a08a6f7
+- [Node 中 child_process 模块的使用](https://juejin.im/post/5b10a814f265da6e2a08a6f7)
 - 朴灵老师的书籍【Node.js 深入浅出】
-- 淘宝前端团队 cluster 讲解:http://taobaofed.org/blog/2015/11/03/nodejs-cluster/
-
-node 学习交流群
