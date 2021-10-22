@@ -44,6 +44,7 @@ customElements.define(
 可以将其类比为插卡式的 FC 游戏机，游戏机暴露卡槽（插槽）让用户插入不同的游戏磁条（自定义内容）
 
 放张图感受一下
+
 ![](https://static.vue-js.com/63c0dff0-3dbd-11eb-85f6-6fac77c0c9b3.png)
 
 ## 二、使用场景

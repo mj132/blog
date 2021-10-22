@@ -1,4 +1,5 @@
-# 面试官：说说你对keep-alive的理解是什么？
+# 面试官：说说你对 keep-alive 的理解是什么？
+
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9nSDMxdUY5VklpYlRaSXdpY3ZmUkR3STRiamRBVGlhVEpFZDNzamRoeTd3MDlVM0k5ZERjNUVVSUNFVk1WSVE2aDFYMjVpY1NRT3lraWFwWEpEUFM0VGJST0l3LzY0MA?x-oss-process=image/format,png)
 
 ## 一、Keep-alive 是什么
@@ -17,7 +18,7 @@
 
 关于`keep-alive`的基本用法：
 
-```go
+```html
 <keep-alive>
   <component :is="view"></component>
 </keep-alive>
@@ -25,7 +26,7 @@
 
 使用`includes`和`exclude`：
 
-```go
+```html
 <keep-alive include="a,b">
   <component :is="view"></component>
 </keep-alive>
@@ -61,30 +62,30 @@
 
 在路由中设置`keepAlive`属性判断是否需要缓存
 
-```go
+```js
 {
   path: 'list',
   name: 'itemList', // 列表页
   component (resolve) {
     require(['@/pages/item/list'], resolve)
- },
- meta: {
-  keepAlive: true,
-  title: '列表页'
- }
+  },
+  meta: {
+    keepAlive: true,
+    title: '列表页'
+  }
 }
 ```
 
 使用`<keep-alive>`
 
-```go
-<div id="app" class='wrapper'>
-    <keep-alive>
-        <!-- 需要缓存的视图组件 --> 
-        <router-view v-if="$route.meta.keepAlive"></router-view>
-     </keep-alive>
-      <!-- 不需要缓存的视图组件 -->
-     <router-view v-if="!$route.meta.keepAlive"></router-view>
+```html
+<div id="app" class="wrapper">
+  <keep-alive>
+    <!-- 需要缓存的视图组件 -->
+    <router-view v-if="$route.meta.keepAlive"></router-view>
+  </keep-alive>
+  <!-- 不需要缓存的视图组件 -->
+  <router-view v-if="!$route.meta.keepAlive"></router-view>
 </div>
 ```
 
@@ -94,7 +95,7 @@
 
 源码位置：src/core/components/keep-alive.js
 
-```go
+```js
 export default {
   name: 'keep-alive',
   abstract: true,
@@ -102,26 +103,26 @@ export default {
   props: {
     include: [String, RegExp, Array],
     exclude: [String, RegExp, Array],
-    max: [String, Number]
+    max: [String, Number],
   },
 
-  created () {
+  created() {
     this.cache = Object.create(null)
     this.keys = []
   },
 
-  destroyed () {
+  destroyed() {
     for (const key in this.cache) {
       pruneCacheEntry(this.cache, key, this.keys)
     }
   },
 
-  mounted () {
-    this.$watch('include', val => {
-      pruneCache(this, name => matches(val, name))
+  mounted() {
+    this.$watch('include', (val) => {
+      pruneCache(this, (name) => matches(val, name))
     })
-    this.$watch('exclude', val => {
-      pruneCache(this, name => !matches(val, name))
+    this.$watch('exclude', (val) => {
+      pruneCache(this, (name) => !matches(val, name))
     })
   },
 
@@ -148,20 +149,20 @@ export default {
 
       const { cache, keys } = this
       /* 获取组件的key值 */
-      const key = vnode.key == null
-        // same constructor may get registered as different local components
-        // so cid alone is not enough (#3269)
-        ? componentOptions.Ctor.cid + (componentOptions.tag ? `::${componentOptions.tag}` : '')
-        : vnode.key
-     /*  拿到key值后去this.cache对象中去寻找是否有该值，如果有则表示该组件有缓存，即命中缓存 */
+      const key =
+        vnode.key == null
+          ? // same constructor may get registered as different local components
+            // so cid alone is not enough (#3269)
+            componentOptions.Ctor.cid + (componentOptions.tag ? `::${componentOptions.tag}` : '')
+          : vnode.key
+      // 拿到key值后去this.cache对象中去寻找是否有该值，如果有则表示该组件有缓存，即命中缓存
       if (cache[key]) {
         vnode.componentInstance = cache[key].componentInstance
         // make current key freshest
         remove(keys, key)
         keys.push(key)
-      }
+      } else {
         /* 如果没有命中缓存，则将其设置进缓存 */
-        else {
         cache[key] = vnode
         keys.push(key)
         // prune oldest entry
@@ -174,7 +175,7 @@ export default {
       vnode.data.keepAlive = true
     }
     return vnode || (slot && slot[0])
-  }
+  },
 }
 ```
 
@@ -182,23 +183,18 @@ export default {
 
 `this.cache`是一个对象，用来存储需要缓存的组件，它将以如下形式存储：
 
-```go
+```js
 this.cache = {
-    'key1':'组件1',
-    'key2':'组件2',
-    // ...
+  key1: '组件1',
+  key2: '组件2',
+  // ...
 }
 ```
 
 在组件销毁的时候执行`pruneCacheEntry`函数
 
-```go
-function pruneCacheEntry (
-  cache: VNodeCache,
-  key: string,
-  keys: Array<string>,
-  current?: VNode
-) {
+```js
+function pruneCacheEntry(cache: VNodeCache, key: string, keys: Array<string>, current?: VNode) {
   const cached = cache[key]
   /* 判断当前没有处于被渲染状态的组件，将其销毁*/
   if (cached && (!current || cached.tag !== current.tag)) {
@@ -211,21 +207,21 @@ function pruneCacheEntry (
 
 在`mounted`钩子函数中观测 `include` 和 `exclude` 的变化，如下：
 
-```go
+```js
 mounted () {
-    this.$watch('include', val => {
-        pruneCache(this, name => matches(val, name))
-    })
-    this.$watch('exclude', val => {
-        pruneCache(this, name => !matches(val, name))
-    })
+  this.$watch('include', val => {
+    pruneCache(this, name => matches(val, name))
+  })
+  this.$watch('exclude', val => {
+    pruneCache(this, name => !matches(val, name))
+  })
 }
 ```
 
 如果`include` 或`exclude` 发生了变化，即表示定义需要缓存的组件的规则或者不需要缓存的组件的规则发生了变化，那么就执行`pruneCache`函数，函数如下：
 
-```go
-function pruneCache (keepAliveInstance, filter) {
+```js
+function pruneCache(keepAliveInstance, filter) {
   const { cache, keys, _vnode } = keepAliveInstance
   for (const key in cache) {
     const cachedNode = cache[key]
@@ -245,37 +241,35 @@ function pruneCache (keepAliveInstance, filter) {
 
 首先获取组件的`key`值：
 
-```go
-const key = vnode.key == null? 
-componentOptions.Ctor.cid + (componentOptions.tag ? `::${componentOptions.tag}` : '')
-: vnode.key
+```js
+const key = vnode.key == null ? componentOptions.Ctor.cid + (componentOptions.tag ? `::${componentOptions.tag}` : '') : vnode.key
 ```
 
 拿到`key`值后去`this.cache`对象中去寻找是否有该值，如果有则表示该组件有缓存，即命中缓存，如下：
 
-```go
+```js
 /* 如果命中缓存，则直接从缓存中拿 vnode 的组件实例 */
 if (cache[key]) {
-    vnode.componentInstance = cache[key].componentInstance
-    /* 调整该组件key的顺序，将其从原来的地方删掉并重新放在最后一个 */
-    remove(keys, key)
-    keys.push(key)
-} 
+  vnode.componentInstance = cache[key].componentInstance
+  /* 调整该组件key的顺序，将其从原来的地方删掉并重新放在最后一个 */
+  remove(keys, key)
+  keys.push(key)
+}
 ```
 
 直接从缓存中拿 `vnode` 的组件实例，此时重新调整该组件`key`的顺序，将其从原来的地方删掉并重新放在`this.keys`中最后一个
 
 `this.cache`对象中没有该`key`值的情况，如下：
 
-```go
+```js
 /* 如果没有命中缓存，则将其设置进缓存 */
 else {
-    cache[key] = vnode
-    keys.push(key)
-    /* 如果配置了max并且缓存的长度超过了this.max，则从缓存中删除第一个 */
-    if (this.max && keys.length > parseInt(this.max)) {
-        pruneCacheEntry(cache, keys[0], keys, this._vnode)
-    }
+  cache[key] = vnode
+  keys.push(key)
+  /* 如果配置了max并且缓存的长度超过了this.max，则从缓存中删除第一个 */
+  if (this.max && keys.length > parseInt(this.max)) {
+    pruneCacheEntry(cache, keys[0], keys, this._vnode)
+  }
 }
 ```
 
@@ -289,36 +283,36 @@ else {
 
 - beforeRouteEnter
 
-- actived
+- activated
 
 ### beforeRouteEnter
 
 每次组件渲染的时候，都会执行`beforeRouteEnter`
 
-```go
+```js
 beforeRouteEnter(to, from, next){
-    next(vm=>{
-        console.log(vm)
-        // 每次进入路由执行
-        vm.getData()  // 获取数据
-    })
+  next(vm=>{
+    console.log(vm)
+    // 每次进入路由执行
+    vm.getData()  // 获取数据
+  })
 },
 ```
 
-### actived
+### activated
 
-在`keep-alive`缓存的组件被激活的时候，都会执行`actived`钩子
+在`keep-alive`缓存的组件被激活的时候，都会执行`activated`钩子
 
-```go
+```js
 activated(){
-   this.getData() // 获取数据
+  this.getData() // 获取数据
 },
 ```
 
-注意：服务器端渲染期间`avtived`不被调用
+注意：服务器端渲染期间`activated`不被调用
 
 ## 参考文献
 
 - https://www.cnblogs.com/dhui/p/13589401.html
 - https://www.cnblogs.com/wangjiachen666/p/11497200.html
-- https://vue3js.cn/docs/zh  
+- https://vue3js.cn/docs/zh

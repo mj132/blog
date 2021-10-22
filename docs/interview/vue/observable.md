@@ -1,6 +1,6 @@
-# 面试官：Vue.observable你有了解过吗？说说看 
+# 面试官：Vue.observable 你有了解过吗？说说看
 
-![](https://static.vue-js.com/193782e0-3e7b-11eb-ab90-d9ae814b240d.png)  
+![](https://static.vue-js.com/193782e0-3e7b-11eb-ab90-d9ae814b240d.png)
 
 ## 一、Observable 是什么
 
@@ -13,13 +13,13 @@
 返回的对象可以直接用于渲染函数和计算属性内，并且会在发生变更时触发相应的更新。也可以作为最小化的跨组件状态存储器
 
 ```js
-Vue.observable({ count : 1})
+Vue.observable({ count: 1 })
 ```
 
 其作用等同于
 
 ```js
-new vue({ count : 1})
+new vue({ count: 1 })
 ```
 
 在 `Vue 2.x` 中，被传入的对象会直接被 `Vue.observable` 变更，它和被返回的对象是同一个对象
@@ -53,15 +53,15 @@ export let mutations = {
 
 在`.vue`文件中直接使用即可
 
-```js
+```vue
 <template>
   <div>
-    姓名：{{ name }}
-    年龄：{{ age }}
+    姓名：{{ name }} 年龄：{{ age }}
     <button @click="changeName('李四')">改变姓名</button>
     <button @click="setAge(18)">改变年龄</button>
   </div>
 </template>
+<script>
 import { state, mutations } from '@/store
 export default {
   // 在计算属性中拿到值
@@ -79,6 +79,7 @@ export default {
     setAge: mutations.setAge
   }
 }
+</script>
 ```
 
 ## 三、原理分析
@@ -86,7 +87,7 @@ export default {
 源码位置：src\core\observer\index.js
 
 ```js
-export function observe (value: any, asRootData: ?boolean): Observer | void {
+export function observe(value: any, asRootData: ?boolean): Observer | void {
   if (!isObject(value) || value instanceof VNode) {
     return
   }
@@ -94,13 +95,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
   // 判断是否存在__ob__响应式属性
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
-  } else if (
-    shouldObserve &&
-    !isServerRendering() &&
-    (Array.isArray(value) || isPlainObject(value)) &&
-    Object.isExtensible(value) &&
-    !value._isVue
-  ) {
+  } else if (shouldObserve && !isServerRendering() && (Array.isArray(value) || isPlainObject(value)) && Object.isExtensible(value) && !value._isVue) {
     // 实例化Observer响应式对象
     ob = new Observer(value)
   }
@@ -115,26 +110,27 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
 
 ```js
 export class Observer {
-    value: any;
-    dep: Dep;
-    vmCount: number; // number of vms that have this object as root $data
+  value: any
+  dep: Dep
+  vmCount: number // number of vms that have this object as root $data
 
-    constructor (value: any) {
-        this.value = value
-        this.dep = new Dep()
-        this.vmCount = 0
-        def(value, '__ob__', this)
-        if (Array.isArray(value)) {
-            if (hasProto) {
-                protoAugment(value, arrayMethods)
-            } else {
-                copyAugment(value, arrayMethods, arrayKeys)
-            }
-            this.observeArray(value)
-        } else {
-            // 实例化对象是一个对象，进入walk方法
-            this.walk(value)
-        }
+  constructor(value: any) {
+    this.value = value
+    this.dep = new Dep()
+    this.vmCount = 0
+    def(value, '__ob__', this)
+    if (Array.isArray(value)) {
+      if (hasProto) {
+        protoAugment(value, arrayMethods)
+      } else {
+        copyAugment(value, arrayMethods, arrayKeys)
+      }
+      this.observeArray(value)
+    } else {
+      // 实例化对象是一个对象，进入walk方法
+      this.walk(value)
+    }
+  }
 }
 ```
 
@@ -142,24 +138,18 @@ export class Observer {
 
 ```js
 walk (obj: Object) {
-    const keys = Object.keys(obj)
-    // 遍历key，通过defineReactive创建响应式对象
-    for (let i = 0; i < keys.length; i++) {
-        defineReactive(obj, keys[i])
-    }
+  const keys = Object.keys(obj)
+  // 遍历key，通过defineReactive创建响应式对象
+  for (let i = 0; i < keys.length; i++) {
+    defineReactive(obj, keys[i])
+  }
 }
 ```
 
 `defineReactive`方法
 
 ```js
-export function defineReactive (
-  obj: Object,
-  key: string,
-  val: any,
-  customSetter?: ?Function,
-  shallow?: boolean
-) {
+export function defineReactive(obj: Object, key: string, val: any, customSetter?: ?Function, shallow?: boolean) {
   const dep = new Dep()
 
   const property = Object.getOwnPropertyDescriptor(obj, key)
@@ -179,7 +169,7 @@ export function defineReactive (
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
-    get: function reactiveGetter () {
+    get: function reactiveGetter() {
       const value = getter ? getter.call(obj) : val
       if (Dep.target) {
         dep.depend()
@@ -192,7 +182,7 @@ export function defineReactive (
       }
       return value
     },
-    set: function reactiveSetter (newVal) {
+    set: function reactiveSetter(newVal) {
       const value = getter ? getter.call(obj) : val
       /* eslint-disable no-self-compare */
       if (newVal === value || (newVal !== newVal && value !== value)) {
@@ -212,12 +202,10 @@ export function defineReactive (
       childOb = !shallow && observe(newVal)
       // 对观察者watchers进行通知,state就成了全局响应式对象
       dep.notify()
-    }
+    },
   })
 }
 ```
-
-
 
 ## 参考文献
 
