@@ -116,22 +116,28 @@ directives: {
 // 1.设置v-throttle自定义指令
 Vue.directive('throttle', {
   bind: (el, binding) => {
-    let throttleTime = binding.value; // 防抖时间
-    if (!throttleTime) { // 用户若不设置防抖时间，则默认2s
-      throttleTime = 2000;
+    let throttleTime = binding.value // 防抖时间
+    if (!throttleTime) {
+      // 用户若不设置防抖时间，则默认2s
+      throttleTime = 2000
     }
-    let cbFun;
-    el.addEventListener('click', event => {
-      if (!cbFun) { // 第一次执行
-        cbFun = setTimeout(() => {
-          cbFun = null;
-        }, throttleTime);
-      } else {
-        event && event.stopImmediatePropagation();
-      }
-    }, true);
+    let cbFun
+    el.addEventListener(
+      'click',
+      (event) => {
+        if (!cbFun) {
+          // 第一次执行
+          cbFun = setTimeout(() => {
+            cbFun = null
+          }, throttleTime)
+        } else {
+          event && event.stopImmediatePropagation()
+        }
+      },
+      true
+    )
   },
-});
+})
 // 2.为button标签设置v-throttle自定义指令
 <button @click="sayHello" v-throttle>提交</button>
 ```
@@ -232,10 +238,9 @@ export default LazyLoad
 ### 一键 Copy 的功能
 
 ```js
-import { Message } from 'ant-design-vue'
+import { Message } from 'element-ui'
 
 const vCopy = {
-  //
   /*
     bind 钩子函数，第一次绑定时调用，可以在这里做初始化设置
     el: 作用的 dom 对象
@@ -245,7 +250,7 @@ const vCopy = {
     el.$value = value // 用一个全局属性来存传进来的值，因为这个值在别的钩子函数里还会用到
     el.handler = () => {
       if (!el.$value) {
-        // 值为空的时候，给出提示，我这里的提示是用的 ant-design-vue 的提示，你们随意
+        // 值为空的时候，给出提示，我这里的提示是用的 element-ui 的提示
         Message.warning('无复制内容')
         return
       }
