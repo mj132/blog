@@ -258,7 +258,7 @@ module.exports = {
     },
     {
       title: '堆',
-      path: 'tree.html'
+      path: 'heap.html'
     },
     {
       title: '图',
