@@ -235,6 +235,50 @@ module.exports = {
       ]
     },
   ],
+  '/data-structure/': [
+    {
+      title: '数据结构介绍',
+      path: './'
+    },
+    {
+      title: '栈和队列',
+      path: 'stack_queue.html'
+    },
+    {
+      title: '链表',
+      path: 'linked_list.html'
+    },
+    {
+      title: '集合',
+      path: 'set.html'
+    },
+    {
+      title: '树',
+      path: 'tree.html'
+    },
+    {
+      title: '堆',
+      path: 'tree.html'
+    },
+    {
+      title: '图',
+      path: 'graph.html'
+    },
+  ],
+  '/algorithm/': [
+    {
+      title: '算法介绍',
+      path: './'
+    },
+    {
+      title: '算法复杂度',
+      path: 'time_space.html'
+    },
+    {
+      title: '排序算法',
+      path: 'sort.html'
+    },
+  ],
   '/node/': [
     {
       title: 'node是什么',

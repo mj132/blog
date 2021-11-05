@@ -39,12 +39,20 @@ module.exports = {
         link: "/node/"
       },
       {
+        text: "数据结构",
+        link: "/data-structure/"
+      },
+      {
+        text: "算法",
+        link: "/algorithm/"
+      },
+      {
         text: "数据库",
         link: "/database/"
       },
       {
-        text: "CSDN",
-        link: "https://blog.csdn.net/weixin_42569598"
+        text: "Github",
+        link: "https://github.com/mj132"
       }
     ],
     sidebarDepth: 2,
