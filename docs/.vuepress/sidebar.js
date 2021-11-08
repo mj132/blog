@@ -92,6 +92,21 @@ module.exports = {
       ]
     },
     {
+      title: "Webpack",
+      children: [
+        ["webpack/webpack", "webpack的介绍"],
+        ["webpack/build_process", "webpack的构建流程"],
+        ["webpack/Loader", "webpack中的Loader"],
+        ["webpack/Plugin", "webpack中常见的Plugin"],
+        ["webpack/Loader_Plugin", "Loader和Plugin的区别"],
+        ["webpack/HMR", "webpack的热更新原理"],
+        ["webpack/proxy", "webpack proxy工作原理"],
+        ["webpack/performance", "webpack优化前端性能"],
+        ["webpack/improve_build", "提高webpack的构建速度"],
+        ["webpack/Rollup_Parcel_snowpack_Vite", "与webpack类似的工具"],
+      ]
+    },
+    {
       title: '浏览器',
       children: [
         {
