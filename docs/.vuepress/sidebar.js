@@ -108,7 +108,6 @@ module.exports = {
     },
     {
       title: "http",
-      collapsable: false,
       children:[
         ["http/HTTP_HTTPS", "HTTP 和 HTTPS 的区别"],
         ["http/HTTPS", "HTTPS是如何保证安全的"],
