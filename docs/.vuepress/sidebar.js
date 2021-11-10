@@ -107,6 +107,26 @@ module.exports = {
       ]
     },
     {
+      title: "http",
+      collapsable: false,
+      children:[
+        ["http/HTTP_HTTPS", "HTTP 和 HTTPS 的区别"],
+        ["http/HTTPS", "HTTPS是如何保证安全的"],
+        ["http/UDP_TCP", "UDP 和 TCP区别和应用场景"],
+        ["http/OSI", "OSI七层模型"],
+        ["http/TCP_IP", "TCP/IP协议"],
+        ["http/DNS", "DNS协议 和 DNS 完整的查询过程"],
+        ["http/CDN", "CDN实现原理"],
+        ["http/1.0_1.1_2.0", "HTTP1.0/1.1/2.0 的区别"],
+        ["http/status", "HTTP 常见的状态码"],
+        ["http/GET_POST", "GET 和 POST 的区别"],
+        ["http/headers", "HTTP 常见的请求头"],
+        ["http/after_url", "地址栏输入 URL 敲下回车后发生了什么"],
+        ["http/handshakes_waves", "TCP为什么需要三次握手和四次挥手"],
+        ["http/WebSocket", "WebSocket的理解和应用场景"]
+      ]
+    },
+    {
       title: '浏览器',
       children: [
         {
