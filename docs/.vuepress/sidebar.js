@@ -156,6 +156,15 @@ module.exports = {
         },
       ]
     },
+    {
+      title: 'Linux',
+      children: [
+        {
+          path: 'linux/commands.html',
+          title: 'Linux常用命令',
+        },
+      ]
+    },
   ],
   '/vue/': [
     {
