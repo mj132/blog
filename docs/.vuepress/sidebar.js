@@ -216,6 +216,16 @@ module.exports = {
       title: '全局api原理'
     },
   ],
+  '/performance-optimization/': [
+    {
+      path: './',
+      title: '一、缓存'
+    },
+    // {
+    //   path: '/',
+    //   title: '二、发送请求'
+    // },
+  ],
   '/interview/': [
     {
       title: '面试题-css',

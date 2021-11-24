@@ -31,6 +31,10 @@ module.exports = {
         link: "/vue/"
       },
       {
+        text: "性能优化",
+        link: "/performance-optimization/"
+      },
+      {
         text: "面试题",
         link: "/interview/"
       },

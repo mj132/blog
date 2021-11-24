@@ -36,3 +36,9 @@
 ## 正则表达式
 
 - [正则表达式介绍](reg/01.html)
+## Nginx
+
+- [前端开发者必备的Nginx知识](nginx/01.html)
+## Linux
+
+- [Linux常用命令](linux/commands.html)
