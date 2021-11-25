@@ -221,10 +221,10 @@ module.exports = {
       path: './',
       title: '一、缓存'
     },
-    // {
-    //   path: '/',
-    //   title: '二、发送请求'
-    // },
+    {
+      path: 'request.html',
+      title: '二、发送请求'
+    },
   ],
   '/interview/': [
     {
