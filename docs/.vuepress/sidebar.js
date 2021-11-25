@@ -219,11 +219,19 @@ module.exports = {
   '/performance-optimization/': [
     {
       path: './',
+      title: '启程'
+    },
+    {
+      path: 'cache.html',
       title: '一、缓存'
     },
     {
       path: 'request.html',
       title: '二、发送请求'
+    },
+    {
+      path: 'response.html',
+      title: '三、服务端响应'
     },
   ],
   '/interview/': [
