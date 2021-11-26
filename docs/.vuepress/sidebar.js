@@ -233,6 +233,36 @@ module.exports = {
       path: 'response.html',
       title: '三、服务端响应'
     },
+    {
+      path: 'parse.html',
+      title: '四、页面解析与处理'
+    },
+    {
+      path: '/performance-optimization/resources/',
+      title: '五、页面静态资源',
+      children: [
+        {
+          path: 'resources/javascript.html',
+          title: 'javascript'
+        },
+        {
+          path: 'resources/css.html',
+          title: 'css'
+        },
+        {
+          path: 'resources/image.html',
+          title: 'image'
+        },
+        {
+          path: 'resources/font.html',
+          title: 'font'
+        },
+        {
+          path: 'resources/video.html',
+          title: 'video'
+        },
+      ]
+    },
   ],
   '/interview/': [
     {
