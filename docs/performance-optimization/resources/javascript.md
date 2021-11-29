@@ -202,24 +202,24 @@ JavaScript 部分的缓存与我们在第一部分里提到的缓存基本一致
 
 webpack 在 v3.x 以及之前，可以通过 CommonChunkPlugin 来分离一些公共库。而升级到 v4.x 之后有了一个新的配置项 `optimization.splitChunks`:
 
-```JavaScript
+```javascript
 // webpack.config.js
 module.exports = {
-    //...
-    optimization: {
-        splitChunks: {
-            chunks: 'all',
-            minChunks: 1,
-            cacheGroups: {
-                commons: {
-                    minChunks: 1,
-                    automaticNamePrefix: 'commons',
-                    test: /[\\/]node_modules[\\/]react|redux|react-redux/,
-                    chunks: 'all'
-                }
-            }
-        }
-    }
+  //...
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      minChunks: 1,
+      cacheGroups: {
+        commons: {
+          minChunks: 1,
+          automaticNamePrefix: 'commons',
+          test: /[\\/]node_modules[\\/]react|redux|react-redux/,
+          chunks: 'all',
+        },
+      },
+    },
+  },
 }
 ```
 
@@ -239,15 +239,15 @@ module.exports = {
 
 通过 [`optimization.runtimeChunk`](https://webpack.js.org/configuration/optimization/#optimizationruntimechunk) 配置可以让 webpack 把包含 manifest 的 runtime 部分单独分离出来，这样就可以尽可能限制变动影响的文件范围。
 
-```JavaScript
+```javascript
 // webpack.config.js
 module.exports = {
-    //...
-    optimization: {
-        runtimeChunk: {
-            name: 'runtime'
-        }
+  //...
+  optimization: {
+    runtimeChunk: {
+      name: 'runtime',
     },
+  },
 }
 ```
 
