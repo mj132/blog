@@ -133,6 +133,10 @@ module.exports = {
           title: '渲染树',
         },
         {
+          path: 'browser/composite.html',
+          title: '渲染层合并-composite',
+        },
+        {
           path: 'browser/GC.html',
           title: '垃圾回收机制',
         },

@@ -59,6 +59,7 @@
 ## 浏览器相关
 
 - [渲染树](browser/01.html)
+- [渲染层合并-composite](browser/composite.html)
 - [垃圾回收机制](browser/GC.html)
 
 ## 正则表达式
