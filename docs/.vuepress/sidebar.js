@@ -267,6 +267,18 @@ module.exports = {
         },
       ]
     },
+    {
+      path: 'runtime.html',
+      title: '六、运行时'
+    },
+    {
+      path: 'preload.html',
+      title: '七、预加载'
+    },
+    {
+      path: 'END.html',
+      title: '尾声'
+    },
   ],
   '/interview/': [
     {
