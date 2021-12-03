@@ -45,11 +45,11 @@ Unicode 是字符集， 为了兼容 ASCII，Unicode 规定前 0-127 个字符�
 
 我们一起看看 ASCII 128-255 部分:
 
-![encode_01](./img/encode_01.webp)
+![encode_01](./img/encode_01.png)
 
 再看看 Unicode 的 128-255 部分：
 
-![encode_02](./img/encode_02.webp)
+![encode_02](./img/encode_02.png)
 
 其给某个字符规定对应的数值，我们经常称其为码点。我们可以通过字符串的实例方法 `charCodeAt` 和 `codePointAt` 获取，前者只能准确获取码点值小于 `0xFFFF(65535)` 的码点。
 
@@ -99,7 +99,7 @@ UTF-16 对于码点小于 0xFFFF 的用 2 个字节（**1 个编码单元**）�
 
 从下可以看出 `\a` 这个 `\` 没有任何作用，对 `\r` 就不一样了。
 
-![encode_03](./img/encode_03.webp)
+![encode_03](./img/encode_03.png)
 
 更多转义字符知识，参见 [转义字符-维基](https://zh.wikipedia.org/wiki/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6)。
 
@@ -199,7 +199,7 @@ Unicode 254: 'þ'
 
 **0-255 码点范围内， 0x00 到 0x1F`(0-31)`, 0x80 到 0x9F`(128-159)`是无法显示的或者看不见的**。
 
-![encode_04](./img/encode_04.webp)
+![encode_04](./img/encode_04.png)
 
 ```js
 '\x9F' // '\x9F' // 编码输出
