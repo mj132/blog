@@ -169,6 +169,15 @@ module.exports = {
         },
       ]
     },
+    {
+      title: '其它',
+      children: [
+        {
+          path: 'other/encode.html',
+          title: 'js 字符编码方式',
+        },
+      ]
+    },
   ],
   '/vue/': [
     {
