@@ -92,6 +92,23 @@ module.exports = {
       ]
     },
     {
+      title: 'TypeScript',
+      children:[
+        ["typescript/typescript_javascript", "typescript 的介绍"],
+        ["typescript/data_type", "typescript 数据类型的介绍"],
+        ["typescript/enum", "typescript 枚举类型的介绍和应用场景"],
+        ["typescript/interface", "typescript 接口的介绍和应用场景"],
+        ["typescript/class", "typescript 类的介绍和应用场景"],
+        ["typescript/function", "typescript 函数的介绍"],
+        ["typescript/generic", "typescript 的泛型介绍和应用场景"],
+        ["typescript/high type", "typescript 高级类型的介绍"],
+        ["typescript/decorator", "typescript 装饰器的介绍和应用场景"],
+        ["typescript/namespace_module", "typescript 中命名空间与模块的介绍和区别"],
+        ["typescript/react", "在React项目中应用 typescript"],
+        ["typescript/vue", "在Vue项目中应用 typescript"]
+      ]
+    },
+    {
       title: "Webpack",
       children: [
         ["webpack/webpack", "webpack的介绍"],

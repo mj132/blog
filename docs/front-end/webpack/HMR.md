@@ -1,4 +1,4 @@
-# 面试官：说说 webpack 的热更新是如何做到的？原理是什么？
+# webpack 热更新原理
 
 ![](https://static.vue-js.com/a076da40-acd4-11eb-85f6-6fac77c0c9b3.png)
 
