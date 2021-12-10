@@ -193,6 +193,10 @@ module.exports = {
           path: 'other/encode.html',
           title: 'js 字符编码方式',
         },
+        // {
+        //   path: 'other/npx_npm.html',
+        //   title: 'npx与npm区别',
+        // },
       ]
     },
   ],

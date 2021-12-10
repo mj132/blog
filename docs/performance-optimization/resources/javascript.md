@@ -112,7 +112,7 @@ console.log(add(1, 2));
 
 webpack 现在已经成为很多前端应用的构建工具，因此这里单独将其列了出来。我们可以通过 [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) 这个工具来查看打包代码里面各个模块的占用大小。
 
-![webpack-bundle-analyzer](./img/webpack-bundle-analyzer.gif)
+![webpack-bundle-analyzer](./img/webpack-bundle-analyzer.png)
 
 很多时候，打包体积过大主要是因为引入了不合适的包，对于如何优化依赖包的引入，这里有[一些建议可以帮助你减小 bundle 的体积](https://github.com/GoogleChromeLabs/webpack-libs-optimizations)<sup>[9]</sup>。
 
