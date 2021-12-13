@@ -76,3 +76,9 @@
 ## Linux
 
 - [Linux常用命令](linux/commands.md)
+- [shell 脚本](linux/shell_script.md)
+
+## 其它
+
+- [js 字符编码方式](other/encode.md)
+- [npx 与 npm 区别](other/npx_npm.md)

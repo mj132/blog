@@ -184,6 +184,10 @@ module.exports = {
           path: 'linux/commands.html',
           title: 'Linux常用命令',
         },
+        {
+          path: 'linux/shell_script.html',
+          title: 'shell 脚本',
+        },
       ]
     },
     {
