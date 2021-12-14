@@ -1,6 +1,6 @@
-# 面试官：说说你对 TypeScript 中高级类型的理解？有哪些？
+# TypeScript 高级类型的介绍
 
- ![](https://static.vue-js.com/bda521e0-1065-11ec-8e64-91fdec0f05a1.png)
+![](https://static.vue-js.com/bda521e0-1065-11ec-8e64-91fdec0f05a1.png)
 
 ## 一、是什么
 
@@ -20,7 +20,6 @@
 - 映射类型
 - 条件类型
 
-
 ### 交叉类型
 
 通过 `&` 将多个类型合并为一个类型，包含了所需的所有类型的特性，本质上是一种并的操作
@@ -34,23 +33,19 @@ T & U
 适用于对象合并场景，如下将声明一个函数，将两个对象合并成一个对象并返回：
 
 ```ts
-function extend<T , U>(first: T, second: U) : T & U {
-    let result: <T & U> = {}
-    for (let key in first) {
-        result[key] = first[key]
+function extend<T extends object, U>(first: T, second: U): T & U {
+  let result = {} as T & U
+  for (let key in first) {
+    result[key] = first[key] as any
+  }
+  for (let key in second) {
+    if (!result.hasOwnProperty(key)) {
+      result[key] = second[key] as any
     }
-    for (let key in second) {
-        if(!result.hasOwnProperty(key)) {
-            result[key] = second[key]
-        }
-    }
-    return result
+  }
+  return result
 }
 ```
-
-
-
-
 
 ### 联合类型
 
@@ -68,16 +63,14 @@ T | U
 
 ```ts
 function formatCommandline(command: string[] | string) {
-  let line = '';
+  let line = ''
   if (typeof command === 'string') {
-    line = command.trim();
+    line = command.trim()
   } else {
-    line = command.join(' ').trim();
+    line = command.join(' ').trim()
   }
 }
 ```
-
-
 
 ### 类型别名
 
@@ -96,26 +89,22 @@ const d: some = 123 // 不能将类型“123”分配给类型“some”
 此外类型别名可以是泛型:
 
 ```ts
-type Container<T> = { value: T };
+type Container<T> = { value: T }
 ```
 
 也可以使用类型别名来在属性里引用自己：
 
 ```ts
 type Tree<T> = {
-    value: T;
-    left: Tree<T>;
-    right: Tree<T>;
+  value: T
+  left: Tree<T>
+  right: Tree<T>
 }
 ```
 
 可以看到，类型别名和接口使用十分相似，都可以描述一个对象或者函数
 
-两者最大的区别在于，`interface `只能用于定义对象类型，而 `type` 的声明方式除了对象之外还可以定义交叉、联合、原始类型等，类型声明的方式适用范围显然更加广泛
-
-
-
-
+两者最大的区别在于，`interface`只能用于定义对象类型，而 `type` 的声明方式除了对象之外还可以定义交叉、联合、原始类型等，类型声明的方式适用范围显然更加广泛
 
 ### 类型索引
 
@@ -123,18 +112,14 @@ type Tree<T> = {
 
 ```ts
 interface Button {
-    type: string
-    text: string
+  type: string
+  text: string
 }
 
 type ButtonKeys = keyof Button
 // 等效于
-type ButtonKeys = "type" | "text"
+type ButtonKeys = 'type' | 'text'
 ```
-
-
-
-
 
 ### 类型约束
 
@@ -161,16 +146,14 @@ const obj = { a: 1 }
 const a = getValue(obj, 'a')
 ```
 
-
-
 ### 映射类型
 
 通过 `in` 关键字做类型的映射，遍历已有接口的 `key` 或者是遍历联合类型，如下例子：
 
 ```ts
 type Readonly<T> = {
-    readonly [P in keyof T]: T[P];
-};
+  readonly [P in keyof T]: T[P]
+}
 
 interface Obj {
   a: string
@@ -189,12 +172,10 @@ type ReadOnlyObj = Readonly<Obj>
 
 ```ts
 interface ReadOnlyObj {
-    readonly a: string;
-    readonly b: string;
+  readonly a: string
+  readonly b: string
 }
 ```
-
-
 
 ### 条件类型
 
@@ -206,15 +187,11 @@ T extends U ? X : Y
 
 上面的意思就是，如果 T 是 U 的子集，就是类型 X，否则为类型 Y
 
-
-
 ## 三、总结
 
 可以看到，如果只是掌握了 `typeScript` 的一些基础类型，可能很难游刃有余的去使用 `typeScript`，需要了解一些`typescript`的高阶用法
 
 并且`typescript`在版本的迭代中新增了很多功能，需要不断学习与掌握
-
-
 
 ## 参考文献
 
