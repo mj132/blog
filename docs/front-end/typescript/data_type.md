@@ -95,7 +95,7 @@ arr = ['45', '56']
 ```tsx
 let tupleArr: [number, string, boolean]
 tupleArr = [12, '34', true] //ok
-typleArr = [12, '34'] // no ok
+tupleArr = [12, '34'] // no ok
 ```
 
 赋值的类型、位置、个数需要和定义（生明）的类型、位置、个数一致
