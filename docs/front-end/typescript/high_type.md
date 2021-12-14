@@ -123,7 +123,7 @@ type ButtonKeys = 'type' | 'text'
 
 ### 类型约束
 
-通过关键字 `extend` 进行约束，不同于在 `class` 后使用 `extends` 的继承作用，泛型内使用的主要作用是对泛型加以约束
+通过关键字 `extends` 进行约束，不同于在 `class` 后使用 `extends` 的继承作用，泛型内使用的主要作用是对泛型加以约束
 
 ```ts
 type BaseType = string | number | boolean
