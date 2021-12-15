@@ -103,7 +103,7 @@ module.exports = {
         ["typescript/generic", "typescript 泛型的介绍和应用场景"],
         ["typescript/high_type", "typescript 高级类型的介绍"],
         ["typescript/decorator", "typescript 装饰器的介绍和应用场景"],
-        ["typescript/namespace_module", "typescript 中命名空间与模块的介绍和区别"],
+        ["typescript/namespace_module", "typescript 命名空间与模块的介绍和区别"],
         ["typescript/react", "在React项目中应用 typescript"],
         ["typescript/vue", "在Vue项目中应用 typescript"]
       ]
