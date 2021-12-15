@@ -43,16 +43,8 @@ module.exports = {
         link: "/node/"
       },
       {
-        text: "数据结构",
-        link: "/data-structure/"
-      },
-      {
-        text: "算法",
-        link: "/algorithm/"
-      },
-      {
-        text: "数据库",
-        link: "/database/"
+        text: "数据结构和算法",
+        link: "/structure-algorithm/"
       },
       {
         text: "Github",

@@ -31,7 +31,17 @@
 ## TypeScript 相关
 
 - [typescript 的介绍](typescript/typescript_javascript.md)
-- [typescript 的数据类型](typescript/typescript_javascript.md)
+- [typescript 数据类型](typescript/typescript_javascript.md)
+- [typescript 枚举类型](typescript/enum.md)
+- [typescript 接口](typescript/interface.md)
+- [typescript 类](typescript/class.md)
+- [typescript 函数](typescript/function.md)
+- [typescript 泛型](typescript/generic.md)
+- [typescript 高级类型](typescript/high_type.md)
+- [typescript 装饰器](typescript/decorator.md)
+- [typescript 命名空间与模块](typescript/namespace_module.md)
+- [在 React 项目中应用 typescript](typescript/react.md)
+- [在 Vue 项目中应用 typescript](typescript/vue.md)
 
 ## Webpack 相关
 

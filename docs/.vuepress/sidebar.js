@@ -4,19 +4,19 @@ module.exports = {
       title: 'HTML',
       children: [
         {
-          path: 'html/01.html',
+          path: 'html/01',
           title: '01: HTML5和HTML4究竟有哪些不同？'
         },
         {
-          path: 'html/02.html',
+          path: 'html/02',
           title: '02: meta标签属性有哪些？'
         },
         {
-          path: 'html/03.html',
+          path: 'html/03',
           title: '03: src和href的区别是什么？'
         },
         {
-          path: 'html/04.html',
+          path: 'html/04',
           title: '04: script标签中defer和async的区别是什么？'
         },
       ]
@@ -25,31 +25,31 @@ module.exports = {
       title: 'CSS',
       children: [
         {
-          path: 'css/01.html',
+          path: 'css/01',
           title: '01: 让一个元素水平垂直居中，到底有多少种方案？'
         },
         {
-          path: 'css/02.html',
+          path: 'css/02',
           title: '02: 浮动布局的优点？有什么缺点？清除浮动有哪些方式？'
         },
         {
-          path: 'css/03.html',
+          path: 'css/03',
           title: '03: 实现div垂直居中，左右10px，高度始终为宽度一半'
         },
         {
-          path: 'css/04.html',
+          path: 'css/04',
           title: '04: CSS如何进行品字布局？'
         },
         {
-          path: 'css/05.html',
+          path: 'css/05',
           title: '05: CSS如何进行圣杯布局？'
         },
         {
-          path: 'css/06.html',
+          path: 'css/06',
           title: '06: CSS如何进行双飞翼布局？'
         },
         {
-          path: 'css/07.html',
+          path: 'css/07',
           title: '07: BFC应用'
         },
       ]
@@ -58,35 +58,35 @@ module.exports = {
       title: 'JS',
       children: [
         {
-          path: 'javascript/datatype.html',
+          path: 'javascript/datatype',
           title: '数据类型'
         },
         {
-          path: 'javascript/prototype.html',
+          path: 'javascript/prototype',
           title: '原型链'
         },
         {
-          path: 'javascript/scope.html',
+          path: 'javascript/scope',
           title: '作用域链'
         },
         {
-          path: 'javascript/this.html',
+          path: 'javascript/this',
           title: 'this关键字'
         },
         {
-          path: 'javascript/closure.html',
+          path: 'javascript/closure',
           title: '闭包'
         },
         {
-          path: 'javascript/higherFunc.html',
+          path: 'javascript/higherFunc',
           title: '高阶函数'
         },
         {
-          path: 'javascript/promise.html',
+          path: 'javascript/promise',
           title: 'promise'
         },
         {
-          path: 'javascript/async-await.html',
+          path: 'javascript/async-await',
           title: 'async-await'
         },
       ]
@@ -95,15 +95,15 @@ module.exports = {
       title: 'TypeScript',
       children:[
         ["typescript/typescript_javascript", "typescript 的介绍"],
-        ["typescript/data_type", "typescript 数据类型的介绍"],
-        ["typescript/enum", "typescript 枚举类型的介绍和应用场景"],
-        ["typescript/interface", "typescript 接口的介绍和应用场景"],
-        ["typescript/class", "typescript 类的介绍和应用场景"],
-        ["typescript/function", "typescript 函数的介绍"],
-        ["typescript/generic", "typescript 泛型的介绍和应用场景"],
-        ["typescript/high_type", "typescript 高级类型的介绍"],
-        ["typescript/decorator", "typescript 装饰器的介绍和应用场景"],
-        ["typescript/namespace_module", "typescript 命名空间与模块的介绍和区别"],
+        ["typescript/data_type", "typescript 数据类型"],
+        ["typescript/enum", "typescript 枚举类型"],
+        ["typescript/interface", "typescript 接口"],
+        ["typescript/class", "typescript 类"],
+        ["typescript/function", "typescript 函数"],
+        ["typescript/generic", "typescript 泛型"],
+        ["typescript/high_type", "typescript 高级类型"],
+        ["typescript/decorator", "typescript 装饰器"],
+        ["typescript/namespace_module", "typescript 命名空间与模块"],
         ["typescript/react", "在React项目中应用 typescript"],
         ["typescript/vue", "在Vue项目中应用 typescript"]
       ]
@@ -146,15 +146,15 @@ module.exports = {
       title: '浏览器',
       children: [
         {
-          path: 'browser/01.html',
+          path: 'browser/01',
           title: '渲染树',
         },
         {
-          path: 'browser/composite.html',
+          path: 'browser/composite',
           title: '渲染层合并-composite',
         },
         {
-          path: 'browser/GC.html',
+          path: 'browser/GC',
           title: '垃圾回收机制',
         },
       ]
@@ -163,7 +163,7 @@ module.exports = {
       title: '正则表达式',
       children: [
         {
-          path: 'reg/01.html',
+          path: 'reg/01',
           title: '正则表达式介绍',
         },
       ]
@@ -172,8 +172,25 @@ module.exports = {
       title: 'Nginx',
       children: [
         {
-          path: 'nginx/01.html',
+          path: 'nginx/01',
           title: '前端开发者必备的Nginx知识',
+        },
+      ]
+    },
+    {
+      title: '数据库',
+      children: [
+        {
+          title: '数据库基础',
+          path: 'database/intro'
+        },
+        {
+          title: 'MySQL基础架构',
+          path: 'database/mysql'
+        },
+        {
+          title: 'SQL 和 NoSQL 的区别',
+          path: 'database/nosql'
         },
       ]
     },
@@ -181,11 +198,11 @@ module.exports = {
       title: 'Linux',
       children: [
         {
-          path: 'linux/commands.html',
+          path: 'linux/commands',
           title: 'Linux常用命令',
         },
         {
-          path: 'linux/shell_script.html',
+          path: 'linux/shell_script',
           title: 'shell 脚本',
         },
       ]
@@ -194,11 +211,11 @@ module.exports = {
       title: '其它',
       children: [
         {
-          path: 'other/encode.html',
+          path: 'other/encode',
           title: 'js 字符编码方式',
         },
         {
-          path: 'other/npx_npm.html',
+          path: 'other/npx_npm',
           title: 'npx与npm区别',
         },
       ]
@@ -210,47 +227,47 @@ module.exports = {
       title: '生命周期分析',
     },
     {
-      path: 'responsiveData.html',
+      path: 'responsiveData',
       title: '响应式数据原理'
     },
     {
-      path: 'compile.html',
+      path: 'compile',
       title: '模板编译原理'
     },
     {
-      path: 'initialRender.html',
+      path: 'initialRender',
       title: '初始渲染原理'
     },
     {
-      path: 'update.html',
+      path: 'update',
       title: '渲染更新原理'
     },
     {
-      path: 'nextTick.html',
+      path: 'nextTick',
       title: 'NextTick异步更新原理'
     },
     {
-      path: 'diff.html',
+      path: 'diff',
       title: 'diff算法原理'
     },
     {
-      path: 'mixin.html',
+      path: 'mixin',
       title: 'Mixin混入原理'
     },
     {
-      path: 'component.html',
+      path: 'component',
       title: '组件原理'
     },
     {
-      path: 'watch.html',
+      path: 'watch',
       title: '侦听属性原理'
     },
     {
-      path: 'computed.html',
+      path: 'computed',
       title: '计算属性原理'
     },
     {
-      path: 'globalApi.html',
+      path: 'globalApi',
       title: '全局api原理'
     },
   ],
@@ -260,19 +277,19 @@ module.exports = {
       title: '启程'
     },
     {
-      path: 'cache.html',
+      path: 'cache',
       title: '一、缓存'
     },
     {
-      path: 'request.html',
+      path: 'request',
       title: '二、发送请求'
     },
     {
-      path: 'response.html',
+      path: 'response',
       title: '三、服务端响应'
     },
     {
-      path: 'parse.html',
+      path: 'parse',
       title: '四、页面解析与处理'
     },
     {
@@ -280,37 +297,37 @@ module.exports = {
       title: '五、页面静态资源',
       children: [
         {
-          path: 'resources/javascript.html',
+          path: 'resources/javascript',
           title: 'javascript'
         },
         {
-          path: 'resources/css.html',
+          path: 'resources/css',
           title: 'css'
         },
         {
-          path: 'resources/image.html',
+          path: 'resources/image',
           title: 'image'
         },
         {
-          path: 'resources/font.html',
+          path: 'resources/font',
           title: 'font'
         },
         {
-          path: 'resources/video.html',
+          path: 'resources/video',
           title: 'video'
         },
       ]
     },
     {
-      path: 'runtime.html',
+      path: 'runtime',
       title: '六、运行时'
     },
     {
-      path: 'preload.html',
+      path: 'preload',
       title: '七、预加载'
     },
     {
-      path: 'END.html',
+      path: 'END',
       title: '尾声'
     },
   ],
@@ -321,11 +338,11 @@ module.exports = {
     },
     {
       title: '面试题-js',
-      path: 'javascript.html'
+      path: 'javascript'
     },
     {
       title: '面试题-手写js',
-      path: 'handwriteJs.html'
+      path: 'handwriteJs'
     },
     {
       title: '面试题-vue',
@@ -376,49 +393,57 @@ module.exports = {
       ]
     },
   ],
-  '/data-structure/': [
+  '/structure-algorithm/': [
     {
-      title: '数据结构介绍',
-      path: './'
+      title: '数据结构',
+      children: [
+        {
+          title: '数据结构介绍',
+          path: 'structure/intro'
+        },
+        {
+          title: '栈和队列',
+          path: 'structure/stack_queue'
+        },
+        {
+          title: '链表',
+          path: 'structure/linked_list'
+        },
+        {
+          title: '集合',
+          path: 'structure/set'
+        },
+        {
+          title: '树',
+          path: 'structure/tree'
+        },
+        {
+          title: '堆',
+          path: 'structure/heap'
+        },
+        {
+          title: '图',
+          path: 'structure/graph'
+        },
+      ]
     },
     {
-      title: '栈和队列',
-      path: 'stack_queue.html'
-    },
-    {
-      title: '链表',
-      path: 'linked_list.html'
-    },
-    {
-      title: '集合',
-      path: 'set.html'
-    },
-    {
-      title: '树',
-      path: 'tree.html'
-    },
-    {
-      title: '堆',
-      path: 'heap.html'
-    },
-    {
-      title: '图',
-      path: 'graph.html'
-    },
-  ],
-  '/algorithm/': [
-    {
-      title: '算法介绍',
-      path: './'
-    },
-    {
-      title: '算法复杂度',
-      path: 'time_space.html'
-    },
-    {
-      title: '排序算法',
-      path: 'sort.html'
-    },
+      title: '算法',
+      children: [
+        {
+          title: '算法介绍',
+          path: 'algorithm/intro'
+        },
+        {
+          title: '算法复杂度',
+          path: 'algorithm/time_space'
+        },
+        {
+          title: '排序算法',
+          path: 'algorithm/sort'
+        },
+      ]
+    }
   ],
   '/node/': [
     {
@@ -427,45 +452,31 @@ module.exports = {
     },
     {
       title: 'node事件循环',
-      path: 'event_loop.html'
+      path: 'event_loop'
     },
     {
       title: 'node核心模块-path',
-      path: 'path.html'
+      path: 'path'
     },
     {
       title: 'node核心模块-fs',
-      path: 'fs.html'
+      path: 'fs'
     },
     {
       title: 'node核心模块-stream',
-      path: 'stream.html'
+      path: 'stream'
     },
     {
       title: 'node核心模块-buffer',
-      path: 'buffer.html'
+      path: 'buffer'
     },
     {
       title: '深入理解Node.js 中的进程与线程',
-      path: 'processAndThread.html'
+      path: 'processAndThread'
     },
     {
       title: '一文彻底搞懂Events模块',
-      path: 'events.html'
+      path: 'events'
     },
   ],
-  '/database/': [
-    {
-      title: '数据库基础',
-      path: './'
-    },
-    {
-      title: 'MySQL基础架构',
-      path: 'mysql.html'
-    },
-    {
-      title: 'SQL 和 NoSQL 的区别',
-      path: 'nosql.html'
-    },
-  ]
 }
