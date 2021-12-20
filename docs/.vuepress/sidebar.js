@@ -211,6 +211,10 @@ module.exports = {
       title: '其它',
       children: [
         {
+          path: 'other/vnode',
+          title: 'VNode 详解',
+        },
+        {
           path: 'other/encode',
           title: 'js 字符编码方式',
         },
