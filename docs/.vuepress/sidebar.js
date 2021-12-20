@@ -89,6 +89,10 @@ module.exports = {
           path: 'javascript/async-await',
           title: 'async-await'
         },
+        {
+          path: 'javascript/proxy',
+          title: 'proxy'
+        },
       ]
     },
     {

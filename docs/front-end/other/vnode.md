@@ -261,7 +261,7 @@ export function createElement(context: Component, tag: any, data: any, children:
   }
   /* 如果 alwaysNormalize 为 true，则 normalizationType 标记为 ALWAYS_NORMALIZE */
   if (isTrue(alwaysNormalize)) {
-    normalizationType = ALWAYS * NORMALIZE
+    normalizationType = ALWAYS_NORMALIZE
   }
   // Github:https://github.com/answershuto*/
   // 创建虚拟节点
@@ -270,7 +270,7 @@ export function createElement(context: Component, tag: any, data: any, children:
 
 // 创建虚拟节点
 export function _createElement(context: Component, tag?: string | Class<Component> | Function | Object, data?: VNodeData, children?: any, normalizationType?: number): VNode {
-  // 如果 data 未定义（undefined 或者 null）或者是 data 的__ob__已经定义（代表已经被 observed，上面绑定了 Oberver 对象），
+  // 如果 data 未定义（undefined 或者 null）或者是 data 的__ob__已经定义（代表已经被 observed，上面绑定了 Observer 对象），
   // https://cn.vuejs.org/v2/guide/render-function.html#约束
   // 那么创建一个空节点
 
@@ -305,7 +305,7 @@ export function _createElement(context: Component, tag?: string | Class<Componen
       // platform built-in elements
       /*如果是保留的标签则创建一个相应节点*/
       vnode = new VNode(config.parsePlatformTagName(tag), data, children, undefined, undefined, context)
-    } else if (isDef((Ctor = resolveAsset(context.\$options, 'components', tag)))) {
+    } else if (isDef((Ctor = resolveAsset(context.$options, 'components', tag)))) {
       // component
       /*从 vm 实例的 option 的 components 中寻找该 tag，存在则就是一个组件，创建相应节点，Ctor 为组件的构造类*/
       vnode = createComponent(Ctor, data, context, children, tag)
@@ -332,4 +332,4 @@ export function _createElement(context: Component, tag?: string | Class<Componen
 }
 ```
 
-createElement 用来创建一个虚拟节点。当 data 上已经绑定 ob 的时候，代表该对象已经被 Oberver 过了，所以创建一个空节点。tag 不存在的时候同样创建一个空节点。当 tag 不是一个 String 类型的时候代表 tag 是一个组件的构造类，直接用 new VNode 创建。当 tag 是 String 类型的时候，如果是保留标签，则用 new VNode 创建一个 VNode 实例，如果在 vm 的 option 的 components 找得到该 tag，代表这是一个组件，否则统一用 new VNode 创建。
+createElement 用来创建一个虚拟节点。当 data 上已经绑定 ob 的时候，代表该对象已经被 Observer 过了，所以创建一个空节点。tag 不存在的时候同样创建一个空节点。当 tag 不是一个 String 类型的时候代表 tag 是一个组件的构造类，直接用 new VNode 创建。当 tag 是 String 类型的时候，如果是保留标签，则用 new VNode 创建一个 VNode 实例，如果在 vm 的 option 的 components 找得到该 tag，代表这是一个组件，否则统一用 new VNode 创建。
