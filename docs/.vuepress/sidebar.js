@@ -93,6 +93,10 @@ module.exports = {
           path: 'javascript/proxy',
           title: 'proxy'
         },
+        {
+          path: 'javascript/module',
+          title: 'module'
+        },
       ]
     },
     {

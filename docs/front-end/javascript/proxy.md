@@ -312,6 +312,18 @@ function set(target, key, value, receiver) {
   queuedObservers.forEach((observer) => observer())
   return result
 }
+//监听
+const person = observable({
+  name: '张三',
+  age: 20,
+})
+function print() {
+  console.log(`${person.name}, ${person.age}`)
+}
+observe(print)
+person.name = '李四'
+// 输出
+// 李四, 20
 ```
 
 观察者函数都放进`Set`集合，当修改`obj`的值，在会`set`函数中拦截，自动执行`Set`所有的观察者
