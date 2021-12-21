@@ -86,6 +86,10 @@ module.exports = {
           title: 'promise'
         },
         {
+          path: 'javascript/generator',
+          title: 'generator'
+        },
+        {
           path: 'javascript/async-await',
           title: 'async-await'
         },
@@ -96,6 +100,10 @@ module.exports = {
         {
           path: 'javascript/module',
           title: 'module'
+        },
+        {
+          path: 'javascript/decorator',
+          title: 'decorator'
         },
       ]
     },
