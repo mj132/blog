@@ -24,9 +24,13 @@
 - [作用域链](javascript/scope.md)
 - [this 关键字](javascript/this.md)
 - [闭包](javascript/closure.md)
+- [函数式编程](javascript/functional_programming.md)
 - [高阶函数](javascript/higherFunc.md)
 - [promise](javascript/promise.md)
-- [async-await](javascript/async-await.md)
+- [generator](javascript/generator.md)
+- [proxy](javascript/proxy.md)
+- [module](javascript/module.md)
+- [decorator](javascript/decorator.md)
 
 ## TypeScript 相关
 
