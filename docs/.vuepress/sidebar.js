@@ -78,12 +78,8 @@ module.exports = {
           title: '闭包'
         },
         {
-          path: 'javascript/functional_programming',
-          title: '函数式编程'
-        },
-        {
-          path: 'javascript/higherFunc',
-          title: '高阶函数'
+          path: 'javascript/object',
+          title: 'object'
         },
         {
           path: 'javascript/promise',
@@ -108,6 +104,14 @@ module.exports = {
         {
           path: 'javascript/decorator',
           title: 'decorator'
+        },
+        {
+          path: 'javascript/functional_programming',
+          title: '函数式编程'
+        },
+        {
+          path: 'javascript/higherFunc',
+          title: '高阶函数'
         },
       ]
     },

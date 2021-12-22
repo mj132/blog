@@ -1,6 +1,4 @@
-# 面试官：说说你对函数式编程的理解？优缺点？
-
- ![](https://static.vue-js.com/ec0f6e80-8534-11eb-85f6-6fac77c0c9b3.png)
+# 函数式编程
 
 ## 一、是什么
 
@@ -15,24 +13,79 @@
 ```js
 // 命令式编程
 var array = [0, 1, 2, 3]
-for(let i = 0; i < array.length; i++) {
-    array[i] = Math.pow(array[i], 2)
+for (let i = 0; i < array.length; i++) {
+  array[i] = Math.pow(array[i], 2)
 }
 
 // 函数式方式
-[0, 1, 2, 3].map(num => Math.pow(num, 2))
+;[0, 1, 2, 3].map((num) => Math.pow(num, 2))
 ```
 
 简单来讲，就是要把过程逻辑写成函数，定义好输入参数，只关心它的输出结果
 
 即是一种描述集合和集合之间的转换关系，输入通过函数都会返回有且只有一个输出值
 
- ![](https://static.vue-js.com/f9f83900-8534-11eb-85f6-6fac77c0c9b3.png)
+![](https://static.vue-js.com/f9f83900-8534-11eb-85f6-6fac77c0c9b3.png)
 
 可以看到，函数实际上是一个关系，或者说是一种映射，而这种映射关系是可以组合的，一旦我们知道一个函数的输出类型可以匹配另一个函数的输入，那他们就可以进行组合
 
+## 二、特点
 
-## 二、概念
+函数式编程具有五个鲜明的特点。
+
+### 1. 函数是"第一等公民"
+
+所谓"第一等公民"（first class），指的是函数与其他数据类型一样，处于平等地位，可以赋值给其他变量，也可以作为参数，传入另一个函数，或者作为别的函数的返回值。
+
+举例来说，下面代码中的 print 变量就是一个函数，可以作为另一个函数的参数。
+
+```js
+var print = function(i) {
+  console.log(i)
+}
+
+;[1, 2, 3].forEach(print)
+```
+
+### 2. 只用"表达式"，不用"语句"
+
+"表达式"（expression）是一个单纯的运算过程，总是有返回值；"语句"（statement）是执行某种操作，没有返回值。函数式编程要求，只使用表达式，不使用语句。也就是说，每一步都是单纯的运算，而且都有返回值。
+
+原因是函数式编程的开发动机，一开始就是为了处理运算（computation），不考虑系统的读写（I/O）。"语句"属于对系统的读写操作，所以就被排斥在外。
+
+当然，实际应用中，不做 I/O 是不可能的。因此，编程过程中，函数式编程只要求把 I/O 限制到最小，不要有不必要的读写行为，保持计算过程的单纯性。
+
+### 3. 没有"副作用"
+
+所谓"副作用"（side effect），指的是函数内部与外部互动（最典型的情况，就是修改全局变量的值），产生运算以外的其他结果。
+
+函数式编程强调没有"副作用"，意味着函数要保持独立，所有功能就是返回一个新的值，没有其他行为，尤其是不得修改外部变量的值。
+
+### 4. 不修改状态
+
+上一点已经提到，函数式编程只是返回新的值，不修改系统变量。因此，不修改变量，也是它的一个重要特点。
+
+在其他类型的语言中，变量往往用来保存"状态"（state）。不修改变量，意味着状态不能保存在变量中。函数式编程使用参数保存状态，最好的例子就是递归。下面的代码是一个将字符串逆序排列的函数，它演示了不同的参数如何决定了运算所处的"状态"。
+
+```js
+function reverse(string) {
+  if (string.length == 0) {
+    return string
+  } else {
+    return reverse(string.substring(1, string.length)) + string.substring(0, 1)
+  }
+}
+```
+
+由于使用了递归，函数式语言的运行速度比较慢，这是它长期不能在业界推广的主要原因。
+
+### 5. 引用透明
+
+引用透明（Referential transparency），指的是函数的运行不依赖于外部变量或"状态"，只依赖于输入的参数，任何时候只要参数相同，引用函数所得到的返回值总是相同的。
+
+有了前面的第三点和第四点，这点是很显然的。其他类型的语言，函数的返回值往往与系统状态有关，不同的状态之下，返回值是不一样的。这就叫"引用不透明"，很不利于观察和理解程序的行为。
+
+## 三、概念
 
 ### 纯函数
 
@@ -40,12 +93,12 @@ for(let i = 0; i < array.length; i++) {
 
 纯函数是对给定的输入返还相同输出的函数，并且要求你所有的数据都是不可变的，即纯函数=无状态+数据不可变
 
- ![](https://static.vue-js.com/04f50720-8535-11eb-ab90-d9ae814b240d.png)
+![](https://static.vue-js.com/04f50720-8535-11eb-ab90-d9ae814b240d.png)
 
 举一个简单的例子
 
 ```js
-let double = value=>value*2;
+let double = (value) => value * 2
 ```
 
 特性：
@@ -59,17 +112,15 @@ let double = value=>value*2;
 
 ```js
 test('double(2) 等于 4', () => {
-  expect(double(2)).toBe(4);
+  expect(double(2)).toBe(4)
 })
 ```
 
 - 不依赖外部环境计算，不会产生副作用，提高函数的复用性
 
-- 可读性更强 ，函数不管是否是纯函数  都会有一个语义化的名称，更便于阅读
+- 可读性更强 ，函数不管是否是纯函数 都会有一个语义化的名称，更便于阅读
 
 - 可以组装成复杂任务的可能性。符合模块化概念及单一职责原则
-
-
 
 ### 高阶函数
 
@@ -77,21 +128,21 @@ test('double(2) 等于 4', () => {
 
 编程工作也就是在找一种映射关系，一旦关系找到了，问题就解决了，剩下的事情，就是让数据流过这种关系，然后转换成另一个数据，如下图所示
 
- ![](https://static.vue-js.com/104af1c0-8535-11eb-ab90-d9ae814b240d.png)
+![](https://static.vue-js.com/104af1c0-8535-11eb-ab90-d9ae814b240d.png)
 
 在这里，就是高阶函数的作用。高级函数，就是以函数作为输入或者输出的函数被称为高阶函数
 
 通过高阶函数抽象过程，注重结果，如下面例子
 
 ```js
-const forEach = function(arr,fn){
-    for(let i=0;i<arr.length;i++){
-        fn(arr[i]);
-    }
+const forEach = function(arr, fn) {
+  for (let i = 0; i < arr.length; i++) {
+    fn(arr[i])
+  }
 }
-let arr = [1,2,3];
-forEach(arr,(item)=>{
-    console.log(item);
+let arr = [1, 2, 3]
+forEach(arr, (item) => {
+  console.log(item)
 })
 ```
 
@@ -100,16 +151,16 @@ forEach(arr,(item)=>{
 高阶函数存在缓存的特性，主要是利用闭包作用
 
 ```js
-const once = (fn)=>{
-    let done = false;
-    return function(){
-        if(!done){
-            fn.apply(this,fn);
-        }else{
-            console.log("该函数已经执行");
-        }
-        done = true;
+const once = (fn) => {
+  let done = false
+  return function() {
+    if (!done) {
+      fn.apply(this, fn)
+    } else {
+      console.log('该函数已经执行')
     }
+    done = true
+  }
 }
 ```
 
@@ -120,48 +171,46 @@ const once = (fn)=>{
 一个二元函数如下：
 
 ```js
-let fn = (x,y)=>x+y;
+const fn = (x, y) => x + y
 ```
 
 转化成柯里化函数如下：
 
 ```js
-const curry = function(fn){
-    return function(x){
-        return function(y){
-            return fn(x,y);
-        }
+const curry = function(fn) {
+  return function(x) {
+    return function(y) {
+      return fn(x, y)
     }
+  }
 }
-let myfn = curry(fn);
-console.log( myfn(1)(2) );
+let myfn = curry(fn)
+console.log(myfn(1)(2))
 ```
 
 上面的`curry`函数只能处理二元情况，下面再来实现一个实现多参数的情况
 
 ```js
-// 多参数柯里化；
-const curry = function(fn){
-    return function curriedFn(...args){
-        if(args.length<fn.length){
-            return function(){
-                return curriedFn(...args.concat([...arguments]));
-            }
-        }
-        return fn(...args);
+// 多参数柯里化
+const curry = function(fn) {
+  return function curriedFn(...args) {
+    if (args.length < fn.length) {
+      return function(...arg) {
+        return curriedFn(...args.concat(arg))
+      }
     }
+    return fn(...args)
+  }
 }
-const fn = (x,y,z,a)=>x+y+z+a;
-const myfn = curry(fn);
-console.log(myfn(1)(2)(3)(1));
+const fn = (x, y, z, a) => x + y + z + a
+const myfn = curry(fn)
+console.log(myfn(1)(2)(3)(1))
 ```
 
 关于柯里化函数的意义如下：
 
 - 让纯函数更纯，每次接受一个参数，松散解耦
 - 惰性执行
-
-
 
 ### 组合与管道
 
@@ -170,15 +219,15 @@ console.log(myfn(1)(2)(3)(1));
 举个简单的例子：
 
 ```js
-function afn(a){
-    return a*2;
+function afn(a) {
+  return a * 2
 }
-function bfn(b){
-    return b*3;
+function bfn(b) {
+  return b * 3
 }
-const compose = (a,b)=>c=>a(b(c));
-let myfn =  compose(afn,bfn);
-console.log( myfn(2));
+const compose = (a, b) => (c) => a(b(c))
+let myfn = compose(afn, bfn)
+console.log(myfn(2))
 ```
 
 可以看到`compose`实现一个简单的功能：形成了一个新的函数，而这个函数就是一条从 `bfn -> afn` 的流水线
@@ -186,18 +235,18 @@ console.log( myfn(2));
 下面再来看看如何实现一个多函数组合：
 
 ```js
-const compose = (...fns)=>val=>fns.reverse().reduce((acc,fn)=>fn(acc),val);
+const compose = (...fns) => (val) => fns.reverse().reduce((acc, fn) => fn(acc), val)
 ```
 
 `compose`执行是从右到左的。而管道函数，执行顺序是从左到右执行的
 
 ```js
-const pipe = (...fns)=>val=>fns.reduce((acc,fn)=>fn(acc),val);
+const pipe = (...fns) => (val) => fns.reduce((acc, fn) => fn(acc), val)
 ```
 
 组合函数与管道函数的意义在于：可以把很多小函数组合起来完成更复杂的逻辑
 
-## 三、优缺点
+## 四、优缺点
 
 #### 优点
 
@@ -217,7 +266,7 @@ const pipe = (...fns)=>val=>fns.reduce((acc,fn)=>fn(acc),val);
 
 - 递归陷阱：在函数式编程中，为了实现迭代，通常会采用递归操作
 
-
 ## 参考文献
 
 - https://zhuanlan.zhihu.com/p/81302150
+- http://www.ruanyifeng.com/blog/2012/04/functional_programming.html
