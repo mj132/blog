@@ -113,6 +113,10 @@ module.exports = {
           path: 'javascript/higherFunc',
           title: '高阶函数'
         },
+        {
+          path: 'javascript/AST',
+          title: '抽象语法树 AST',
+        },
       ]
     },
     {
@@ -237,6 +241,10 @@ module.exports = {
         {
           path: 'other/vnode',
           title: 'VNode 详解',
+        },
+        {
+          path: 'other/tail_recursion',
+          title: '尾递归',
         },
         {
           path: 'other/encode',

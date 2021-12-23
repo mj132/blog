@@ -107,8 +107,8 @@ factorial(5) // 120
 数组求和
 
 ```js
-function sumArray(arr, total) {
-  if (arr.length === 1) {
+function sumArray(arr, total = arr[0] || 0) {
+  if (arr.length <= 1) {
     return total
   }
   return sumArray(arr, total + arr.pop())

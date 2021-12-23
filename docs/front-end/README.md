@@ -32,6 +32,7 @@
 - [decorator](javascript/decorator.md)
 - [函数式编程](javascript/functional_programming.md)
 - [高阶函数](javascript/higherFunc.md)
+- [抽象语法树 AST](javascript/AST.md)
 
 ## TypeScript 相关
 
@@ -95,5 +96,7 @@
 
 ## 其它
 
+- [VNode 详解](other/vnode.md)
+- [尾递归](other/tail_recursion.md)
 - [js 字符编码方式](other/encode.md)
 - [npx 与 npm 区别](other/npx_npm.md)
