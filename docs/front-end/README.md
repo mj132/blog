@@ -100,3 +100,4 @@
 - [尾递归](other/tail_recursion.md)
 - [js 字符编码方式](other/encode.md)
 - [npx 与 npm 区别](other/npx_npm.md)
+- [web 常见的攻击方式](other/security.md)

@@ -254,6 +254,10 @@ module.exports = {
           path: 'other/npx_npm',
           title: 'npx与npm区别',
         },
+        {
+          path: 'other/security',
+          title: 'web 常见的攻击方式',
+        },
       ]
     },
   ],
