@@ -23,7 +23,7 @@
 - [原型链](javascript/prototype.md)
 - [作用域链](javascript/scope.md)
 - [this 关键字](javascript/this.md)
-- [执行上下文栈](javascript/excute_context.md)
+- [执行上下文栈](javascript/execute_context.md)
 - [闭包](javascript/closure.md)
 - [object](javascript/object.md)
 - [promise](javascript/promise.md)
