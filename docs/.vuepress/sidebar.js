@@ -74,6 +74,10 @@ module.exports = {
           title: 'this关键字'
         },
         {
+          path: 'javascript/excute_context',
+          title: '执行上下文栈'
+        },
+        {
           path: 'javascript/closure',
           title: '闭包'
         },
