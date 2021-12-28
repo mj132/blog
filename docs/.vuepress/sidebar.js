@@ -436,6 +436,13 @@ module.exports = {
         ["vue3/modal_component", "用Vue3.0 写过组件吗？如果想实现一个 Modal你会怎么设计？"],
       ]
     },
+    {
+      title: '面试题-react',
+      children: [
+        ["react/react", "说说对React的理解？"],
+        ["react/virtual_dom", "说说 Real DOM和 Virtual DOM 的区别？优缺点？"],
+      ]
+    },
   ],
   '/structure-algorithm/': [
     {
