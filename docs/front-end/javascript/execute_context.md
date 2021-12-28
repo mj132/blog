@@ -52,7 +52,7 @@ console.log('Inside Global Execution Context')
 
 直接看伪代码可能更加直观
 
-```json
+```js
 ExecutionContext = {
   ThisBinding = <this value>,     // 确定this
   LexicalEnvironment = { ... },   // 词法环境
@@ -82,7 +82,7 @@ ExecutionContext = {
 
 直接看伪代码可能更加直观
 
-```json
+```js
 GlobalExectionContext = {  // 全局执行上下文
   LexicalEnvironment: {    	  // 词法环境
     EnvironmentRecord: {   		// 环境记录
@@ -125,7 +125,7 @@ c = multiply(20, 30)
 
 执行上下文如下所示
 
-```json
+```js
 GlobalExectionContext = {
 
   ThisBinding: <Global Object>,
