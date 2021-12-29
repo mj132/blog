@@ -439,8 +439,11 @@ module.exports = {
     {
       title: '面试题-react',
       children: [
-        ["react/react", "说说对React的理解？"],
-        ["react/virtual_dom", "说说 Real DOM和 Virtual DOM 的区别？优缺点？"],
+        ["react/react", "说说对React的理解"],
+        ["react/virtual_dom", "说说 Real DOM和 Virtual DOM 的区别"],
+        ["react/lifecycle", "说说 React 生命周期"],
+        ["react/state_props", "state 和 props 区别"],
+        ["react/super()_super(props)", "super() 和 super(props) 区别"],
       ]
     },
   ],

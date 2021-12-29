@@ -38,7 +38,7 @@ const vDom = React.createElement(
 
 - 第二个参数是个对象，里面存着标签的一些属性，例如 id、class 等
 
-  第三个参数是节点中的文本
+- 第三个参数是节点中的文本
 
 通过`console.log(VDOM)`，则能够得到虚拟`VDOM`消息
 

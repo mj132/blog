@@ -1,37 +1,36 @@
-# 面试官：super()和super(props)有什么区别？
+# 面试官：super()和 super(props)有什么区别？
 
- ![](https://static.vue-js.com/618abaf0-d71c-11eb-85f6-6fac77c0c9b3.png)
+![](https://static.vue-js.com/618abaf0-d71c-11eb-85f6-6fac77c0c9b3.png)
 
-## 一、ES6类
+## 一、ES6 类
 
 在`ES6`中，通过`extends`关键字实现类的继承，方式如下：
 
 ```js
 class sup {
-    constructor(name) {
-        this.name = name
-    }
+  constructor(name) {
+    this.name = name
+  }
 
-    printName() {
-        console.log(this.name)
-    }
+  printName() {
+    console.log(this.name)
+  }
 }
 
+class sub extends sup {
+  constructor(name, age) {
+    super(name) // super代表的事父类的构造函数
+    this.age = age
+  }
 
-class sub extends sup{
-    constructor(name,age) {
-        super(name) // super代表的事父类的构造函数
-        this.age = age
-    }
-
-    printAge() {
-        console.log(this.age)
-    }
+  printAge() {
+    console.log(this.age)
+  }
 }
 
-let jack = new sub('jack',20)
-jack.printName()    //输出 : jack
-jack.printAge()    //输出 : 20
+let jack = new sub('jack', 20)
+jack.printName() //输出 : jack
+jack.printAge() //输出 : 20
 ```
 
 在上面的例子中，可以看到通过`super`关键字实现调用父类，`super`代替的是父类的构建函数，使用`super(name)`相当于调用`sup.prototype.constructor.call(this,name)`
@@ -40,22 +39,20 @@ jack.printAge()    //输出 : 20
 
 报错的原因是 子类是没有自己的`this`对象的，它只能继承父类的`this`对象，然后对其进行加工
 
-而`super()`就是将父类中的`this`对象继承给子类的，没有`super() `子类就得不到`this`对象
+而`super()`就是将父类中的`this`对象继承给子类的，没有`super()`子类就得不到`this`对象
 
 如果先调用`this`，再初始化`super()`，同样是禁止的行为
 
 ```js
-class sub extends sup{
-    constructor(name,age) {
-        this.age = age
-        super(name) // super代表的事父类的构造函数
-    }
+class sub extends sup {
+  constructor(name, age) {
+    this.age = age
+    super(name) // super代表的事父类的构造函数
+  }
 }
 ```
 
 所以在子类`constructor`中，必须先代用`super`才能引用`this`
-
-
 
 ## 二、类组件
 
@@ -65,19 +62,17 @@ class sub extends sup{
 
 ```js
 // React 内部
-const instance = new YourComponent(props);
-instance.props = props;
+const instance = new YourComponent(props)
+instance.props = props
 ```
 
 所以无论有没有`constructor`，在`render`中`this.props`都是可以使用的，这是`React`自动附带的，是可以不写的：
 
 ```js
-class HelloMessage extends React.Component{
-    render (){
-        return (
-            <div>nice to meet you! {this.props.name}</div>
-        );
-    }
+class HelloMessage extends React.Component {
+  render() {
+    return <div>nice to meet you! {this.props.name}</div>
+  }
 }
 ```
 
@@ -107,8 +102,6 @@ class Button extends React.Component {
 }
 ```
 
-
-
 ## 三、总结
 
 在`React`中，类组件基于`ES6`，所以在`constructor`中必须使用`super`
@@ -116,8 +109,6 @@ class Button extends React.Component {
 在调用`super`过程，无论是否传入`props`，`React`内部都会将`porps`赋值给组件实例`porps`属性中
 
 如果只调用了`super()`，那么`this.props`在`super()`和构造函数结束之间仍是`undefined`
-
-
 
 ## 参考文献
 
