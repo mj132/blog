@@ -446,6 +446,9 @@ module.exports = {
         ["react/super()_super(props)", "说说 super() 和 super(props) 区别"],
         ["react/setState", "说说 React 中的 setState 执行机制"],
         ["react/syntheticEvent", "说说 React 中的 事件机制"],
+        ["react/binding_events", "React 事件绑定的方式有哪些"],
+        ["react/building_components", "React 构建组件的方式有哪些"],
+        ["react/communication", "React 中组件之间如何通信"],
       ]
     },
   ],
