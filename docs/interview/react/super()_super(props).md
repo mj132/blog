@@ -19,7 +19,7 @@ class sup {
 
 class sub extends sup {
   constructor(name, age) {
-    super(name) // super代表的事父类的构造函数
+    super(name) // super代表的是父类的构造函数
     this.age = age
   }
 

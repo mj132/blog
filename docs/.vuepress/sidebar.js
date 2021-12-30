@@ -442,8 +442,10 @@ module.exports = {
         ["react/react", "说说对React的理解"],
         ["react/virtual_dom", "说说 Real DOM和 Virtual DOM 的区别"],
         ["react/lifecycle", "说说 React 生命周期"],
-        ["react/state_props", "state 和 props 区别"],
-        ["react/super()_super(props)", "super() 和 super(props) 区别"],
+        ["react/state_props", "说说 state 和 props 区别"],
+        ["react/super()_super(props)", "说说 super() 和 super(props) 区别"],
+        ["react/setState", "说说 React 中的 setState 执行机制"],
+        ["react/syntheticEvent", "说说 React 中的 事件机制"],
       ]
     },
   ],

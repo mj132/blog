@@ -1,6 +1,6 @@
-# 面试官：说说 React中的setState执行机制
+# 面试官：说说 React 中的 setState 执行机制
 
- ![](https://static.vue-js.com/3acb8ca0-d825-11eb-85f6-6fac77c0c9b3.png)
+![](https://static.vue-js.com/3acb8ca0-d825-11eb-85f6-6fac77c0c9b3.png)
 
 ## 一、是什么
 
@@ -14,28 +14,28 @@
 import React, { Component } from 'react'
 
 export default class App extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props)
 
-        this.state = {
-            message: "Hello World"
-        }
+    this.state = {
+      message: 'Hello World',
     }
+  }
 
-    render() {
-        return (
-            <div>
-                <h2>{this.state.message}</h2>
-                <button onClick={e => this.changeText()}>面试官系列</button>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <h2>{this.state.message}</h2>
+        <button onClick={(e) => this.changeText()}>面试官系列</button>
+      </div>
+    )
+  }
 
-    changeText() {
-        this.setState({
-            message: "JS每日一题"
-        })
-    }
+  changeText() {
+    this.setState({
+      message: 'JS每日一题',
+    })
+  }
 }
 ```
 
@@ -45,7 +45,7 @@ export default class App extends Component {
 
 ```jsx
 changeText() {
-    this.state.message = "你好啊,李银河";
+  this.state.message = "你好啊,李银河"
 }
 ```
 
@@ -59,20 +59,12 @@ changeText() {
 
 ```js
 Component.prototype.setState = function(partialState, callback) {
-  invariant(
-    typeof partialState === 'object' ||
-      typeof partialState === 'function' ||
-      partialState == null,
-    'setState(...): takes an object of state variables to update or a ' +
-      'function which returns an object of state variables.',
-  );
-  this.updater.enqueueSetState(this, partialState, callback, 'setState');
-};
+  invariant(typeof partialState === 'object' || typeof partialState === 'function' || partialState == null, 'setState(...): takes an object of state variables to update or a ' + 'function which returns an object of state variables.')
+  this.updater.enqueueSetState(this, partialState, callback, 'setState')
+}
 ```
 
 从上面可以看到`setState`第一个参数可以是一个对象，或者是一个函数，而第二个参数是一个回调函数，用于可以实时的获取到更新之后的数据
-
-
 
 ## 二、更新类型
 
@@ -108,8 +100,6 @@ changeText() {
 }
 ```
 
-
-
 ### 同步更新
 
 同样先给出一个在`setTimeout`中更新的例子：
@@ -118,7 +108,7 @@ changeText() {
 changeText() {
   setTimeout(() => {
     this.setState({
-      message: "你好啊
+      message: "你好啊"
     });
     console.log(this.state.message); // 你好啊
   }, 0);
@@ -141,14 +131,10 @@ componentDidMount() {
 }
 ```
 
-
-
 ### 小结
 
-- 在组件生命周期或React合成事件中，setState是异步
-- 在setTimeout或者原生dom事件中，setState是同步
-
-
+- 在组件生命周期或 React 合成事件中，setState 是异步
+- 在 setTimeout 或者原生 dom 事件中，setState 是同步
 
 ### 三、批量更新
 
@@ -156,26 +142,26 @@ componentDidMount() {
 
 ```jsx
 handleClick = () => {
-    this.setState({
-        count: this.state.count + 1,
-    })
-    console.log(this.state.count) // 1
+  this.setState({
+    count: this.state.count + 1,
+  })
+  console.log(this.state.count) // 1
 
-    this.setState({
-        count: this.state.count + 1,
-    })
-    console.log(this.state.count) // 1
+  this.setState({
+    count: this.state.count + 1,
+  })
+  console.log(this.state.count) // 1
 
-    this.setState({
-        count: this.state.count + 1,
-    })
-    console.log(this.state.count) // 1
+  this.setState({
+    count: this.state.count + 1,
+  })
+  console.log(this.state.count) // 1
 }
 ```
 
 点击按钮触发事件，打印的都是 1，页面显示 `count` 的值为 2
 
-对同一个值进行多次 `setState `， `setState` 的批量更新策略会对其进行覆盖，取最后一次的执行结果
+对同一个值进行多次 `setState`， `setState` 的批量更新策略会对其进行覆盖，取最后一次的执行结果
 
 上述的例子，实际等价于如下：
 
@@ -194,18 +180,16 @@ Object.assign(
 
 ```jsx
 onClick = () => {
-    this.setState((prevState, props) => {
-      return {count: prevState.count + 1};
-    });
-    this.setState((prevState, props) => {
-      return {count: prevState.count + 1};
-    });
+  this.setState((prevState, props) => {
+    return { count: prevState.count + 1 }
+  })
+  this.setState((prevState, props) => {
+    return { count: prevState.count + 1 }
+  })
 }
 ```
 
 而在`setTimeout`或者原生`dom`事件中，由于是同步的操作，所以并不会进行覆盖现象
-
-
 
 ## 参考文献
 
