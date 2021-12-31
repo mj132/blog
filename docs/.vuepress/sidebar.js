@@ -449,6 +449,7 @@ module.exports = {
         ["react/binding_events", "React 事件绑定的方式有哪些"],
         ["react/building_components", "React 构建组件的方式有哪些"],
         ["react/communication", "React 中组件之间如何通信"],
+        ["react/refs", "说说对 React refs 的理解"],
       ]
     },
   ],
