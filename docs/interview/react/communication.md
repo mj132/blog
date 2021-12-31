@@ -1,7 +1,5 @@
 # 面试官：React 中组件之间如何通信？
 
-![](https://static.vue-js.com/767a2800-dc9f-11eb-85f6-6fac77c0c9b3.png)
-
 ## 一、是什么
 
 我们将组件间通信可以拆分为两个词：

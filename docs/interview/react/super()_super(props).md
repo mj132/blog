@@ -1,7 +1,5 @@
 # 面试官：super()和 super(props)有什么区别？
 
-![](https://static.vue-js.com/618abaf0-d71c-11eb-85f6-6fac77c0c9b3.png)
-
 ## 一、ES6 类
 
 在`ES6`中，通过`extends`关键字实现类的继承，方式如下：

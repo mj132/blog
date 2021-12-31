@@ -1,7 +1,5 @@
 # 面试官：说说对 React 的理解？有哪些特性？
 
-![](https://static.vue-js.com/671f5a90-d265-11eb-85f6-6fac77c0c9b3.png)
-
 ## 一、是什么
 
 React，用于构建用户界面的 JavaScript 库，只提供了 UI 层面的解决方案

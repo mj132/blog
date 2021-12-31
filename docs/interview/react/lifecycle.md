@@ -1,7 +1,5 @@
 # 面试官：说说 React 生命周期有哪些不同阶段？每个阶段对应的方法是？
 
-![](https://static.vue-js.com/5c717010-d373-11eb-85f6-6fac77c0c9b3.png)
-
 ## 一、是什么
 
 在[以前文章](https://mp.weixin.qq.com/s?__biz=MzU1OTgxNDQ1Nw==&mid=2247484176&idx=1&sn=5623421ed2678046ed9e438aadf6e26f&chksm=fc10c146cb67485015f24f7e9f5862c4c685fc33485fe30e1b375a534b4031978439c554e0c0&scene=178&cur_album_id=1711105826272116736#rd)中，我们了解到生命周期定义

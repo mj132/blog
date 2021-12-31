@@ -1,7 +1,5 @@
 # 面试官：说说 React 中的 setState 执行机制
 
-![](https://static.vue-js.com/3acb8ca0-d825-11eb-85f6-6fac77c0c9b3.png)
-
 ## 一、是什么
 
 一个组件的显示形态可以由数据状态和外部参数所决定，而数据状态就是`state`

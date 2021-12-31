@@ -1,7 +1,5 @@
 # 面试官：state 和 props 有什么区别？
 
-![](https://static.vue-js.com/7f272780-d440-11eb-ab90-d9ae814b240d.png)
-
 ## 一、state
 
 一个组件的显示形态可以由数据状态和外部参数所决定，而数据状态就是`state`，一般在 `constructor` 中初始化

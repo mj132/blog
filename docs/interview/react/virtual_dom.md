@@ -1,7 +1,5 @@
 # 面试官：说说 Real DOM 和 Virtual DOM 的区别？优缺点？
 
-![](https://static.vue-js.com/f1d36350-d302-11eb-85f6-6fac77c0c9b3.png)
-
 ## 一、是什么
 
 Real DOM，真实`DOM`， 意思为文档对象模型，是一个结构化文本的抽象，在页面渲染出的每一个结点都是一个真实`DOM`结构，如下：
