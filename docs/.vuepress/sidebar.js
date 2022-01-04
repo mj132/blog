@@ -455,6 +455,7 @@ module.exports = {
         ["react/router", "说说对 React Router 的理解"],
         ["react/immutable", "说说对 immutable 的理解"],
         ["react/render", "说说 React render 方法的原理"],
+        ["react/diff", "说说React diff原理和Fiber架构"],
       ]
     },
   ],
