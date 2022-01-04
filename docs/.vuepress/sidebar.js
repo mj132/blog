@@ -452,6 +452,9 @@ module.exports = {
         ["react/refs", "说说对 React refs 的理解"],
         ["react/hooks", "说说对 React Hooks 的理解"],
         ["react/redux", "说说对 Redux 的理解"],
+        ["react/router", "说说对 React Router 的理解"],
+        ["react/immutable", "说说对 immutable 的理解"],
+        ["react/render", "说说 React render 方法的原理"],
       ]
     },
   ],
