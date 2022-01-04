@@ -451,6 +451,7 @@ module.exports = {
         ["react/communication", "React 中组件之间如何通信"],
         ["react/refs", "说说对 React refs 的理解"],
         ["react/hooks", "说说对 React Hooks 的理解"],
+        ["react/redux", "说说对 Redux 的理解"],
       ]
     },
   ],

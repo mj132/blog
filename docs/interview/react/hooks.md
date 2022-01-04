@@ -1,7 +1,5 @@
 # 面试官：说说对 React Hooks 的理解？解决了什么问题？
 
-![](https://static.vue-js.com/8d357c50-e12e-11eb-85f6-6fac77c0c9b3.png)
-
 ## 一、是什么
 
 `Hook` 是 React 16.8 的新增特性。它可以让你在不编写 `class` 的情况下使用 `state` 以及其他的 `React` 特性
