@@ -230,6 +230,14 @@ module.exports = {
       title: 'Linux',
       children: [
         {
+          path: 'linux/system',
+          title: '操作系统',
+        },
+        {
+          path: 'linux/thread_process',
+          title: '进程和线程',
+        },
+        {
           path: 'linux/commands',
           title: 'Linux常用命令',
         },
@@ -458,6 +466,7 @@ module.exports = {
         ["react/diff", "说说React diff原理和Fiber架构"],
         ["react/jsx_to_dom", "说说React Jsx转换成真实DOM过程"],
         ["react/optimize", "说说 React 性能优化的手段"],
+        ["react/server_render", "说说 React 服务端渲染怎么做"],
       ]
     },
   ],
