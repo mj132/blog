@@ -96,7 +96,7 @@ cat test.txt | grep -n 'xxx'
 
 上述`cat test.txt`会将`test.txt`的内容作为标准输出，然后利用管道，将其作为`grep -n 'xxx'`命令的标准输入。
 
-### 参考文献
+## 参考文献
 
 - https://segmentfault.com/a/1190000020519335
 - https://murphypei.github.io/blog/2018/04/linux-redirect-pipe

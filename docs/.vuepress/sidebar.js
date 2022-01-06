@@ -559,5 +559,9 @@ module.exports = {
       title: '一文彻底搞懂Events模块',
       path: 'events'
     },
+    {
+      title: 'require 文件查找策略',
+      path: 'require_order'
+    },
   ],
 }
