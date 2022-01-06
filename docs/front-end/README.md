@@ -92,8 +92,11 @@
 - [前端开发者必备的Nginx知识](nginx/01.md)
 ## Linux
 
+- [操作系统](linux/system.md)
+- [进程和线程](linux/thread_process.md)
 - [Linux常用命令](linux/commands.md)
 - [shell 脚本](linux/shell_script.md)
+- [输入输出重定向和管道](linux/redirect_pipe.md)
 
 ## 其它
 

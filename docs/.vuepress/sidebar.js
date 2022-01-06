@@ -245,6 +245,10 @@ module.exports = {
           path: 'linux/shell_script',
           title: 'shell 脚本',
         },
+        {
+          path: 'linux/redirect_pipe',
+          title: '输入输出重定向和管道',
+        },
       ]
     },
     {
