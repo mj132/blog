@@ -563,5 +563,9 @@ module.exports = {
       title: 'require 文件查找策略',
       path: 'require_order'
     },
+    {
+      title: '中间件',
+      path: 'middleware'
+    },
   ],
 }
