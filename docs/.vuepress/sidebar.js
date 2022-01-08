@@ -178,6 +178,10 @@ module.exports = {
       title: '浏览器',
       children: [
         {
+          path: 'browser/work_principle',
+          title: '浏览器工作原理',
+        },
+        {
           path: 'browser/01',
           title: '渲染树',
         },
@@ -188,24 +192,6 @@ module.exports = {
         {
           path: 'browser/GC',
           title: '垃圾回收机制',
-        },
-      ]
-    },
-    {
-      title: '正则表达式',
-      children: [
-        {
-          path: 'reg/01',
-          title: '正则表达式介绍',
-        },
-      ]
-    },
-    {
-      title: 'Nginx',
-      children: [
-        {
-          path: 'nginx/01',
-          title: '前端开发者必备的Nginx知识',
         },
       ]
     },
@@ -255,6 +241,10 @@ module.exports = {
       title: '其它',
       children: [
         {
+          path: 'other/nginx',
+          title: '前端开发者必备的Nginx知识',
+        },
+        {
           path: 'other/vnode',
           title: 'VNode 详解',
         },
@@ -273,6 +263,10 @@ module.exports = {
         {
           path: 'other/security',
           title: 'web 常见的攻击方式',
+        },
+        {
+          path: 'other/reg',
+          title: '正则表达式介绍',
         },
       ]
     },

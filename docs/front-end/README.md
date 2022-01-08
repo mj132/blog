@@ -52,56 +52,55 @@
 
 ## Webpack 相关
 
-- [webpack的介绍](webpack/webpack.md)
-- [webpack的构建流程](webpack/build_process.md)
-- [webpack中的Loader](webpack/Loader.md)
-- [webpack中常见的Plugin](webpack/Plugin.md)
-- [Loader和Plugin的区别](webpack/Loader_Plugin.md)
-- [webpack的热更新原理](webpack/HMR.md)
-- [webpack proxy工作原理](webpack/proxy.md)
-- [webpack优化前端性能](webpack/performance.md)
-- [提高webpack的构建速度](webpack/improve_build.md)
-- [与webpack类似的工具](webpack/Rollup_Parcel_snowpack_Vite.md)
+- [webpack 的介绍](webpack/webpack.md)
+- [webpack 的构建流程](webpack/build_process.md)
+- [webpack 中的 Loader](webpack/Loader.md)
+- [webpack 中常见的 Plugin](webpack/Plugin.md)
+- [Loader 和 Plugin 的区别](webpack/Loader_Plugin.md)
+- [webpack 的热更新原理](webpack/HMR.md)
+- [webpack proxy 工作原理](webpack/proxy.md)
+- [webpack 优化前端性能](webpack/performance.md)
+- [提高 webpack 的构建速度](webpack/improve_build.md)
+- [与 webpack 类似的工具](webpack/Rollup_Parcel_snowpack_Vite.md)
+
 ## http 相关
 
 - [HTTP 和 HTTPS 的区别](http/HTTP_HTTPS.md)
-- [HTTPS是如何保证安全的](http/HTTPS.md)
-- [UDP 和 TCP区别和应用场景](http/UDP_TCP.md)
-- [OSI七层模型](http/OSI.md)
-- [TCP/IP协议](http/HTTP_HTTPS.md)
-- [DNS协议 和 DNS 完整的查询过程](http/DNS.md)
-- [CDN实现原理](http/CDN.md)
+- [HTTPS 是如何保证安全的](http/HTTPS.md)
+- [UDP 和 TCP 区别和应用场景](http/UDP_TCP.md)
+- [OSI 七层模型](http/OSI.md)
+- [TCP/IP 协议](http/HTTP_HTTPS.md)
+- [DNS 协议 和 DNS 完整的查询过程](http/DNS.md)
+- [CDN 实现原理](http/CDN.md)
 - [HTTP1.0/1.1/2.0 的区别](http/1.0_1.1_2.0.md)
 - [HTTP 常见的状态码](http/status.md)
 - [GET 和 POST 的区别](http/GET_POST.md)
 - [HTTP 常见的请求头](http/headers.md)
 - [地址栏输入 URL 敲下回车后发生了什么](http/after_url.md)
-- [TCP为什么需要三次握手和四次挥手](http/handshakes_waves.md)
-- [WebSocket的理解和应用场景](http/WebSocket.md)
+- [TCP 为什么需要三次握手和四次挥手](http/handshakes_waves.md)
+- [WebSocket 的理解和应用场景](http/WebSocket.md)
+
 ## 浏览器相关
 
+- [浏览器工作原理](browser/work_principle.md)
 - [渲染树](browser/01.md)
 - [渲染层合并-composite](browser/composite.md)
 - [垃圾回收机制](browser/GC.md)
 
-## 正则表达式
-
-- [正则表达式介绍](reg/01.md)
-## Nginx
-
-- [前端开发者必备的Nginx知识](nginx/01.md)
 ## Linux
 
 - [操作系统](linux/system.md)
 - [进程和线程](linux/thread_process.md)
-- [Linux常用命令](linux/commands.md)
+- [Linux 常用命令](linux/commands.md)
 - [shell 脚本](linux/shell_script.md)
 - [输入输出重定向和管道](linux/redirect_pipe.md)
 
 ## 其它
 
+- [前端开发者必备的 Nginx 知识](other/nginx.md)
 - [VNode 详解](other/vnode.md)
 - [尾递归](other/tail_recursion.md)
 - [js 字符编码方式](other/encode.md)
 - [npx 与 npm 区别](other/npx_npm.md)
 - [web 常见的攻击方式](other/security.md)
+- [正则表达式介绍](other/reg.md)
