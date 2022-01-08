@@ -21,7 +21,7 @@ nginx 现在几乎是众多大型网站的必用技术，大多数情况下，�
 
 不管是正向代理还是反向代理，实现的都是上面的功能。
 
-![nginx_01](./images/nginx_01.png)
+![nginx_01](./img/nginx_01.png)
 
 ### 正向代理
 
@@ -45,7 +45,7 @@ nginx 现在几乎是众多大型网站的必用技术，大多数情况下，�
 
 下面是一个 nginx 配置文件的基本结构：
 
-![nginx_02](./images/nginx_02.png)
+![nginx_02](./img/nginx_02.png)
 
 ```nginx
 events {
@@ -112,7 +112,7 @@ http
 
 如果两个页面的协议，端口（如果有指定）和域名都相同，则两个页面具有相同的源。
 
-![nginx_03](./images/nginx_03.png)
+![nginx_03](./img/nginx_03.png)
 
 nginx 解决跨域的原理
 
@@ -141,7 +141,7 @@ server {
 
 根据状态码过滤
 
-![nginx_04](./images/nginx_04.jpg)
+![nginx_04](./img/nginx_04.jpg)
 
 ```nginx
 error_page 500 501 502 503 504 506 /50x.html;
@@ -169,7 +169,7 @@ if ( $request_method !~ ^(GET|POST|HEAD)\$ ) {
 
 ## 配置 gzip
 
-![nginx_05](./images/nginx_05.jpg)
+![nginx_05](./img/nginx_05.jpg)
 
 GZIP 是规定的三种标准 HTTP 压缩格式之一。目前绝大多数的网站都在使用 GZIP 传输 HTML、CSS、JavaScript 等资源文件。
 
@@ -177,11 +177,11 @@ GZIP 是规定的三种标准 HTTP 压缩格式之一。目前绝大多数的网
 
 并不是每个浏览器都支持 gzip 的，如何知道客户端是否支持 gzip 呢，请求头中的 Accept-Encoding 来标识对压缩的支持。
 
-![nginx_06](./images/nginx_06.png)
+![nginx_06](./img/nginx_06.png)
 
 启用 gzip 同时需要客户端和服务端的支持，如果客户端支持 gzip 的解析，那么只要服务端能够返回 gzip 的文件就可以启用 gzip 了,我们可以通过 nginx 的配置来让服务端支持 gzip。下面的 respone 中 content-encoding:gzip，指服务端开启了 gzip 的压缩方式。
 
-![nginx_07](./images/nginx_07.png)
+![nginx_07](./img/nginx_07.png)
 
 ```nginx
   gzip                    on;
@@ -208,7 +208,7 @@ HTTP 运行在 TCP 连接之上，自然也有着跟 TCP 一样的三次握手�
 
 启用持久连接情况下，服务器发出响应后让 TCP 连接继续打开着。同一对客户/服务器之间的后续请求和响应可以通过这个连接发送。
 
-![nginx_08](./images/nginx_08.png)
+![nginx_08](./img/nginx_08.png)
 
 为了尽可能的提高 HTTP 性能，使用持久连接就显得尤为重要了。
 
@@ -241,7 +241,7 @@ Nginx 在启用了 GZip 的情况下，不会等文件 GZip 完成再返回响�
 
 ### 什么是负载均衡
 
-![nginx_09](./images/nginx_09.jpg)
+![nginx_09](./img/nginx_09.jpg)
 
 如上面的图，前面是众多的服务窗口，下面有很多用户需要服务，我们需要一个工具或策略来帮助我们将如此多的用户分配到每个窗口，来达到资源的充分利用以及更少的排队时间。
 
@@ -275,7 +275,7 @@ server {
 
 ### nginx 实现负载均衡的策略
 
-![nginx_10](./images/nginx_10.png)
+![nginx_10](./img/nginx_10.png)
 
 #### 轮询策略
 
@@ -289,7 +289,7 @@ upstream balanceServer {
 }
 ```
 
-![nginx_11](./images/nginx_11.png)
+![nginx_11](./img/nginx_11.png)
 
 #### 最小连接数策略
 
@@ -304,7 +304,7 @@ upstream balanceServer {
 }
 ```
 
-![nginx_12](./images/nginx_12.png)
+![nginx_12](./img/nginx_12.png)
 
 #### 最快响应时间策略
 
