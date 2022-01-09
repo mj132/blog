@@ -302,7 +302,7 @@ document.body.addEventListener(
 
 浏览器的多进程架构，根据不同的功能划分了不同的进程，进程内不同的使命划分了不同的线程，当用户开始浏览网页时候，浏览器进程进行处理输入、开始导航请求数据、请求响应数据，查找新建渲染进程，提交导航，之后渲染又进行了解析 HTML 构建 DOM、构建过程加载子资源、下载并执行 JS 代码、样式计算、布局、绘制、合成，一步一步的构建出一个可交互的 WEB 页面，之后浏览器进程又接受页面的交互事件信息，并将其交给渲染进程，渲染进程内主进程进行命中测试，查找目标元素并执行绑定的事件，完成页面的交互。
 
-本文大部分内容也是对[inside look at modern web browser](https://developers.google.com/web/updates/2018/09/inside-browser-part1)系列文章的整理、解读和翻译吧，整理过程还是收获非常大的，希望读者读了本文只有有所启发吧。
+本文大部分内容也是对[inside look at modern web browser](https://developers.google.com/web/updates/2018/09/inside-browser-part1)系列文章的整理、解读和翻译吧，整理过程还是收获非常大的，希望读者读了本文能有所启发吧。
 
 ## 参考链接
 
