@@ -710,3 +710,234 @@ function resetStoreVM(store, state, hot) {
 ```
 
 到此，构造函数源代码看完了，接下来看 Vuex.Store 的 一些 API 实现。
+
+## Vuex.Store 实例方法
+
+[Vuex API 文档](https://vuex.vuejs.org/zh/api/)
+
+### commit
+
+提交 `mutation`。
+
+```js
+commit (_type, _payload, _options) {
+  // check object-style commit
+  // 统一成对象风格
+  const {
+    type,
+    payload,
+    options
+  } = unifyObjectStyle(_type, _payload, _options)
+
+  const mutation = { type, payload }
+  // 取出处理后的用户定义 mutation
+  const entry = this._mutations[type]
+  // 省略 非生产环境的警告代码 ...
+  this._withCommit(() => {
+    // 遍历执行
+    entry.forEach(function commitIterator (handler) {
+      handler(payload)
+    })
+  })
+  // 订阅 mutation 执行
+  this._subscribers.forEach(sub => sub(mutation, this.state))
+
+  // 省略 非生产环境的警告代码 ...
+}
+```
+
+`commit` 支持多种方式。比如：
+
+```js
+store.commit('increment', {
+  count: 10,
+})
+// 对象提交方式
+store.commit({
+  type: 'increment',
+  count: 10,
+})
+```
+
+`unifyObjectStyle` 函数将参数统一，返回 `{ type, payload, options }`。
+
+### dispatch
+
+分发 `action`。
+
+```js
+dispatch (_type, _payload) {
+  // check object-style dispatch
+  // 获取到type和payload参数
+  const {
+    type,
+    payload
+  } = unifyObjectStyle(_type, _payload)
+
+  // 声明 action 变量 等于 type和payload参数
+  const action = { type, payload }
+  // 入口，也就是 _actions 集合
+  const entry = this._actions[type]
+  // 省略 非生产环境的警告代码 ...
+  try {
+    this._actionSubscribers
+      .filter(sub => sub.before)
+      .forEach(sub => sub.before(action, this.state))
+  } catch (e) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(`[vuex] error in before action subscribers: `)
+      console.error(e)
+    }
+  }
+
+  const result = entry.length > 1
+    ? Promise.all(entry.map(handler => handler(payload)))
+    : entry[0](payload)
+
+  return result.then(res => {
+    try {
+      this._actionSubscribers
+        .filter(sub => sub.after)
+        .forEach(sub => sub.after(action, this.state))
+    } catch (e) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(`[vuex] error in after action subscribers: `)
+        console.error(e)
+      }
+    }
+    return res
+  })
+}
+```
+
+### replaceState
+
+替换 `store` 的根状态，仅用状态合并或时光旅行调试。
+
+```js
+replaceState (state) {
+  this._withCommit(() => {
+    this._vm._data.$$state = state
+  })
+}
+```
+
+### watch
+
+响应式地侦听 fn 的返回值，当值改变时调用回调函数。
+
+```js
+/**
+ * 观测某个值
+ * @param {Function} getter 函数
+ * @param {Function} cb 回调
+ * @param {Object} options 参数对象
+ */
+watch (getter, cb, options) {
+  if (process.env.NODE_ENV !== 'production') {
+    assert(typeof getter === 'function', `store.watch only accepts a function.`)
+  }
+  return this._watcherVM.$watch(() => getter(this.state, this.getters), cb, options)
+}
+```
+
+### subscribe
+
+订阅 `store` 的 `mutation`。
+
+```js
+subscribe (fn) {
+  return genericSubscribe(fn, this._subscribers)
+}
+// 收集订阅者
+function genericSubscribe (fn, subs) {
+  if (subs.indexOf(fn) < 0) {
+    subs.push(fn)
+  }
+  return () => {
+    const i = subs.indexOf(fn)
+    if (i > -1) {
+      subs.splice(i, 1)
+    }
+  }
+}
+```
+
+### subscribeAction
+
+订阅 `store` 的 `action`。
+
+```js
+subscribeAction (fn) {
+  const subs = typeof fn === 'function' ? { before: fn } : fn
+  return genericSubscribe(subs, this._actionSubscribers)
+}
+```
+
+### registerModule
+
+注册一个动态模块。
+
+```js
+/**
+ * 动态注册模块
+ * @param {Array|String} path 路径
+ * @param {Object} rawModule 原始未加工的模块
+ * @param {Object} options 参数选项
+ */
+registerModule (path, rawModule, options = {}) {
+  // 如果 path 是字符串，转成数组
+  if (typeof path === 'string') path = [path]
+
+  // 省略 非生产环境 报错代码
+
+  // 手动调用 模块注册的方法
+  this._modules.register(path, rawModule)
+  // 安装模块
+  installModule(this, this.state, path, this._modules.get(path), options.preserveState)
+  // reset store to update getters...
+  // 设置 resetStoreVM
+  resetStoreVM(this, this.state)
+}
+```
+
+### unregisterModule
+
+卸载一个动态模块。
+
+```js
+/**
+ * 注销模块
+ * @param {Array|String} path 路径
+ */
+unregisterModule (path) {
+  // 如果 path 是字符串，转成数组
+  if (typeof path === 'string') path = [path]
+
+  // 省略 非生产环境 报错代码 ...
+
+  // 手动调用模块注销
+  this._modules.unregister(path)
+  this._withCommit(() => {
+    // 注销这个模块
+    const parentState = getNestedState(this.state, path.slice(0, -1))
+    Vue.delete(parentState, path[path.length - 1])
+  })
+  // 重置 Store
+  resetStore(this)
+}
+```
+
+### hotUpdate
+
+热替换新的 `action` 和 `mutation`。
+
+```js
+// 热加载
+hotUpdate (newOptions) {
+  // 调用的是 ModuleCollection 的 update 方法，最终调用对应的是每个 Module 的 update
+  this._modules.update(newOptions)
+  // 重置 Store
+  resetStore(this, true)
+}
+```

@@ -1,6 +1,15 @@
 module.exports = {
   '/front-end/': [
     {
+      title: '学习源码',
+      children: [
+        {
+          path: 'source-code/vuex',
+          title: '学习 vuex 源码整体架构'
+        },
+      ]
+    },
+    {
       title: 'HTML',
       children: [
         {
