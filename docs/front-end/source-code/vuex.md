@@ -2,7 +2,7 @@
 
 文章详细的介绍了`vuex` 原理、 `Vuex.use` 安装、 `new Vuex.Store` 初始化、`Vuex.Store` 的全部`API`（如`dispatch`、`commit`等）的实现和辅助函数 `mapState、mapGetters、 mapActions、mapMutations createNamespacedHelpers`。
 
-## 调试 vue 源码（v2.6.10）的方法
+## 调试 vue 源码的方法
 
 ```sh
 git clone https://github.com/vuejs/vue.git
@@ -941,3 +941,405 @@ hotUpdate (newOptions) {
   resetStore(this, true)
 }
 ```
+
+## 组件绑定的辅助函数
+
+文件路径：[`vuex/src/helpers.js`](https://github.com/lxchuan12/vuex-analysis/blob/master/vuex/src/helpers.js)
+
+### mapState
+
+为组件创建计算属性以返回 `Vuex store` 中的状态。
+
+```js
+export const mapState = normalizeNamespace((namespace, states) => {
+  const res = {}
+  // 非生产环境 判断参数 states  必须是数组或者是对象
+  if (process.env.NODE_ENV !== 'production' && !isValidMap(states)) {
+    console.error('[vuex] mapState: mapper parameter must be either an Array or an Object')
+  }
+  normalizeMap(states).forEach(({ key, val }) => {
+    res[key] = function mappedState() {
+      let state = this.$store.state
+      let getters = this.$store.getters
+      // 传了参数 namespace
+      if (namespace) {
+        // 用 namespace 从 store 中找一个模块。
+        const module = getModuleByNamespace(this.$store, 'mapState', namespace)
+        if (!module) {
+          return
+        }
+        state = module.context.state
+        getters = module.context.getters
+      }
+      return typeof val === 'function' ? val.call(this, state, getters) : state[val]
+    }
+    // 标记为 vuex 方便在 devtools 显示
+    // mark vuex getter for devtools
+    res[key].vuex = true
+  })
+  return res
+})
+```
+
+`normalizeNamespace` 标准化统一命名空间
+
+```js
+function normalizeNamespace(fn) {
+  return (namespace, map) => {
+    // 命名空间没传，交换参数，namespace 为空字符串
+    if (typeof namespace !== 'string') {
+      map = namespace
+      namespace = ''
+    } else if (namespace.charAt(namespace.length - 1) !== '/') {
+      // 如果是字符串，最后一个字符不是 / 添加 /
+      // 因为 _modulesNamespaceMap 存储的是这样的结构。
+      /**
+       * _modulesNamespaceMap:
+          cart/: {}
+          products/: {}
+        }
+       * */
+      namespace += '/'
+    }
+    return fn(namespace, map)
+  }
+}
+// 校验是否是map 是数组或者是对象。
+function isValidMap(map) {
+  return Array.isArray(map) || isObject(map)
+}
+/**
+ * Normalize the map
+ * 标准化统一 map，最终返回的是数组
+ * normalizeMap([1, 2, 3]) => [ { key: 1, val: 1 }, { key: 2, val: 2 }, { key: 3, val: 3 } ]
+ * normalizeMap({a: 1, b: 2, c: 3}) => [ { key: 'a', val: 1 }, { key: 'b', val: 2 }, { key: 'c', val: 3 } ]
+ * @param {Array|Object} map
+ * @return {Object}
+ */
+function normalizeMap(map) {
+  if (!isValidMap(map)) {
+    return []
+  }
+  return Array.isArray(map) ? map.map((key) => ({ key, val: key })) : Object.keys(map).map((key) => ({ key, val: map[key] }))
+}
+```
+
+`module.context` 这个赋值主要是给 `helpers` 中 `mapState、mapGetters、mapMutations、mapActions`四个辅助函数使用的。
+
+```js
+// 在构造函数中 installModule 中
+const local = (module.context = makeLocalContext(store, namespace, path))
+```
+
+这里就是抹平差异，不用用户传递命名空间，获取到对应的 `commit、dispatch、state` 和 `getters`
+
+getModuleByNamespace
+
+```js
+function getModuleByNamespace(store, helper, namespace) {
+  // _modulesNamespaceMap 这个变量在 class Store installModule 函数中赋值的
+  const module = store._modulesNamespaceMap[namespace]
+  if (process.env.NODE_ENV !== 'production' && !module) {
+    console.error(`[vuex] module namespace not found in ${helper}(): ${namespace}`)
+  }
+  return module
+}
+```
+
+看完这些，最后举个例子： `vuex/examples/shopping-cart/components/ShoppingCart.vue`
+
+```js
+computed: {
+    ...mapState({
+      checkoutStatus: state => state.cart.checkoutStatus
+    }),
+}
+```
+
+没有命名空间的情况下，最终会转换成这样
+
+```js
+computed: {
+  checkoutStatus: this.$store.state.checkoutStatus
+}
+```
+
+假设有命名空间'ruochuan'，
+
+```js
+computed: {
+    ...mapState('ruochuan', {
+      checkoutStatus: state => state.cart.checkoutStatus
+    }),
+}
+```
+
+则会转换成：
+
+```js
+computed: {
+    checkoutStatus: this.$store._modulesNamespaceMap.['ruochuan/'].context.checkoutStatus
+}
+```
+
+### mapGetters
+
+为组件创建计算属性以返回 `getter` 的返回值。
+
+```js
+export const mapGetters = normalizeNamespace((namespace, getters) => {
+  const res = {}
+  // 省略代码：非生产环境 判断参数 getters 必须是数组或者是对象
+  normalizeMap(getters).forEach(({ key, val }) => {
+    // The namespace has been mutated by normalizeNamespace
+    val = namespace + val
+    res[key] = function mappedGetter() {
+      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
+        return
+      }
+      // 省略代码：匹配不到 getter
+      return this.$store.getters[val]
+    }
+    // mark vuex getter for devtools
+    res[key].vuex = true
+  })
+  return res
+})
+```
+
+举例：
+
+```js
+computed: {
+  ...mapGetters('cart', {
+    products: 'cartProducts',
+    total: 'cartTotalPrice'
+  })
+},
+```
+
+最终转换成：
+
+```js
+computed: {
+  products: this.$store.getters['cart/cartProducts'],
+  total: this.$store.getters['cart/cartTotalPrice'],
+}
+```
+
+### mapActions
+
+创建组件方法分发 `action`。
+
+```js
+export const mapActions = normalizeNamespace((namespace, actions) => {
+  const res = {}
+  // 省略代码： 非生产环境 判断参数 actions  必须是数组或者是对象
+  normalizeMap(actions).forEach(({ key, val }) => {
+    res[key] = function mappedAction(...args) {
+      // get dispatch function from store
+      let dispatch = this.$store.dispatch
+      if (namespace) {
+        const module = getModuleByNamespace(this.$store, 'mapActions', namespace)
+        if (!module) {
+          return
+        }
+        dispatch = module.context.dispatch
+      }
+      return typeof val === 'function' ? val.apply(this, [dispatch].concat(args)) : dispatch.apply(this.$store, [val].concat(args))
+    }
+  })
+  return res
+})
+```
+
+### mapMutations
+
+创建组件方法提交 `mutation`。 `mapMutations` 和 `mapActions` 类似，只是 `dispatch` 换成了 `commit`。
+
+```js
+let commit = this.$store.commit
+commit = module.context.commit
+return typeof val === 'function' ? val.apply(this, [commit].concat(args)) : commit.apply(this.$store, [val].concat(args))
+```
+
+mapMutations、mapActions 举例：
+
+```js
+{
+  methods: {
+    ...mapMutations(['inc']),
+    ...mapMutations('ruochuan', ['dec']),
+    ...mapActions(['actionA'])
+    ...mapActions('ruochuan', ['actionB'])
+  }
+}
+```
+
+最终转换成
+
+```js
+{
+  methods: {
+    inc(...args){
+      return this.$store.dispatch.apply(this.$store, ['inc'].concat(args))
+    },
+    dec(...args){
+      return this.$store._modulesNamespaceMap.['ruochuan/'].context.dispatch.apply(this.$store, ['dec'].concat(args))
+    },
+    actionA(...args){
+      return this.$store.commit.apply(this.$store, ['actionA'].concat(args))
+    }
+    actionB(...args){
+      return this.$store._modulesNamespaceMap.['ruochuan/'].context.commit.apply(this.$store, ['actionB'].concat(args))
+    }
+  }
+}
+```
+
+由此可见：这些辅助函数极大地方便了开发者。
+
+### createNamespacedHelpers
+
+创建基于命名空间的组件绑定辅助函数。
+
+```js
+export const createNamespacedHelpers = (namespace) => ({
+  // bind(null) 严格模式下，mapState等的函数 this 指向就是 null
+  mapState: mapState.bind(null, namespace),
+  mapGetters: mapGetters.bind(null, namespace),
+  mapMutations: mapMutations.bind(null, namespace),
+  mapActions: mapActions.bind(null, namespace),
+})
+```
+
+就是把这些辅助函数放在一个对象中。
+
+## 插件
+
+`Vuex` 的 `store` 接收 `plugins` 选项，一个 `Vuex` 的插件就是一个简单的方法，接收 `store` 作为唯一参数。插件作用通常是用来监听每次 `mutation` 的变化，来做一些事情。
+
+在 `store` 的构造函数的最后，我们通过如下代码调用插件：
+
+```js
+import devtoolPlugin from './plugins/devtool'
+
+// apply plugins
+plugins.concat(devtoolPlugin).forEach((plugin) => plugin(this))
+```
+
+我们通常实例化 `store` 的时候，还会调用 `logger` 插件，代码如下：
+
+```js
+import Vue from 'vue'
+import Vuex from 'vuex'
+import createLogger from 'vuex/dist/logger'
+
+Vue.use(Vuex)
+
+const debug = process.env.NODE_ENV !== 'production'
+
+export default new Vuex.Store({
+  ...
+  plugins: debug ? [createLogger()] : []
+})
+```
+
+在上述 2 个例子中，我们分别调用了 `devtoolPlugin` 和 `createLogger()` 2 个插件，它们是 `Vuex` 内置插件，我们接下来分别看一下他们的实现。
+
+### devtoolPlugin
+
+`devtoolPlugin` 主要功能是利用 `Vue` 的开发者工具和 `Vuex` 做配合，通过开发者工具的面板展示 `Vuex` 的状态。它的源码在 `src/plugins/devtool.js` 中，来看一下这个插件到底做了哪些事情。
+
+```js
+const devtoolHook = typeof window !== 'undefined' && window.__VUE_DEVTOOLS_GLOBAL_HOOK__
+
+export default function devtoolPlugin(store) {
+  if (!devtoolHook) return
+
+  store._devtoolHook = devtoolHook
+
+  devtoolHook.emit('vuex:init', store)
+
+  devtoolHook.on('vuex:travel-to-state', (targetState) => {
+    store.replaceState(targetState)
+  })
+
+  store.subscribe((mutation, state) => {
+    devtoolHook.emit('vuex:mutation', mutation, state)
+  })
+}
+```
+
+我们直接从对外暴露的 `devtoolPlugin` 函数看起，函数首先判断了`devtoolHook` 的值，如果我们浏览器装了 Vue 开发者工具，那么在 window 上就会有一个 `__VUE_DEVTOOLS_GLOBAL_HOOK__` 的引用， 那么这个 `devtoolHook` 就指向这个引用。
+
+接下来通过 `devtoolHook.emit('vuex:init', store)` 派发一个 `Vuex` 初始化的事件，这样开发者工具就能拿到当前这个 `store` 实例。
+
+接下来通过 `devtoolHook.on('vuex:travel-to-state', targetState => { store.replaceState(targetState) })` 监听 `Vuex` 的 `traval-to-state` 的事件，把当前的状态树替换成目标状态树，这个功能也是利用 Vue 开发者工具替换 `Vuex` 的状态。
+
+最后通过 `store.subscribe((mutation, state) => { devtoolHook.emit('vuex:mutation', mutation, state) })` 方法订阅 `store` 的 `state` 的变化，当 `store` 的 `mutation` 提交了 `state` 的变化， 会触发回调函数——通过 `devtoolHook` 派发一个 `Vuex mutation` 的事件，`mutation` 和 `rootState` 作为参数，这样开发者工具就可以观测到 `Vuex state` 的实时变化，在面板上展示最新的状态树。
+
+### loggerPlugin
+
+通常在开发环境中，我们希望实时把 `mutation` 的动作以及 `store` 的 `state` 的变化实时输出，那么我们可以用 `loggerPlugin` 帮我们做这个事情。它的源码在 `src/plugins/logger.js` 中，来看一下这个插件到底做了哪些事情。
+
+```js
+import { deepCopy } from '../util'
+
+export default function createLogger({ collapsed = true, transformer = (state) => state, mutationTransformer = (mut) => mut } = {}) {
+  return (store) => {
+    let prevState = deepCopy(store.state)
+
+    store.subscribe((mutation, state) => {
+      if (typeof console === 'undefined') {
+        return
+      }
+      const nextState = deepCopy(state)
+      const time = new Date()
+      const formattedTime = ` @ ${pad(time.getHours(), 2)}:${pad(time.getMinutes(), 2)}:${pad(time.getSeconds(), 2)}.${pad(time.getMilliseconds(), 3)}`
+      const formattedMutation = mutationTransformer(mutation)
+      const message = `mutation ${mutation.type}${formattedTime}`
+      const startMessage = collapsed ? console.groupCollapsed : console.group
+
+      // render
+      try {
+        startMessage.call(console, message)
+      } catch (e) {
+        console.log(message)
+      }
+
+      console.log('%c prev state', 'color: #9E9E9E; font-weight: bold', transformer(prevState))
+      console.log('%c mutation', 'color: #03A9F4; font-weight: bold', formattedMutation)
+      console.log('%c next state', 'color: #4CAF50; font-weight: bold', transformer(nextState))
+
+      try {
+        console.groupEnd()
+      } catch (e) {
+        console.log('—— log end ——')
+      }
+
+      prevState = nextState
+    })
+  }
+}
+
+function repeat(str, times) {
+  return new Array(times + 1).join(str)
+}
+
+function pad(num, maxLength) {
+  return repeat('0', maxLength - num.toString().length) + num
+}
+```
+
+插件对外暴露的是 `createLogger` 方法，它实际上接受 3 个参数，它们都有默认值，通常我们用默认值就可以。`createLogger` 的返回的是一个函数，当我执行 `logger` 插件的时候，实际上执行的是这个函数，下面来看一下这个函数做了哪些事情。
+
+函数首先执行了 `let prevState = deepCopy(store.state)` 深拷贝当前 `store` 的 `rootState`。这里为什么要深拷贝，因为如果是单纯的引用，那么 `store.state` 的任何变化都会影响这个引用，这样就无法记录上一个状态了。
+
+通过 `deepCopy` 拷贝了当前 `state` 的副本并用 `prevState` 变量保存，接下来调用 `store.subscribe` 方法订阅 `store` 的 `state` 的变化。 在回调函数中，也是先通过 `deepCopy` 方法拿到当前的 `state` 的副本，并用 `nextState` 变量保存。接下来获取当前格式化时间已经格式化的 `mutation` 变化的字符串，然后利用 `console.group` 以及 `console.log` 分组输出 `prevState、mutation` 以及 `nextState`，这里可以通过我们 `createLogger` 的参数 `collapsed、transformer` 以及 `mutationTransformer` 来控制我们最终 `log` 的显示效果。在函数的最后，我们把 `nextState` 赋值给 `prevState`，便于下一次 `mutation`。
+
+## 参考文献
+
+- [美团明裔：Vuex 框架原理与源码分析](https://tech.meituan.com/2017/04/27/vuex-code-analysis.html) 这篇文章强烈推荐，流程图画的很好
+- [知乎黄轶：Vuex 2.0 源码分析](https://zhuanlan.zhihu.com/p/23921964) 这篇文章也强烈推荐，讲述的比较全面
+- [小虫巨蟹：Vuex 源码解析（如何阅读源代码实践篇）](https://juejin.cn/post/6844903486811799559) 这篇文章也强烈推荐，主要讲如何阅读源代码
