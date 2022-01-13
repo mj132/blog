@@ -3,6 +3,7 @@
 ## 学习源码
 
 - [学习 vuex 源码整体架构](source-code/vuex.md)
+- [学习 sentry 源码整体架构](source-code/sentry.md)
 ## HTML 相关
 
 - [HTML5 和 HTML4 究竟有哪些不同](html/01.md)

@@ -7,6 +7,10 @@ module.exports = {
           path: 'source-code/vuex',
           title: '学习 vuex 源码整体架构'
         },
+        {
+          path: 'source-code/sentry',
+          title: '学习 sentry 源码整体架构'
+        },
       ]
     },
     {
