@@ -484,3 +484,403 @@ function initAndBind(clientClass, options) {
 最终输出得到这样的数据。我画了一张图表示。重点关注的原型链用颜色标注了，其他部分收缩了。
 
 ![new BrowerClient](./imgs/sentry_01.png)
+
+## 7. initAndBind 函数之 getCurrentHub().bindClient()
+
+继续看 `initAndBind` 的另一条线。
+
+```js
+function initAndBind(clientClass, options) {
+  if (options.debug === true) {
+    logger.enable()
+  }
+  getCurrentHub().bindClient(new clientClass(options))
+}
+```
+
+获取当前的控制中心 `Hub`，再把 `new BrowserClient()` 的实例对象绑定在 `Hub` 上。
+
+### 7.1 getCurrentHub 函数
+
+```js
+// 获取当前Hub 控制中心
+function getCurrentHub() {
+  // Get main carrier (global for every environment)
+  var registry = getMainCarrier()
+  // 如果没有控制中心在载体上，或者它的版本是老版本，就设置新的。
+  // If there's no hub, or its an old API, assign a new one
+  if (!hasHubOnCarrier(registry) || getHubFromCarrier(registry).isOlderThan(API_VERSION)) {
+    setHubOnCarrier(registry, new Hub())
+  }
+  // node 才执行
+  // Prefer domains over global if they are there (applicable only to Node environment)
+  if (isNodeEnv()) {
+    return getHubFromActiveDomain(registry)
+  }
+  // 返回当前控制中心来自载体上。
+  // Return hub that lives on a global object
+  return getHubFromCarrier(registry)
+}
+```
+
+### 7.2 衍生的函数 getMainCarrier、getHubFromCarrier
+
+<!-- 获取主载体 -->
+
+```js
+function getMainCarrier() {
+  // 载体 这里是window
+  // 通过一系列new BrowerClient() 一系列的初始化
+  // 挂载在  carrier.__SENTRY__ 已经有了三个属性，globalEventProcessors, hub, logger
+  var carrier = getGlobalObject()
+  carrier.__SENTRY__ = carrier.__SENTRY__ || {
+    hub: undefined,
+  }
+  return carrier
+}
+```
+
+```js
+// 获取控制中心 hub 从载体上
+function getHubFromCarrier(carrier) {
+  // 已经有了则返回，没有则new Hub
+  if (carrier && carrier.__SENTRY__ && carrier.__SENTRY__.hub) {
+    return carrier.__SENTRY__.hub
+  }
+  carrier.__SENTRY__ = carrier.__SENTRY__ || {}
+  carrier.__SENTRY__.hub = new Hub()
+  return carrier.__SENTRY__.hub
+}
+```
+
+### 7.3 bindClient 绑定客户端在当前控制中心上
+
+```js
+Hub.prototype.bindClient = function(client) {
+  // 获取最后一个
+  var top = this.getStackTop()
+  // 把 new BrowerClient() 实例 绑定到top上
+  top.client = client
+}
+```
+
+```js
+Hub.prototype.getStackTop = function() {
+  // 获取最后一个
+  return this._stack[this._stack.length - 1]
+}
+```
+
+### 7.4 小结
+
+经过一系列的继承和初始化
+
+再回过头来看 `initAndBind`函数
+
+```js
+function initAndBind(clientClass, options) {
+  if (options.debug === true) {
+    logger.enable()
+  }
+  var client = new clientClass(options)
+  console.log(client, options, 'client, options')
+  var currentHub = getCurrentHub()
+  currentHub.bindClient(client)
+  console.log('currentHub', currentHub)
+  // 源代码
+  // getCurrentHub().bindClient(new clientClass(options));
+}
+```
+
+最终会得到这样的`Hub`实例对象。我画了一张图表示，便于查看理解。
+
+![Hub 实例关系图](./imgs/sentry_02.png)
+
+初始化完成后，再来看具体例子。
+具体 `captureMessage` 函数的实现。
+
+```js
+Sentry.captureMessage('Hello, mj!')
+```
+
+## 8. captureMessage 函数
+
+通过之前的阅读代码，知道会最终会调用`Fetch`接口，所以直接断点调试即可，得出如下调用栈。
+接下来描述调用栈的主要流程。
+
+![captureMessage 断点调试图](./imgs/sentry_03.png)
+
+> 调用栈主要流程：
+>
+> captureMessage
+
+```js
+function captureMessage(message, level) {
+  var syntheticException
+  try {
+    throw new Error(message)
+  } catch (exception) {
+    syntheticException = exception
+  }
+  // 调用 callOnHub 方法
+  return callOnHub('captureMessage', message, level, {
+    originalException: message,
+    syntheticException: syntheticException,
+  })
+}
+```
+
+=> callOnHub
+
+```js
+/**
+ * This calls a function on the current hub.
+ * @param method function to call on hub.
+ * @param args to pass to function.
+ */
+function callOnHub(method) {
+  // 这里method 传进来的是 'captureMessage'
+  // 把method除外的其他参数放到args数组中
+  var args = []
+  for (var _i = 1; _i < arguments.length; _i++) {
+    args[_i - 1] = arguments[_i]
+  }
+  // 获取当前控制中心 hub
+  var hub = getCurrentHub()
+  // 有这个方法 把args 数组展开，传递给 hub[method] 执行
+  if (hub && hub[method]) {
+    // tslint:disable-next-line:no-unsafe-any
+    return hub[method].apply(hub, __spread(args))
+  }
+  throw new Error('No hub defined or ' + method + ' was not found on the hub, please open a bug report.')
+}
+```
+
+=> Hub.prototype.captureMessage
+
+接着看`Hub.prototype` 上定义的 `captureMessage` 方法
+
+```js
+Hub.prototype.captureMessage = function(message, level, hint) {
+  var eventId = (this._lastEventId = uuid4())
+  var finalHint = hint
+  // 代码有删减
+  this._invokeClient('captureMessage', message, level, __assign({}, finalHint, { event_id: eventId }))
+  return eventId
+}
+```
+
+=> Hub.prototype.\_invokeClient
+
+```js
+/**
+ * Internal helper function to call a method on the top client if it exists.
+ *
+ * @param method The method to call on the client.
+ * @param args Arguments to pass to the client function.
+ */
+Hub.prototype._invokeClient = function(method) {
+  // 同样：这里method 传进来的是 'captureMessage'
+  // 把method除外的其他参数放到args数组中
+  var _a
+  var args = []
+  for (var _i = 1; _i < arguments.length; _i++) {
+    args[_i - 1] = arguments[_i]
+  }
+  var top = this.getStackTop()
+  // 获取控制中心的 hub，调用客户端也就是new BrowerClient () 实例中继承自 BaseClient 的 captureMessage 方法
+  // 有这个方法 把args 数组展开，传递给 hub[method] 执行
+  if (top && top.client && top.client[method]) {
+    ;(_a = top.client)[method].apply(_a, __spread(args, [top.scope]))
+  }
+}
+```
+
+=> BaseClient.prototype.captureMessage
+
+```js
+BaseClient.prototype.captureMessage = function(message, level, hint, scope) {
+  var _this = this
+  var eventId = hint && hint.event_id
+  this._processing = true
+  var promisedEvent = isPrimitive(message) ? this._getBackend().eventFromMessage('' + message, level, hint) : this._getBackend().eventFromException(message, hint)
+  // 代码有删减
+  promisedEvent.then(function(event) {
+    return _this._processEvent(event, hint, scope)
+  })
+  // 代码有删减
+  return eventId
+}
+```
+
+最后会调用 `_processEvent` 也就是
+
+=> BaseClient.prototype.\_processEvent
+
+这个函数最终会调用
+
+```js
+_this._getBackend().sendEvent(finalEvent)
+```
+
+也就是
+
+=> BaseBackend.prototype.sendEvent
+
+```js
+BaseBackend.prototype.sendEvent = function(event) {
+  this._transport.sendEvent(event).then(null, function(reason) {
+    logger.error('Error while sending event: ' + reason)
+  })
+}
+```
+
+=> FetchTransport.prototype.sendEvent 最终发送了请求
+
+### 8.1 FetchTransport.prototype.sendEvent
+
+```js
+FetchTransport.prototype.sendEvent = function(event) {
+  var defaultOptions = {
+    body: JSON.stringify(event),
+    method: 'POST',
+    // Despite all stars in the sky saying that Edge supports old draft syntax, aka 'never', 'always', 'origin' and 'default
+    // https://caniuse.com/#feat=referrer-policy
+    // It doesn't. And it throw exception instead of ignoring this parameter...
+    // REF: https://github.com/getsentry/raven-js/issues/1233
+    referrerPolicy: supportsReferrerPolicy() ? 'origin' : '',
+  }
+  // global$2.fetch(this.url, defaultOptions) 使用fetch发送请求
+  return this._buffer.add(
+    global$2.fetch(this.url, defaultOptions).then(function(response) {
+      return {
+        status: exports.Status.fromHttpCode(response.status),
+      }
+    })
+  )
+}
+```
+
+看完 `Ajax 上报` 主线，再看本文的另外一条主线 `window.onerror` 捕获。
+
+## 9. window.onerror 和 window.onunhandledrejection 捕获 错误
+
+例子：调用一个未申明的变量。
+
+```js
+func()
+```
+
+`Promise` 不捕获错误
+
+```js
+new Promise(() => {
+  fun()
+}).then((res) => {
+  console.log('then')
+})
+```
+
+### 9.1 captureEvent
+
+> 调用栈主要流程：
+
+> window.onerror
+
+```js
+GlobalHandlers.prototype._installGlobalOnErrorHandler = function() {
+  if (this._onErrorHandlerInstalled) {
+    return
+  }
+  var self = this // tslint:disable-line:no-this-assignment
+  // 浏览器中这里的 this._global.  就是window
+  this._oldOnErrorHandler = this._global.onerror
+  this._global.onerror = function(msg, url, line, column, error) {
+    var currentHub = getCurrentHub()
+    // 代码有删减
+    currentHub.captureEvent(event, {
+      originalException: error,
+    })
+    if (self._oldOnErrorHandler) {
+      return self._oldOnErrorHandler.apply(this, arguments)
+    }
+    return false
+  }
+  this._onErrorHandlerInstalled = true
+}
+```
+
+> window.onunhandledrejection
+
+```js
+GlobalHandlers.prototype._installGlobalOnUnhandledRejectionHandler = function() {
+  if (this._onUnhandledRejectionHandlerInstalled) {
+    return
+  }
+  var self = this // tslint:disable-line:no-this-assignment
+  this._oldOnUnhandledRejectionHandler = this._global.onunhandledrejection
+  this._global.onunhandledrejection = function(e) {
+    // 代码有删减
+    var currentHub = getCurrentHub()
+    currentHub.captureEvent(event, {
+      originalException: error,
+    })
+    if (self._oldOnUnhandledRejectionHandler) {
+      return self._oldOnUnhandledRejectionHandler.apply(this, arguments)
+    }
+    return false
+  }
+  this._onUnhandledRejectionHandlerInstalled = true
+}
+```
+
+共同点：都会调用`currentHub.captureEvent`
+
+```js
+currentHub.captureEvent(event, {
+  originalException: error,
+})
+```
+
+=> Hub.prototype.captureEvent
+
+最终又是调用 `_invokeClient` ，调用流程跟 `captureMessage` 类似，这里就不再赘述。
+
+```js
+this._invokeClient('captureEvent')
+```
+
+=> Hub.prototype.\_invokeClient
+
+=> BaseClient.prototype.captureEvent
+
+=> BaseClient.prototype.\_processEvent
+
+=> BaseBackend.prototype.sendEvent
+
+=> FetchTransport.prototype.sendEvent
+
+最终同样是调用了这个函数发送了请求。
+
+可谓是殊途同归，行文至此就基本已经结束，最后总结一下。
+
+## 10. 总结
+
+`Sentry-JavaScript`源码高效利用了`JS`的原型链机制。可谓是惊艳，值得学习。
+
+本文通过梳理前端错误监控知识、介绍`sentry`错误监控原理、`sentry`初始化、`Ajax`上报、`window.onerror、window.onunhandledrejection`几个方面来学习`sentry`的源码。还有很多细节和构造函数没有分析。
+
+总共的构造函数（类）有 25 个，提到的主要有 9 个，分别是：`Hub、BaseClient、BaseBackend、BaseTransport、FetchTransport、XHRTransport、BrowserBackend、BrowserClient、GlobalHandlers`。
+
+其他没有提到的分别是 `SentryError、Logger、Memo、SyncPromise、PromiseBuffer、Span、Scope、Dsn、API、NoopTransport、FunctionToString、InboundFilters、TryCatch、Breadcrumbs、LinkedErrors、UserAgent`。
+
+这些构造函数（类）中还有很多值得学习，比如同步的`Promise`（SyncPromise）。
+有兴趣的读者，可以看这一块官方仓库中采用`typescript`写的源码[SyncPromise](https://github.com/getsentry/sentry-javascript/blob/master/packages/utils/src/syncpromise.ts)，也可以看打包后出来未压缩的代码。
+
+## 11. 参考文献
+
+- [知乎滴滴云：超详细！搭建一个前端错误监控系统](https://zhuanlan.zhihu.com/p/51446011)
+- [掘金 BlackHole1：JavaScript 集成 Sentry](https://juejin.im/post/5b7f63c96fb9a019f709b14b)
+- 丁香园 开源的`Sentry` 小程序 `SDK`[sentry-miniapp](https://github.com/lizhiyao/sentry-miniapp)
+- [`sentry`官网](https://sentry.io)
+- [`sentry-javascript`仓库](https://github.com/getsentry/sentry-javascript)
