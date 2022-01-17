@@ -12,6 +12,10 @@ module.exports = {
           title: '学习 sentry 源码整体架构'
         },
         {
+          path: 'source-code/axios',
+          title: '学习 axios 源码整体架构'
+        },
+        {
           path: 'source-code/lodash',
           title: '学习 lodash 源码整体架构'
         },
