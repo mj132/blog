@@ -8,6 +8,10 @@ module.exports = {
           title: '学习 vuex 源码整体架构'
         },
         {
+          path: 'source-code/vuex4',
+          title: '学习 vuex4 源码，provide/inject 妙用原型链'
+        },
+        {
           path: 'source-code/sentry',
           title: '学习 sentry 源码整体架构'
         },

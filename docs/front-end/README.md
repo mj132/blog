@@ -3,6 +3,7 @@
 ## 学习源码
 
 - [学习 vuex 源码整体架构](source-code/vuex.md)
+- [学习 vuex4 源码，provide/inject 妙用原型链](source-code/vuex4.md)
 - [学习 sentry 源码整体架构](source-code/sentry.md)
 - [学习 axios 源码整体架构](source-code/axios.md)
 - [学习 lodash 源码整体架构](source-code/lodash.md)
