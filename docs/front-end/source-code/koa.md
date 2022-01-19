@@ -318,3 +318,389 @@ app.use(async (ctx, next) => {
 `try catch` 错误或被`fnMiddleware(ctx).then(handleResponse).catch(onerror);`，这里的`onerror`是`ctx.onerror`<br>
 而`ctx.onerror`函数中又调用了`this.app.emit('error', err, this)`，所以在最外围`app.on('error'，err => {})`可以捕获中间件链中的错误。
 因为`koa`继承自`events模块`，所以有`emit`和`on`等方法）
+
+## 7. koa2 和 koa1 的简单对比
+
+[中文文档中描述了 koa2 和 koa1 的区别](https://github.com/demopark/koa-docs-Zh-CN/blob/master/migration.md)
+
+`koa1`中主要是`generator`函数。`koa2`中会自动转换`generator`函数。
+
+```js
+// Koa 将转换
+app.use(function*(next) {
+  const start = Date.now()
+  yield next
+  const ms = Date.now() - start
+  console.log(`${this.method} ${this.url} - ${ms}ms`)
+})
+```
+
+### 7.1 koa-convert 源码
+
+`app.use`时有一层判断，是否是`generator`函数，如果是则用`koa-convert`暴露的方法`convert`来转换重新赋值，再存入`middleware`，后续再使用。
+
+```js
+class Koa extends Emitter {
+  use(fn) {
+    if (typeof fn !== 'function') throw new TypeError('middleware must be a function!')
+    if (isGeneratorFunction(fn)) {
+      deprecate('Support for generators will be removed in v3. ' + 'See the documentation for examples of how to convert old middleware ' + 'https://github.com/koajs/koa/blob/master/docs/migration.md')
+      fn = convert(fn)
+    }
+    debug('use %s', fn._name || fn.name || '-')
+    this.middleware.push(fn)
+    return this
+  }
+}
+```
+
+`koa-convert`源码挺多，核心代码其实是这样的。
+
+```js
+function convert() {
+  return function(ctx, next) {
+    return co.call(ctx, mw.call(ctx, createGenerator(next)))
+  }
+  function* createGenerator(next) {
+    return yield next()
+  }
+}
+```
+
+最后还是通过`co`来转换的。所以接下来看`co`的源码。
+
+### 7.2 co 源码
+
+[tj 大神写的 co 仓库](https://github.com/tj/co)
+
+看`co`源码前，先看几段简单代码。
+
+```js
+// 写一个请求简版请求
+function request(ms = 1000) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ name: '若川' })
+    }, ms)
+  })
+}
+```
+
+```js
+// 获取generator的值
+function* generatorFunc() {
+  const res = yield request()
+  console.log(res, 'generatorFunc-res')
+}
+generatorFunc() // 报告，我不会输出你想要的结果的
+```
+
+简单来说`co`，就是把`generator`自动执行，再返回一个`promise`。
+**`generator`函数这玩意它不自动执行呀，还要一步步调用`next()`，也就是叫它走一步才走一步**。
+
+所以有了`async、await`函数。
+
+```js
+// await 函数 自动执行
+async function asyncFunc() {
+  const res = await request()
+  console.log(res, 'asyncFunc-res await 函数 自动执行')
+}
+asyncFunc() // 输出结果
+```
+
+也就是说`co`需要做的事情，是让`generator`向`async、await`函数一样自动执行。
+
+### 7.3 模拟实现简版 co（第一版）
+
+这时，我们来模拟实现第一版的`co`。根据`generator`的特性，其实容易写出如下代码。
+
+```js
+// 获取generator的值
+function* generatorFunc() {
+  const res = yield request()
+  console.log(res, 'generatorFunc-res')
+}
+
+function coSimple(gen) {
+  gen = gen()
+  console.log(gen, 'gen')
+
+  const ret = gen.next()
+  const promise = ret.value
+  promise.then((res) => {
+    gen.next(res)
+  })
+}
+coSimple(generatorFunc)
+// 输出了想要的结果
+// {name: "mj"}"generatorFunc-res"
+```
+
+### 7.4 模拟实现简版 co（第二版）
+
+但是实际上，不会上面那么简单的。有可能是多个`yield`和传参数的情况。
+传参可以通过这如下两行代码来解决。
+
+```js
+const args = Array.prototype.slice.call(arguments, 1)
+gen = gen.apply(ctx, args)
+```
+
+两个`yield`，我大不了重新调用一下`promise.then`，搞定。
+
+```js
+// 多个yeild，传参情况
+function* generatorFunc(suffix = '') {
+  const res = yield request()
+  console.log(res, 'generatorFunc-res' + suffix)
+
+  const res2 = yield request()
+  console.log(res2, 'generatorFunc-res-2' + suffix)
+}
+
+function coSimple(gen) {
+  const ctx = this
+  const args = Array.prototype.slice.call(arguments, 1)
+  gen = gen.apply(ctx, args)
+  console.log(gen, 'gen')
+
+  const ret = gen.next()
+  const promise = ret.value
+  promise.then((res) => {
+    const ret = gen.next(res)
+    const promise = ret.value
+    promise.then((res) => {
+      gen.next(res)
+    })
+  })
+}
+
+coSimple(generatorFunc, ' 哎呀，我真的是后缀')
+```
+
+### 7.5 模拟实现简版 co（第三版）
+
+问题是肯定不止两次，无限次的`yield`的呢，这时肯定要把重复的封装起来。而且返回是`promise`，这就实现了如下版本的代码。
+
+```js
+function* generatorFunc(suffix = '') {
+  const res = yield request()
+  console.log(res, 'generatorFunc-res' + suffix)
+
+  const res2 = yield request()
+  console.log(res2, 'generatorFunc-res-2' + suffix)
+
+  const res3 = yield request()
+  console.log(res3, 'generatorFunc-res-3' + suffix)
+
+  const res4 = yield request()
+  console.log(res4, 'generatorFunc-res-4' + suffix)
+}
+
+function coSimple(gen) {
+  const ctx = this
+  const args = Array.prototype.slice.call(arguments, 1)
+  gen = gen.apply(ctx, args)
+  console.log(gen, 'gen')
+
+  return new Promise((resolve, reject) => {
+    onFulfilled()
+
+    function onFulfilled(res) {
+      const ret = gen.next(res)
+      next(ret)
+    }
+
+    function next(ret) {
+      const promise = ret.value
+      promise && promise.then(onFulfilled)
+    }
+  })
+}
+
+coSimple(generatorFunc, ' 哎呀，我真的是后缀')
+```
+
+但第三版的模拟实现简版`co`中，还没有考虑报错和一些参数合法的情况。
+
+### 7.6 最终来看下`co`源码
+
+这时来看看`co`的源码，报错和错误的情况，错误时调用`reject`，是不是就好理解了一些呢。
+
+```js
+function co(gen) {
+  var ctx = this
+  var args = slice.call(arguments, 1)
+
+  // we wrap everything in a promise to avoid promise chaining,
+  // which leads to memory leak errors.
+  // see https://github.com/tj/co/issues/180
+  return new Promise(function(resolve, reject) {
+    // 把参数传递给gen函数并执行
+    if (typeof gen === 'function') gen = gen.apply(ctx, args)
+    // 如果不是函数 直接返回
+    if (!gen || typeof gen.next !== 'function') return resolve(gen)
+
+    onFulfilled()
+
+    /**
+     * @param {Mixed} res
+     * @return {Promise}
+     * @api private
+     */
+
+    function onFulfilled(res) {
+      var ret
+      try {
+        ret = gen.next(res)
+      } catch (e) {
+        return reject(e)
+      }
+      next(ret)
+    }
+
+    /**
+     * @param {Error} err
+     * @return {Promise}
+     * @api private
+     */
+
+    function onRejected(err) {
+      var ret
+      try {
+        ret = gen.throw(err)
+      } catch (e) {
+        return reject(e)
+      }
+      next(ret)
+    }
+
+    /**
+     * Get the next value in the generator,
+     * return a promise.
+     *
+     * @param {Object} ret
+     * @return {Promise}
+     * @api private
+     */
+
+    // 反复执行调用自己
+    function next(ret) {
+      // 检查当前是否为 Generator 函数的最后一步，如果是就返回
+      if (ret.done) return resolve(ret.value)
+      // 确保返回值是promise对象。
+      var value = toPromise.call(ctx, ret.value)
+      // 使用 then 方法，为返回值加上回调函数，然后通过 onFulfilled 函数再次调用 next 函数。
+      if (value && isPromise(value)) return value.then(onFulfilled, onRejected)
+      // 在参数不符合要求的情况下（参数非 Thunk 函数和 Promise 对象），将 Promise 对象的状态改为 rejected，从而终止执行。
+      return onRejected(new TypeError('You may only yield a function, promise, generator, array, or object, ' + 'but the following object was passed: "' + String(ret.value) + '"'))
+    }
+  })
+}
+```
+
+## 8. koa 和 express 简单对比
+
+[中文文档 koa 和 express 对比](https://github.com/demopark/koa-docs-Zh-CN/blob/master/koa-vs-express.md)
+
+文档里写的挺全面的。简单来说`koa2`语法更先进，更容易深度定制（`egg.js`、`think.js`、底层框架都是`koa`）。
+
+## 9. 总结
+
+文章通过`授人予鱼不如授人予鱼`的方式，告知如何调试源码，看完了`koa-compose`洋葱模型实现，`koa-convert`和`co`等源码。
+
+`koa-compose`是将`app.use`添加到`middleware`数组中的中间件（函数），通过使用`Promise`串联起来，`next()`返回的是一个`promise`。
+
+`koa-convert` 判断`app.use`传入的函数是否是`generator`函数，如果是则用`koa-convert`来转换，最终还是调用的`co`来转换。
+
+`co`源码实现原理：其实就是通过不断的调用`generator`函数的`next()`函数，来达到自动执行`generator`函数的效果（类似`async、await函数的自动自行`）。
+
+`koa`框架总结：主要就是四个核心概念，洋葱模型（把中间件串联起来），`http`请求上下文（`context`）、`http`请求对象、`http`响应对象。
+
+### 9.1 解答下开头的提问
+
+仅供参考
+
+> 1、`koa`洋葱模型怎么实现的。<br>
+
+可以参考上文整理的简版`koa-compose`作答。
+
+```js
+const [fn1, fn2, fn3] = this.middleware
+const fnMiddleware = function(context) {
+  return Promise.resolve(
+    fn1(context, function next() {
+      return Promise.resolve(
+        fn2(context, function next() {
+          return Promise.resolve(
+            fn3(context, function next() {
+              return Promise.resolve()
+            })
+          )
+        })
+      )
+    })
+  )
+}
+fnMiddleware(ctx)
+  .then(handleResponse)
+  .catch(onerror)
+```
+
+答：app.use() 把中间件函数存储在`middleware`数组中，最终会调用`koa-compose`导出的函数`compose`返回一个`promise`，中间函数的第一个参数`ctx`是包含响应和请求的一个对象，会不断传递给下一个中间件。`next`是一个函数，返回的是一个`promise`。
+
+> 2、如果中间件中的`next()`方法报错了怎么办。<br>
+
+可参考上文整理的错误处理作答。
+
+```js
+ctx.onerror = function {
+  this.app.emit('error', err, this);
+};
+  listen(){
+    const  fnMiddleware = compose(this.middleware);
+    if (!this.listenerCount('error')) this.on('error', this.onerror);
+    const onerror = err => ctx.onerror(err);
+    fnMiddleware(ctx).then(handleResponse).catch(onerror);
+  }
+  onerror(err) {
+    // 代码省略
+    // ...
+  }
+```
+
+答：中间件链错误会由`ctx.onerror`捕获，该函数中会调用`this.app.emit('error', err, this)`（因为`koa`继承自`events模块`，所以有`emit`和`on`等方法），可以使用`app.on('error', (err) => {})`，或者`app.onerror = (err) => {}`进行捕获。
+
+> 3、`co`的原理是怎样的。<br>
+> 答：`co`的原理是通过不断调用`generator`函数的`next`方法来达到自动执行`generator`函数的，类似`async、await`函数自动执行。
+
+答完，面试官可能觉得小伙子还是蛮懂`koa`的啊。当然也可能继续追问，直到答不出...
+
+### 9.2 还能做些什么 ？
+
+学完了整体流程，`koa-compose`、`koa-convert`和`co`的源码。
+
+还能仔细看看看`http`请求上下文（`context`）、`http`请求对象、`http`响应对象的具体实现。
+
+还能根据我文章说的调试方式调试[koa 组织](https://github.com/koajs)中的各种中间件，比如`koa-bodyparser`, `koa-router`，`koa-jwt`，`koa-session`、`koa-cors`等等。
+
+还能把[`examples`仓库](https://github.com/koajs/examples)克隆下来，我的这个仓库已经克隆了，挨个调试学习下源码。
+
+`web`框架有很多，比如`Express.js`，`Koa.js`、`Egg.js`、`Nest.js`、`Next.js`、`Fastify.js`、`Hapi.js`、`Restify.js`、`Loopback.io`、`Sails.js`、`Midway.js`等等。
+
+还能把这些框架的优势劣势、设计思想等学习下。
+
+还能继续学习`HTTP`协议、`TCP/IP`协议网络相关，虽然不属于`koa`的知识，但需深入学习掌握。
+
+学无止境~~~
+
+## 10. 参考文献
+
+- [koa 官网](https://koajs.com/) | [koa 仓库](https://github.com/koajs/koa) | [koa 组织](https://github.com/koajs) | [koa2 中文文档](https://github.com/demopark/koa-docs-Zh-CN) | [co 仓库](https://github.com/tj/co)<br>
+- [知乎@姚大帅：可能是目前市面上比较有诚意的 Koa2 源码解读](https://zhuanlan.zhihu.com/p/34797505)<br>
+- [知乎@零小白：十分钟带你看完 KOA 源码](https://zhuanlan.zhihu.com/p/24559011)<br>
+- [微信开放社区@小丹の：可能是目前最全的 koa 源码解析指南](https://developers.weixin.qq.com/community/develop/article/doc/0000e4c9290bc069f3380e7645b813)<br>
+- [IVWEB 官方账号: KOA2 框架原理解析和实现](https://ivweb.io/article.html?_id=100334)<br>
+- [深入浅出 vue.js 作者 berwin: 深入浅出 Koa2 原理](https://github.com/berwin/Blog/issues/9)<br>
+- [阮一峰老师：co 函数库的含义和用法](http://www.ruanyifeng.com/blog/2015/05/co.html)<br>
