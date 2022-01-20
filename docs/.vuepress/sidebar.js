@@ -359,6 +359,10 @@ module.exports = {
       path: 'structure',
       title: 'React 架构',
     },
+    {
+      path: 'fiber',
+      title: 'Fiber 架构',
+    },
   ],
   '/performance-optimization/': [
     {
