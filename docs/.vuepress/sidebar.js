@@ -303,7 +303,7 @@ module.exports = {
   '/vue/': [
     {
       path: './',
-      title: '生命周期分析',
+      title: '生命周期原理',
     },
     {
       path: 'responsiveData',

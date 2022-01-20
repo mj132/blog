@@ -31,6 +31,10 @@ module.exports = {
         link: "/vue/"
       },
       {
+        text: "React",
+        link: "/react/"
+      },
+      {
         text: "性能优化",
         link: "/performance-optimization/"
       },
