@@ -355,6 +355,10 @@ module.exports = {
       path: './',
       title: 'React 理念',
     },
+    {
+      path: 'structure',
+      title: 'React 架构',
+    },
   ],
   '/performance-optimization/': [
     {
