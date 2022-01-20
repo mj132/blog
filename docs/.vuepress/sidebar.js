@@ -350,6 +350,12 @@ module.exports = {
       title: '全局api原理'
     },
   ],
+  '/react/': [
+    {
+      path: './',
+      title: 'React 理念',
+    },
+  ],
   '/performance-optimization/': [
     {
       path: './',
