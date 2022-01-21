@@ -363,6 +363,10 @@ module.exports = {
       path: 'fiber',
       title: 'Fiber 架构',
     },
+    {
+      path: 'render',
+      title: 'render 阶段',
+    },
   ],
   '/performance-optimization/': [
     {
