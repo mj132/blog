@@ -367,6 +367,10 @@ module.exports = {
       path: 'render',
       title: 'render 阶段',
     },
+    {
+      path: 'commit',
+      title: 'commit 阶段',
+    },
   ],
   '/performance-optimization/': [
     {
