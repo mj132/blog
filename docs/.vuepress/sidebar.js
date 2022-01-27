@@ -371,6 +371,10 @@ module.exports = {
       path: 'commit',
       title: 'commit 阶段',
     },
+    {
+      path: 'diff',
+      title: 'Diff 算法',
+    },
   ],
   '/performance-optimization/': [
     {
