@@ -1,5 +1,3 @@
-# 排序算法
-
 ![](https://static.vue-js.com/63eb7920-211c-11ec-a752-75723a64e8f5.png)
 
 ## 一、是什么

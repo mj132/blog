@@ -1,5 +1,3 @@
-# 算法的理解？应用场景？
-
 ![](https://static.vue-js.com/eca03690-1620-11ec-8e64-91fdec0f05a1.png)
 
 ## 一、是什么
