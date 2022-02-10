@@ -13,3 +13,4 @@
 - [算法介绍](algorithm/intro.md)
 - [算法复杂度](algorithm/time_space.md)
 - [排序算法](algorithm/sort.md)
+- [React、Vue2、Vue3 的三种 Diff 算法](algorithm/diff.md)
