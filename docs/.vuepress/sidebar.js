@@ -572,6 +572,10 @@ module.exports = {
           title: '排序算法',
           path: 'algorithm/sort'
         },
+        {
+          title: 'React、Vue2、Vue3 的三种 Diff 算法',
+          path: 'algorithm/diff'
+        },
       ]
     }
   ],
