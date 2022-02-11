@@ -1011,9 +1011,9 @@ function vue3Diff(prevChildren, nextChildren, parent) {
 ```
 
 > 什么是最长递增子序列：给定一个数值序列，找到它的一个子序列，并且子序列中的值是递增的，子序列中的元素在原序列中不一定连续。
-> 
+>
 > 例如给定数值序列为：`[ 0, 8, 4, 12 ]`。 那么它的最长递增子序列就是：`[0, 8, 12]`。
-> 
+>
 > 当然答案可能有多种情况，例如：`[0, 4, 12]` 也是可以的。
 
 > 我们在下一节单独讲解最长递增子序列
@@ -1025,7 +1025,7 @@ function vue3Diff(prevChildren, nextChildren, parent) {
 我们从后向前进行遍历`source`每一项。此时会出现三种情况：
 
 1. 当前的值为-1，这说明该节点是全新的节点，又由于我们是从后向前遍历，我们直接创建好 DOM 节点插入到队尾就可以了。
-2. 当前的索引为最长递增子序列中的值，也就是`i === seq[j]`，这说说明该节点不需要移动
+2. 当前的索引为最长递增子序列中的值，也就是`i === seq[j]`，这说明该节点不需要移动
 3. 当前的索引不是最长递增子序列中的值，那么说明该 DOM 节点需要移动，这里也很好理解，我们也是直接将 DOM 节点插入到队尾就可以了，因为队尾是排好序的。
 
 ```js
@@ -1063,7 +1063,7 @@ function vue3Diff(prevChildren, nextChildren, parent) {
 }
 ```
 
-说完了需要移动的情况，再说说不需要移动的情况。如果不需要移动的话，我们只需要判断是否有全新的节点给他添加进去就可以了。具体代码如下：
+说完了需要移动的情况，再说说不需要移动的情况。如果不需要移动的话，我们只需要判断是否有全新的节点给它添加进去就可以了。具体代码如下：
 
 ```js
 function vue3Diff(prevChildren, nextChildren, parent) {
@@ -1075,7 +1075,7 @@ function vue3Diff(prevChildren, nextChildren, parent) {
     for (let i = nextLeft - 1； i >= 0; i--) {
       let pos = nextStart + i, // 对应新列表的index
         nextNode = nextChildren[pos],	// 找到vnode
-      	nextPos = pos + 1，    // 下一个节点的位置，用于移动DOM
+      	nextPos = pos + 1,    // 下一个节点的位置，用于移动DOM
         refNode = nextPos >= nextChildren.length ? null : nextChildren[nextPos].el, //DOM节点
         cur = source[i];  // 当前source的值，用来判断节点是否需要移动
 
@@ -1097,10 +1097,10 @@ function vue3Diff(prevChildren, nextChildren, parent) {
       let cur = source[i];  // 当前source的值，用来判断节点是否需要移动
 
       if (cur === -1) {
-       let pos = nextStart + i, // 对应新列表的index
+        let pos = nextStart + i, // 对应新列表的index
           nextNode = nextChildren[pos],	// 找到vnode
-          nextPos = pos + 1，    // 下一个节点的位置，用于移动DOM
-          refNode = nextPos >= nextChildren.length ? null : nextChildren[nextPos].el, //DOM节点
+          nextPos = pos + 1,    // 下一个节点的位置，用于移动DOM
+          refNode = nextPos >= nextChildren.length ? null : nextChildren[nextPos].el; //DOM节点
       	mount(nextNode, parent, refNode)
       }
     }
@@ -1112,7 +1112,8 @@ function vue3Diff(prevChildren, nextChildren, parent) {
 
 ### 最长递增子序列
 
-leetcode 有原题，官方解析很清晰，看不懂我讲的可以去看看官方解析。
+[leetcode 有原题，官方解析很清晰，看不懂我讲的可以去看看官方解析。](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+
 我们以该数组为例
 
 ```js
@@ -1186,6 +1187,6 @@ function lis(arr) {
   }
   let index = dp.reduce((prev, cur, i, arr) => (cur > arr[prev] ? i : prev), dp.length - 1)
   // 返回最长的递增子序列的index
-  return result[index]
+  return res[index]
 }
 ```
