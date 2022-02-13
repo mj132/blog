@@ -270,12 +270,12 @@ module.exports = {
       title: '其它',
       children: [
         {
-          path: 'other/nginx',
-          title: '前端开发者必备的Nginx知识',
-        },
-        {
           path: 'other/design',
           title: 'JavaScript设计模式',
+        },
+        {
+          path: 'other/nginx',
+          title: '前端开发者必备的Nginx知识',
         },
         {
           path: 'other/vnode',
