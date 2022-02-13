@@ -274,6 +274,10 @@ module.exports = {
           title: '前端开发者必备的Nginx知识',
         },
         {
+          path: 'other/design',
+          title: 'JavaScript设计模式',
+        },
+        {
           path: 'other/vnode',
           title: 'VNode 详解',
         },

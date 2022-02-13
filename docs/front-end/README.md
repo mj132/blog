@@ -106,6 +106,7 @@
 
 ## 其它
 
+- [JavaScript设计模式](other/design.md)
 - [前端开发者必备的 Nginx 知识](other/nginx.md)
 - [VNode 详解](other/vnode.md)
 - [尾递归](other/tail_recursion.md)
