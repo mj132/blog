@@ -581,6 +581,10 @@ module.exports = {
           path: 'algorithm/diff'
         },
         {
+          title: '查找',
+          path: 'algorithm/查找'
+        },
+        {
           title: '贪心算法',
           path: 'algorithm/贪心算法'
         },
