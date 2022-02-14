@@ -585,6 +585,10 @@ module.exports = {
           path: 'algorithm/查找'
         },
         {
+          title: 'DFS和BFS',
+          path: 'algorithm/DFS和BFS'
+        },
+        {
           title: '贪心算法',
           path: 'algorithm/贪心算法'
         },

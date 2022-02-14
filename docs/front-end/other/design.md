@@ -41,7 +41,7 @@
 ```js
 //checkType('165226226326','mobile')
 //result：false
-let checkType = function (str, type) {
+let checkType = function(str, type) {
   switch (type) {
     case 'email':
       return /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(str)
@@ -64,7 +64,7 @@ let checkType = function (str, type) {
 建议的方式是给这个 API 增加一个扩展的接口:
 
 ```js
-let checkType = (function () {
+let checkType = (function() {
   let rules = {
     email(str) {
       return /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(str)
@@ -90,7 +90,7 @@ let checkType = (function () {
 //使用mobile校验规则
 console.log(checkType.check('188170239', 'mobile'))
 //添加金额校验规则
-checkType.addRule('money', function (str) {
+checkType.addRule('money', function(str) {
   return /^[0-9]+(.[0-9]{2})?$/.test(str)
 })
 //使用金额校验规则
@@ -199,7 +199,7 @@ class jQuery {
   // 此处省略若干 API
 }
 
-window.$ = function (selector) {
+window.$ = function(selector) {
   return new jQuery(selector)
 }
 ```
@@ -209,8 +209,8 @@ window.$ = function (selector) {
 在大型应用中，我们可能需要将应用分割成小一些的代码块，并且只在需要的时候才从服务器加载一个模块。为了简化，Vue 允许你以一个工厂函数的方式定义你的组件，这个工厂函数会异步解析你的组件定义。Vue 只有在这个组件需要被渲染的时候才会触发该工厂函数，且会把结果缓存起来供未来重渲染。例如：
 
 ```js
-Vue.component('async-example', function (resolve, reject) {
-  setTimeout(function () {
+Vue.component('async-example', function(resolve, reject) {
+  setTimeout(function() {
     // 向 `resolve` 回调传递组件定义
     resolve({
       template: '<div>I am async!</div>',
@@ -245,9 +245,9 @@ class LoginForm {
     console.log('登录框隐藏成功')
   }
 }
-LoginForm.getInstance = (function () {
+LoginForm.getInstance = (function() {
   let instance
-  return function () {
+  return function() {
     if (!instance) {
       instance = new LoginForm()
     }
@@ -329,13 +329,13 @@ ajax({
   data: {
     test: 111,
   },
-}).done(function () {})
+}).done(function() {})
 // 因为历史原因，代码中全都是：
 // $.ajax({....})
 
 // 做一层适配器
 var $ = {
-  ajax: function (options) {
+  ajax: function(options) {
     return ajax(options)
   },
 }
@@ -361,8 +361,11 @@ var $ = {
       }
     },
     computed: {
-      reversedMessage: function () {
-        return this.message.split('').reverse().join('')
+      reversedMessage: function() {
+        return this.message
+          .split('')
+          .reverse()
+          .join('')
       },
     },
   }
@@ -435,26 +438,26 @@ dec.create()
 假设当 A 在心情好的时候收到花，小明表白成功的几率有 60%，而当 A 在心情差的时候收到花，小明表白的成功率无限趋近于 0。小明跟 A 刚刚认识两天，还无法辨别 A 什么时候心情好。如果不合时宜地把花送给 A，花被直接扔掉的可能性很大，这束花可是小明吃了 7 天泡面换来的。但是 A 的朋友 B 却很了解 A，所以小明只管把花交给 B，B 会监听 A 的心情变化，然后选择 A 心情好的时候把花转交给 A，代码如下：
 
 ```js
-let Flower = function () {}
+let Flower = function() {}
 let xiaoming = {
-  sendFlower: function (target) {
+  sendFlower: function(target) {
     let flower = new Flower()
     target.receiveFlower(flower)
   },
 }
 let B = {
-  receiveFlower: function (flower) {
-    A.listenGoodMood(function () {
+  receiveFlower: function(flower) {
+    A.listenGoodMood(function() {
       A.receiveFlower(flower)
     })
   },
 }
 let A = {
-  receiveFlower: function (flower) {
+  receiveFlower: function(flower) {
     console.log('收到花' + flower)
   },
-  listenGoodMood: function (fn) {
-    setTimeout(function () {
+  listenGoodMood: function(fn) {
+    setTimeout(function() {
       fn()
     }, 1000)
   },
@@ -506,7 +509,7 @@ HTML 元素事件代理
 1. 兼容浏览器事件绑定
 
 ```js
-let addMyEvent = function (el, ev, fn) {
+let addMyEvent = function(el, ev, fn) {
   if (el.addEventListener) {
     el.addEventListener(ev, fn, false)
   } else if (el.attachEvent) {
@@ -601,7 +604,7 @@ s.setState(12)
 - DOM 事件
 
 ```js
-document.body.addEventListener('click', function () {
+document.body.addEventListener('click', function() {
   console.log('hello world!')
 })
 document.body.click()
@@ -725,7 +728,7 @@ while (iterator.hasNext()) {
 #### 场景例子
 
 - Array.prototype.forEach
-- jQuery 中的$.each()
+- jQuery 中的\$.each()
 - ES6 Iterator
 
 #### 特点
@@ -811,7 +814,10 @@ class TotalOrder {
 let train = new TrainOrder()
 let hotel = new HotelOrder()
 let total = new TotalOrder()
-total.addOrder(train).addOrder(hotel).create()
+total
+  .addOrder(train)
+  .addOrder(hotel)
+  .create()
 ```
 
 #### 场景
@@ -869,27 +875,27 @@ student.sayHello()
     <script type="text/javascript">
       // 策略对象
       const strategies = {
-        isNoEmpty: function (value, errorMsg) {
+        isNoEmpty: function(value, errorMsg) {
           if (value === '') {
             return errorMsg
           }
         },
-        isNoSpace: function (value, errorMsg) {
+        isNoSpace: function(value, errorMsg) {
           if (value.trim() === '') {
             return errorMsg
           }
         },
-        minLength: function (value, length, errorMsg) {
+        minLength: function(value, length, errorMsg) {
           if (value.trim().length < length) {
             return errorMsg
           }
         },
-        maxLength: function (value, length, errorMsg) {
+        maxLength: function(value, length, errorMsg) {
           if (value.length > length) {
             return errorMsg
           }
         },
-        isMobile: function (value, errorMsg) {
+        isMobile: function(value, errorMsg) {
           if (!/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|17[7]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(value)) {
             return errorMsg
           }
@@ -926,7 +932,7 @@ student.sayHello()
       // 调用代码
       let registerForm = document.getElementById('registerForm')
 
-      let validataFunc = function () {
+      let validataFunc = function() {
         let validator = new Validator()
         validator.add(registerForm.userName, [
           {
@@ -957,7 +963,7 @@ student.sayHello()
         return validator.start()
       }
 
-      registerForm.onsubmit = function () {
+      registerForm.onsubmit = function() {
         let errorMsg = validataFunc()
         if (errorMsg) {
           alert(errorMsg)
@@ -1066,8 +1072,7 @@ ManualExamCarPool.registCandidates([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) // 10个考�
 
 #### 缺点
 
-- 提高了系统的复杂度，需要分离出外部状态和内部状态，而且外部状态具有固有化的性质，FF
-- 不应该随着内部状态的变化而变化，否则会造成系统的混乱
+- 提高了系统的复杂度，需要分离出外部状态和内部状态，而且外部状态具有固有化的性质，**不应该随着内部状态的变化而变化，否则会造成系统的混乱**
 
 ### 模板方法模式
 
@@ -1098,11 +1103,11 @@ class Beverage {
 /* 咖啡 */
 const coffee = new Beverage({
   /* 冲泡咖啡，覆盖抽象方法 */
-  brewDrink: function () {
+  brewDrink: function() {
     console.log('冲泡咖啡')
   },
   /* 加调味品，覆盖抽象方法 */
-  addCondiment: function () {
+  addCondiment: function() {
     console.log('加点奶和糖')
   },
 })
@@ -1162,13 +1167,13 @@ a1.handle()
 
 - 降低耦合度。它将请求的发送者和接收者解耦。
 - 简化了对象。使得对象不需要知道链的结构
-- 增强给对象指派职责的灵活性。通过改变链内的成员或者调动它们的次序，- 允许动态地新增或者删除责任
+- 增强给对象指派职责的灵活性。通过改变链内的成员或者调动它们的次序，允许动态地新增或者删除责任
 - 增加新的请求处理类很方便。
 
 #### 缺点
 
 - 不能保证某个请求一定会被链中的节点处理，这种情况可以在链尾增加一个保底的接受者节点来处理这种即将离开链尾的请求。
-- 使程序中多了很多节点对象，可能再一次请求的过程中，大部分的节点并没有起到实质性的作用。他们的作用仅仅是让请求传递下去，从性能当面考虑，要避免过长的职责链到来的性能损耗。
+- 使程序中多了很多节点对象，可能再一次请求的过程中，大部分的节点并没有起到实质性的作用。他们的作用仅仅是让请求传递下去，从性能方面考虑，要避免过长的职责链到来的性能损耗。
 
 ### 命令模式
 
@@ -1301,8 +1306,7 @@ console.log(editor.getContent()) //222
 
 ### 中介者模式
 
-解除对象与对象之间的紧耦合关系。增加一个中介者对象后，所有的 相关对象都通过中介者对象来通信，而不是互相引用，所以当一个对象发生改变时，只需要通知 中介者对象即可。中介者使各对象之间耦合松散，而且可以独立地改变它们之间的交互。中介者
-模式使网状的多对多关系变成了相对简单的一对多关系（类似于观察者模式，但是单向的，由中介者统一管理。）
+解除对象与对象之间的紧耦合关系。增加一个中介者对象后，所有的相关对象都通过中介者对象来通信，而不是互相引用，所以当一个对象发生改变时，只需要通知中介者对象即可。中介者使各对象之间耦合松散，而且可以独立地改变它们之间的交互。中介者模式使网状的多对多关系变成了相对简单的一对多关系（类似于观察者模式，但是单向的，由中介者统一管理。）
 
 ```js
 class A {
@@ -1364,13 +1368,11 @@ console.log(a.number, b.number)
 
 #### 缺点
 
-- 系统中会新增一个中介者对象，因为对象之间交互的复杂性，转移成了中介者对象的复杂性，使得中介者对象经常是巨大的。中介 者对象自身往往就是一个难以维护的对象。
+- 系统中会新增一个中介者对象，因为对象之间交互的复杂性，转移成了中介者对象的复杂性，使得中介者对象经常是巨大的。中介者对象自身往往就是一个难以维护的对象。
 
 ### 解释器模式
 
 给定一个语言, 定义它的文法的一种表示，并定义一个解释器, 该解释器使用该表示来解释语言中的句子。
-
-此例来自心谭博客
 
 ```js
 class Context {
