@@ -16,5 +16,6 @@
 - [React、Vue2、Vue3 的三种 Diff 算法](algorithm/diff.md)
 - [查找](algorithm/查找.md)
 - [DFS和BFS](algorithm/DFS和BFS.md)
+- [回溯算法](algorithm/回溯算法.md)
 - [贪心算法](algorithm/贪心算法.md)
 - [动态规划](algorithm/动态规划.md)

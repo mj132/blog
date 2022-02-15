@@ -589,6 +589,10 @@ module.exports = {
           path: 'algorithm/DFS和BFS'
         },
         {
+          title: '回溯算法',
+          path: 'algorithm/回溯算法'
+        },
+        {
           title: '贪心算法',
           path: 'algorithm/贪心算法'
         },
