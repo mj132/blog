@@ -17,3 +17,4 @@
 - [查找](algorithm/查找.md)
 - [DFS和BFS](algorithm/DFS和BFS.md)
 - [贪心算法](algorithm/贪心算法.md)
+- [动态规划](algorithm/动态规划.md)

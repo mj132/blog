@@ -592,6 +592,10 @@ module.exports = {
           title: '贪心算法',
           path: 'algorithm/贪心算法'
         },
+        {
+          title: '动态规划',
+          path: 'algorithm/动态规划'
+        },
       ]
     }
   ],
