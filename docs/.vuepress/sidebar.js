@@ -225,6 +225,15 @@ module.exports = {
       ]
     },
     {
+      title: '工程化',
+      children: [
+        {
+          title: '前端工程化大纲',
+          path: 'engineering/intro'
+        },
+      ]
+    },
+    {
       title: '数据库',
       children: [
         {
