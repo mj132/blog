@@ -231,6 +231,14 @@ module.exports = {
           title: '前端工程化大纲',
           path: 'engineering/intro'
         },
+        {
+          title: '剖析npm包管理机制',
+          path: 'engineering/package'
+        },
+        // {
+        //   title: '工程设计',
+        //   path: 'engineering/package_design'
+        // },
       ]
     },
     {

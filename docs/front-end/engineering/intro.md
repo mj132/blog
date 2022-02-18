@@ -37,7 +37,7 @@ AMD,CDM,CommonJS,ES6
 
 ## 自动化
 
-- CI/CD
+- CI/CD (jenkins)
 - 自动化测试
 
 ## 规范化
