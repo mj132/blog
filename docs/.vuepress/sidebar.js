@@ -235,10 +235,10 @@ module.exports = {
           title: '剖析npm包管理机制',
           path: 'engineering/package'
         },
-        // {
-        //   title: '工程设计',
-        //   path: 'engineering/package_design'
-        // },
+        {
+          title: '工程设计',
+          path: 'engineering/package_design'
+        },
       ]
     },
     {
