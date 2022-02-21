@@ -243,6 +243,10 @@ module.exports = {
           title: '工程设计',
           path: 'engineering/package_design'
         },
+        {
+          title: 'Git操作',
+          path: 'engineering/git'
+        },
       ]
     },
     {

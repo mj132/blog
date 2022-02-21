@@ -163,7 +163,7 @@ module.exports = {
     recommended: require('./configs/recommended'),
     // .....
   },
-  // processors 在被ESLlint处理之前都会被eslint-plugin-vue处理一便
+  // processors 在被ESLint处理之前都会被eslint-plugin-vue处理一遍
   processors: {
     '.vue': require('./processor'),
   },
@@ -173,8 +173,8 @@ module.exports = {
 使用方式
 
 1. 可以单独引用规则
-2. 可以直接使用（继承）eslint-plugin-vue 配置好的 config
-3. 预处理器的作用：解析.vue 文件
+2. 可以直接使用（继承）`eslint-plugin-vue` 配置好的 `config`
+3. 预处理器的作用：解析 `.vue` 文件
 
 #### Plugins 的使用
 
@@ -274,7 +274,7 @@ module.exports = {
           context.report({
             // context eslint全局上下文，report输出错误日志
             node, // 出错的节点
-            messageId: 'unexpexted', // 报错的提示信息
+            messageId: 'unexpected', // 报错的提示信息
             data: { prop: propertyName }, // prop 和meta中的message结合渲染出正确的提示信息
           })
         }
@@ -286,8 +286,8 @@ module.exports = {
 
 :tomato: 案例：检查 class 是否包含 constructor 构造方法
 
-利用这个网站[astexplorer](https://astexplorer.net/)比较有 constructor 和没有 constructor 的变化，然后劫持`ClassDeclaration`
-看里面的节点是否有`MethodDefinition`和 kind 是不是`constructor`
+利用这个网站[astexplorer](https://astexplorer.net/)比较有 `constructor` 和没有 `constructor` 的变化，然后劫持`ClassDeclaration`
+看里面的节点是否有`MethodDefinition`和 `kind` 是不是`constructor`
 
 ```js
 // no-constructor.js
@@ -319,7 +319,7 @@ module.exports = {
 ```
 
 - meta 部分
-- create 部分-在什么时机价差？-ClassDeclaration
+- create 部分-在什么时机检查？-ClassDeclaration
 - create 部分-怎么检查？-遍历 AST
 - 怎么知道 AST 的结构呢？[astexplorer](https://astexplorer.net/)
 
@@ -374,12 +374,12 @@ prettier 只关注第一类，且不会以报错的形式告知格式问题，�
 
 - Watch Changes
 
-```js
+```json
 // package.json
 {
-    "script": {
-        "prettier-watch": "onchange '**/*.js --prettier --write {{changed}}"
-    }
+  "script": {
+    "prettier-watch": "onchange '**/*.js --prettier --write {{changed}}"
+  }
 }
 ```
 
@@ -453,9 +453,9 @@ yarn add --dev eslint-config-prettier eslint-plugin-prettier
 
 x 案例：1.2.x  // 大于等于1.2.0 小于1.3.0
 
-// 3. ～ 表示限制minor版本的升级
+// 3. ~ 表示限制minor版本的升级
 
-～ 案例：～1.2.3  //  大于1.2.3 小于1.3.0
+~ 案例：~1.2.3  //  大于1.2.3 小于1.3.0
 
 // ^ 表示允许第二个非零的版本的升级
 
@@ -471,19 +471,19 @@ x 案例：1.2.x  // 大于等于1.2.0 小于1.3.0
 
 ### changelog
 
-- 什么是 changelog？
+- 什么是 `changelog` ？
 
-Changelog 是以时间为倒序的列表，记录所有版本的重大变化
+`changelog` 是以时间为倒序的列表，记录所有版本的重大变化
 
-- 为什么要有 Changelog？
+- 为什么要有 `changelog` ？
 
-为什么让我提供库和框架的用户了解每个版本发生了哪些变化，提供多于版本号的信息
+为什么让我提供库和框架的用户了解每个版本发生了哪些变化，提供关于版本号的信息
 
-### 自动化的 npm 包版本控制和 Changelog
+### 自动化的 npm 包版本控制和 changelog
 
 - release-it
   - 根据 git commit 自动生成版本号
-  - 自动生成 Changelog
+  - 自动生成 changelog
   - 丰富的 hooks 用来定制发版逻辑
   - 提供插件机制，高度可扩展
 
