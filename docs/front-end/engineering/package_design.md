@@ -10,7 +10,7 @@ Rails Style / Domain Style
 
 ### 工程范式分类
 
-#### :tomato: Rails Style
+:tomato: Rails Style
 
 ```js
 // egg应用典型结构
@@ -201,7 +201,7 @@ root
 ### mono-repo
 
 ```js
-// multi-repo
+// mono-repo
 
 ├── .git
 ├── lerna.json
@@ -248,7 +248,7 @@ git submodule add https://github.com
 # 更新所有的submodule
 git submodule update
 # 查submodule status
-git  submodule status
+git submodule status
 # foreach 用于在每个submodule中执行命令
 git submodule foreach "git checkout -b featureA"
 ```
@@ -256,7 +256,7 @@ git submodule foreach "git checkout -b featureA"
 - git 提供的一种管理子仓库的方案
 - 可以批量管理多个 git repo
 - 本质上是一个父 repo 维护了一份各个子 repo 的清单
-- 坑还是不少的：git Submodule 的坑
+- 坑还是不少的：[git Submodule 的坑](https://blog.devtang.com/2013/05/08/git-submodule-issues/)
 - 替代方案：git subtree
 
 ### mono-repo 的管理-lerna
@@ -342,7 +342,7 @@ lerna create pac-3
 2. 添加项目依赖
 
 ```bash
-# 制造依赖关系，对于内部项目的依赖，lerna会以软连接的形式，给它们相互软链接起来
+# 制造依赖关系，对于内部项目的依赖，lerna会以软链接的形式，给它们相互软链接起来
 lerna add pac-1 packages/pac-2
 lerna add pac-2 packages/pac-3
 ```

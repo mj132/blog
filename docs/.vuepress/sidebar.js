@@ -236,6 +236,10 @@ module.exports = {
           path: 'engineering/package'
         },
         {
+          title: '编程规范',
+          path: 'engineering/coding_standards'
+        },
+        {
           title: '工程设计',
           path: 'engineering/package_design'
         },
