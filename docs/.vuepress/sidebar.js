@@ -244,6 +244,10 @@ module.exports = {
           path: 'engineering/package_design'
         },
         {
+          title: '构建与编译',
+          path: 'engineering/build_compile'
+        },
+        {
           title: 'Git操作',
           path: 'engineering/git'
         },
