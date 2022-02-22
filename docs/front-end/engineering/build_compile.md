@@ -110,7 +110,7 @@ import { default as a } from './a'
 
 - Babel、webpack
 
-## 不得不提的 babel：token-ast
+## babel：token-ast
 
 ### 回顾 AST
 
@@ -208,7 +208,7 @@ function compiler(input) {
 
 [国大学慕课：编译原理 哈尔滨工业大学：](http://www.icourse163.org/course/HIT-1002123007)
 
-## 不得不提的 babel 基本概念
+## babel 基本概念
 
 ### Babel 的作用
 
@@ -346,7 +346,7 @@ module.exports = function() {
 
 [compat-table 项目地址](https://github.com/kangax/compat-table)
 
-## 不得不提的 babel 使用
+## babel 使用
 
 ### Babel 的使用方式
 
@@ -668,3 +668,1597 @@ module.exports = {
   plugins: ['@babel/plugin-proposal-class-properties', ['@babel/plugin-transform-runtime']],
 }
 ```
+
+## babel 插件开发
+
+### Babel 的插件的本质
+
+#### 插件长什么样？
+
+```js
+export default function() {
+  return {
+    visitor: {
+      Indentifier(path) {
+        const name = path.node.name
+        path.node.name = name
+          .split('')
+          .reverse()
+          .join('')
+      },
+    },
+  }
+}
+```
+
+#### 从代码到 AST
+
+```js
+function square() {
+  return n * n
+}
+```
+
+Babel 和 ESlint 一样，使用 EStree 规范生成 AST 结构，可以使用[AST Explore](https://astexplorer.net/)查看
+
+#### 节点（Node）
+
+- AST 每一层都拥有相同的结构，我们称之为节点（Node）
+- 一个 AST 可以由单一的节点或成百上千个节点构成
+- 它们组合在一起可以描述用于静态分析的程序语法
+
+```js
+{
+  type:"FunctionDeclaration",
+  id:{.....},
+  params:[......]
+  body:{.....}
+}
+
+{
+  type:"FunctionDeclaration",
+  name:...
+}
+
+{
+  type:"FunctionDeclaration",
+  operator:......,
+  left:{......},
+  right:{...}
+}
+```
+
+#### 遍历
+
+babel 编译经过 3 个步骤，解析->变换->生成；其中解析和生成我们都不用关注，我们只用关注变换，先要转换 AST，我们
+需要对其进行递归的树形遍历
+
+```json
+{
+  "type": "FunctionDeclaration",
+  "start": 0,
+  "end": 37,
+  "id": {
+    "type": "Identifier",
+    "start": 9,
+    "end": 15,
+    "name": "square"
+  },
+  "expression": false,
+  "generator": false,
+  "async": false,
+  "params": [],
+  "body": {
+    "type": "BlockStatement",
+    "start": 19,
+    "end": 37,
+    "body": [
+      {
+        "type": "ReturnStatement",
+        "start": 25,
+        "end": 35,
+        "argument": {
+          "type": "BinaryExpression",
+          "start": 32,
+          "end": 35,
+          "left": {
+            "type": "Identifier",
+            "start": 32,
+            "end": 33,
+            "name": "n"
+          },
+          "operator": "*",
+          "right": {
+            "type": "Identifier",
+            "start": 34,
+            "end": 35,
+            "name": "n"
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+1. 从 FunctionDeclaration 开始遍历
+2. id 节点，它是一个 identifier，没有任何子节点属性
+3. params 数组，访问其中的任何一项，都是 identifier
+4. body -> BlockStatement -> body
+5. ReturnStatement -> argument -> BinaryExpression
+6. ......
+
+#### 访问者模式
+
+- 遍历 AST 的过程，其实就是不断访问各个节点的过程
+
+- Babel 的插件，就是顺理成章地使用了访问者模式
+
+```js
+const MyVisitor = {
+  Indentifier: {
+    enter() {
+      console.log('Entered')
+    },
+    exit() {
+      console.log('EXited')
+    },
+  },
+}
+```
+
+访问者的每个方法都能获取 2 个参数，`path`和`state`
+
+- path
+
+path 是我们对节点的引用
+
+```js
+{
+  type:"FunctionDeclaration",
+  id:{
+      type:"Identifier",
+      name:"square"
+  }
+  ......
+}
+// path拿到父节点
+{
+  "parent":{
+    "type":"FunctionDeclaration",
+    "id":{}
+    .....
+  },
+  "node":{
+    "type":"Identifier",
+    "name":"square"
+  }
+}
+```
+
+1.  path 方法可以帮助我们访问父节点，帮助我们取得上下文信息。
+2.  path 方法上面有很多工具方法，帮助我们方便的操作 AST。
+
+- State
+
+插件的“状态，比如：
+当前 plugin 的信息、plugin 传入的配置参数，甚至处理过程中的自定义状态
+
+```js
+{
+  plugins:[
+    ["my-plugin",{
+      "options":true,
+      "options":false
+    }]
+  ]
+}
+// babel中通过state拿到配置参数
+{
+  visitor:{
+    FunctionDeclartion(path,state){
+      console.log(state.opts)
+      // {option1:true,option2:false}
+    }
+  }
+}
+```
+
+- 完整面貌
+
+```js
+export default function(babel) {
+  // babel的一些工具方法
+  const { type: t, template } = babel
+  return {
+    name: 'a-demo-plugin',
+    visitor: {
+      Indentifier(path, state) {},
+      ASTNodeTypeHere(path, state) {},
+    },
+  }
+}
+```
+
+一个 babel 对象为入参，以包含插件名和 visitor 的对象为返回值的函数
+
+### Babel 的插件开发工具
+
+|       工具        |                     作用                     |
+| :---------------: | :------------------------------------------: |
+|   @babel/parser   |              将源代码解析称 AST              |
+| @babel/generator  |             将 AST 生成 js 代码              |
+| @babel/code-frame |                 生成错误信息                 |
+|  @babel/helpers   |            提供一些内置的帮助函数            |
+|  @babel/template  |            为 parser 提供模版引擎            |
+|   @babel/types    | 主要用于处理节点类型相关的问题（判断、创建） |
+|  @babel/traverse  |           工具类，用来遍历 AST 树            |
+
+### Babel 的插件实战
+
+#### 实现一个 Optional Chaining
+
+```js
+foo?.bar
+// --------------- 把上面的转换成下面的
+foo == null ? void 0 : foo.bar
+```
+
+开发 babel 插件，首先对比 2 段代码的 AST 结构，利用[astexplorer](https://astexplorer.net/)工具分别拿到 json 格式的 AST，拿到 2 段转换后的 json 后，在利用[diffchecker](https://www.diffchecker.com/diff)网站对比一下前后变换。
+
+![](https://hejialianghe.gitee.io/assets/img/diffast.72041b6d.png)
+
+行数变化可以忽略，可以直接从结构上看见从哪里开始变化,可以看出是从`OptionaMembeExpression`变化成了`ConditionalExpression`;所以我们可以把
+`OptionaMembeExpression`结构替换成`ConditionalExpression`。
+
+```js
+// foo?.bar
+// foo==null?void 0: foo.bar
+const template = require('@babel/template').default
+module.exports = function OptionlChainingPlugin(babel) {
+  return {
+    name: 'optional-chaining-plugin',
+    visitor: {
+      // 通过刚刚的对比，我们知道就是替换OptionaMembeExpression这个表达式
+      OptionaMembeExpression(path, state) {
+        // path.replaceWith() 替换为新的节点
+        // path.remove() // 删除当前节点
+        // path.skip() //跳过子节点`
+        path.repalceWith(
+          // 用 @babel/types这个包构造ConditionalExpression节点，但是这个包已经挂载到了bable上了，所以可以直接载babel访问
+          // conditionalExpression具体参数可以访问babel官网查看，t.conditionalExpression(test, consequent, alternate)
+          // 可以从对比图中看出，第一个参数test类型是BinaryExpression，是一个二元判断，也需要我们用babel.types构造
+          babel.types.conditionalExpression(
+            // 从babel文档中查看BinaryExpression所需要的的参数t.binaryExpression(operator, left, right)
+            // operator就是 ==   left(左值)就是foo  right(右值)就是null
+            babel.types.BinaryExpression('==', babel.types.identifier(path.node.object.name), babel.types.nulLiteral()),
+            template.expression('void 0'), //将字符串转换称号ast
+            babel.types.memberExpression(
+              babel.types.identifier(path.node.object.name), // 对象名称
+              babel.types.identifier(path.node.property.name) // 属性名称
+            )
+          )
+        )
+      },
+    },
+  }
+}
+```
+
+## 深入 webpack 设计思想
+
+### Tapable
+
+#### Tapable 是啥？
+
+Tapable 是一个插件框架，也是 Webpack 的底层依赖，webpack 几乎所有的功能都有插件提供，webpack 本身创建了许多 hook，各个插件注册在
+
+自己感兴趣的 hook 上，有 webpack 在相应的时机去调用它们，tapable 正是提供了这样的 hook 体系。
+
+```js
+const {
+  SyncHook, // 同步钩子
+  SyncBailHook, // 同步熔断钩子
+  SyncWaterfallHook, // 同步流水钩子
+  SyncLoopHook, // 同步循环钩子
+  AsyncParalleHook, // 异步并发钩子
+  AsyncParallelBaillHook, // 异步并发熔断钩子
+  AsyncSeriesHook, // 异步串行钩子
+  AsyncSeriesBailHook, // 异步串行熔断钩子
+  AsyncSeriesWaterfallHook, // 异步串行流水钩子
+} = require('tapable')
+```
+
+#### Tapable 的使用
+
+```js
+const { SyncHook } = require('tapable')
+// 创建实例
+const syncHoook = new SyncHook(['name', 'age'])
+
+// 注册事件
+syncHook.tap('1', (name, age) => {
+  console.log('1', name, age)
+})
+syncHook.tap('2', (name, age) => {
+  console.log('1', name, age)
+})
+syncHook.tap('3', (name, age) => {
+  console.log('1', name, age)
+})
+
+syncHook.call('Harry Potter', 18)
+
+// output:
+// 1 Harry Potter 18
+// 2 Harry Potter 18
+// 3 Harry Potter 18
+```
+
+### Webpack 工作流程
+
+1. 初始化配置
+
+初始化既包括配置的初始化，也包括`tapable`插件体系的初始化，主要就是实例`Compiler`这个对象
+
+```js
+class Compiler extends Tapable {
+  constructor(context) {
+    super()
+    // 实例一系列tapable hook
+    this.hooks = {
+      shouldEmit: new SyncBailHook(['compilation']),
+      done: new AsyncSeriesHook(['stats']),
+      beforeRun: new AsyncSeriesHook(['compiler']),
+      run: new AsyncSeriesHook(['compiler']),
+      emit: new AsyncSeriesHook(['compilation']),
+      afterEmit: new AsyncSeriesHook(['compilation']),
+    }
+  }
+}
+```
+
+2. 准备工作（初始化 Plugins 等）
+
+初始化`plugin`的过程就是依次调用`plugin`apply 的过程
+
+```js
+class SourceMapDevToolPlugin {
+  // 在我们实例化的`Compiler`对象上注册每个钩子的回调函数
+  apply(compiler) {
+    compiler.hooks.compilation.tap('SourceMapDevToolPlugin', (compilation) => {
+      compilation.hooks.afterOptimizeChunkAssets.tap(xxx, () => {
+        context, chunks
+      })
+    })
+  }
+}
+```
+
+3. resolve 源文件，构建 module
+4. 生成 thunk
+5. 构建资源
+6. 最终文件生成
+
+事实上从第三步开始，都有 plugin 注册 hook 回调函数的方式在参与
+
+### Webpack 的主要概念
+
+- Entry
+  - Entry 是 webpack 开始分析依赖的入口
+  - Webpack 从 Entry 开始，遍历整个项目的依赖
+
+```js
+module.exports={
+  entry:'./path/to/my/entry/files.js'
+}
+
+module.exports={
+  entry:{
+    app:'./src/app.js',
+    adminApp:'./src/adminApp.js'
+  }
+```
+
+enrty 可以有一个，也可以有多个
+
+- Output
+
+Output 用来指示 Webpack 将打包后的 bundle 文件放在什么位置
+
+```js
+const path = require('path')
+module.exports = {
+  entry: './path/to/my/entry/files.js',
+  output: {
+    path: path.resolve(__dirname, dist),
+    fileName: 'my-fist-webpack-bundle.js',
+  },
+}
+```
+
+- Loader
+
+- Loader 能够让 Webpack 处理非 JS/JSON 的文件
+
+- 处理：将一切格式转为 JS 模块，以便 Webpack 分析依赖关系和方便我们在浏览器中加载
+
+```js
+const path = require('path')
+module.exports = {
+  entry: './path/to/my/entry/files.js',
+  output: {
+    path: path.resolve(__dirname, dist),
+    fileName: 'my-fist-webpack-bundle.js',
+  },
+  module: {
+    reules: [
+      {
+        test: '/.txt$/',
+        use: 'raw-loader',
+      },
+    ],
+  },
+}
+```
+
+- Plugin
+
+插件负责提供更高级的构建、打包功能
+
+```js
+const HtmlWebpackPlugin = require('Html-webpack-plugin')
+const path = require('path')
+module.exports = {
+  entry: './path/to/my/entry/files.js',
+  output: {
+    path: path.resolve(__dirname, dist),
+    fileName: 'my-fist-webpack-bundle.js',
+  },
+  module: {
+    reules: [
+      {
+        test: '/.txt$/',
+        use: 'raw-loader',
+      },
+    ],
+  },
+  plugins: [
+    // HtmlWebpackPlugin 为应用生成一个html文件，并且自动注入所有生成的js bundle，这是loader所做不到的
+    new HtmlWebpackPlugin({ template: './src/index.html' }),
+  ],
+}
+```
+
+- Mode （webpack4 以后）
+
+指明当前的构建任务所处的环境，让 webpack 针对特定环境启动一些优化项
+
+```js
+module.exports = {
+  mode: 'production', // 'node' | 'development' 'production'
+}
+```
+
+## 深入 webpack 高级使用
+
+### 基本配置
+
+#### entry
+
+- 单入口
+
+```js
+module.exports = {
+  entry: './src/index.js',
+}
+```
+
+- 多入口
+
+```js
+// 要为每个入口命名
+module.exports = {
+  home: './home.js',
+  about: './about.js',
+  contact: './contact.js',
+}
+```
+
+#### output
+
+```js
+module.exports={
+  output:{
+  // 输出bundle文件名，hash是wepack使用散列算法生成一段字符串，这样每次打包的文件名都不样
+  // 这样浏览器即使缓存，每次也能加载最新代码
+    filename:'[name].[hash].bundle.js'，
+    // 输出的 chunk文件名，一般是非entry打包出的文件
+    chunkFilename：'[id].js'
+  }
+}
+```
+
+#### 资源的加载
+
+我们可以使用 loader 来加载非 js 的资源
+
+```js
+// css/rest.css
+body {
+    margin:0px;
+}
+// app.js
+import './css/reset.css'
+```
+
+对于加载非 js 的资源我们都应该使用`loader`，所有要加载 css 的资源我们可以选择`style-loader`、`css-loader`
+
+css-loader 使你可以在别的 css 中可以使用`@import`的语法引用别的 css
+
+style-loader 把 js 代码中`import`导入的样式文件代码，以一种特殊的方式打包到 jsbundle 的结果中，然后在 js 的运行时，将样式自动插入
+
+页面的 style 标签中。
+
+```js
+module.exports={
+  entry:path.resolve(__dirname,'src/index.js'),
+  output:{
+    filename:path.resolve(__dirname,'dist/'
+  }
+  mode:"develoment",
+  plugins:[....],
+  module:{
+    rules:[
+      {
+        test:/\.css$/,
+        use:['style-loader','css-loader']
+      }
+    ]
+  }
+}
+```
+
+需要注意的是，loader 的执行顺序是反的，从数组的最后往前执行，如果使用使用`sass`，需要配置最后面；这样等 sass-loader 执行完后的结果
+
+在交给 css-loader，要不然依赖倒置就会出现错误。
+
+```js
+module.exports={
+  entry:path.resolve(__dirname,'src/index.js'),
+  output:{
+    filename:path.resolve(__dirname,'dist/'
+  }
+  mode:"develoment",
+  plugins:[....],
+  module:{
+    rules:[
+      {
+        test:/\.css$/,
+        use:[{
+          loader:'style-loader',
+        },
+        {
+          loader:'css-loader',
+        },
+        {
+          loader:'sass-loader',
+          options:{sourceMap:true}
+        }],
+        exclude:'/node_modules/'
+      }
+    ]
+  }
+}
+```
+
+#### 资源的处理
+
+MiniCssExtractPlugin 把 css 抽离出单独的文件
+
+```js
+// loader
+{
+  test: /\.scss$/, MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'
+}
+
+// plugin
+// 抽取css代码
+new MiniCssExtractPlugin({
+  filename: '[name].css?v=[contenthash]',
+})
+```
+
+#### HTML 的处理
+
+- HtmlWebpackPlugin
+
+任何 js 应用都需要由 HTML 去承载，我们使用 HtmlWebpackPlugin 去处理项目中的 HTML 文件
+
+```js
+module.exports={
+  plugins:[
+    new HtmlWebpackPlugin({
+      // 输出的文件名
+      filename:'index.html'
+      // 模块文件的路径
+      template：path.resolve(__dirname,'src/index.html'),
+      // 配置生成页面的标题
+      title:'webpack-主页'
+    })
+  ]
+}
+```
+
+#### 静态资源处理
+
+- 开发中的静态资源
+
+图片、字体、音视频等
+
+```json
+{
+  "test": /\.(png | jpe?g | gif | svg)$/,
+  "use": [
+    {
+      "loader": "url-loader",
+      "options": {
+        // 小于8192字节的图片打包成base64图片
+        "limit": 8192,
+        "name": "images/[name].[hash:8].[ext]",
+        "publicPath": ""
+      }
+    }
+  ]
+}
+
+{
+  "test": /\.(woff | woff2 | svg | eot | ttf)$/,
+  "use": [
+    {
+      "loader": "file-loader",
+      "options": {
+        "limit": 8192,
+        "name": "font/[name].[ext]?[hash:8]"
+      }
+    }
+  ]
+}
+```
+
+#### js 处理
+
+- babel-loader
+
+不另行指定配置的话，会使用项目的.babelrc.json 配置
+
+```js
+module: {
+  rules: [
+    {
+      test: /\.(js | jsx)$/,
+      use: 'babel-loader',
+      include: path.resolve(__dirname, 'src'),
+    },
+  ]
+}
+```
+
+### 高级使用
+
+#### mode
+
+```js
+module.exports = {
+  mode: 'development', // none  | production | development
+}
+```
+
+Mode 用来表示当前的 webpack 运行环境，本质是在不同的环境下，开启一些内置的优化项
+
+#### devServer
+
+- 开发调试
+
+想要在代码发生变化后自动编译代码，有三种方式：
+
+1. webpack watch mode
+
+2. webpack-dev-server
+
+3. webpack-dev-middleware
+
+```js
+module.exports = {
+  devServer: {
+    contentBase: __dirname + 'dist',
+    compress: true,
+    port: 9000,
+  },
+}
+```
+
+#### HMR(模块热替换)
+
+```js
+module.exports = {
+  devServer: {
+    contentBase: __dirname + 'dist',
+    compress: true,
+    port: 9000,
+    // 开启HMR
+    hot: true,
+  },
+}
+```
+
+用于在无刷新的情况下，根据文件变动刷新页面的局部状态
+
+#### 代码分离
+
+- 为什么要代码分离？
+
+为了将代码分成多个 bundle，并灵活定制加载策略（按需加载、并行加载），从而大大提升应用的加载速度。
+
+- 如何代码分离？
+
+1. 入口起起点：使用 entry 配置手动地分离代码
+2. 防止重复：使用 SplitChunkPlugin 去重和分离 chunk
+3. 动态导入：通过在代码中使用动态加载模块的语法来分离代码
+
+- 多入口构建
+
+```js
+module.exports = {
+  mode: 'development',
+  entry: {
+    index: './src/index.js',
+    another: './src/another-module.js',
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].bundle.js',
+  },
+}
+```
+
+最终结果：
+
+index.bundle.js
+another.bundle.js
+
+问题：
+
+1. 资源可能被重复引入
+2. 不够灵活
+
+- splitChunks
+
+```js
+module.exports = {
+  mode: 'development',
+  entry: {
+    index: './src/index.js',
+    another: './src/another-module.js',
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].bundle.js',
+  },
+  // 在webpack4 中将splitChunks统一到了optimization中
+  optimization: {
+    //    查询相关用法，不是插询optimization，而是查询SplitChunksPlugin这个插件
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
+}
+```
+
+- 动态导入
+
+1. import()
+
+es module 提供语言级的方法
+
+2. reuire.ensure
+
+在没有 import 方法之前，webpack 提供的方法
+
+```js
+// 动态导入是异步的
+import(/*webpackChunkName:loaash*/,'lodash').then(({default:_})=>{
+
+})
+.catch(err=>{
+
+})
+```
+
+## 深入 webpack Loader 和 Plugin 详解
+
+### loader 的编写
+
+- Webpack Loader 的基本结构
+
+```js
+// 同步的Loader
+module.exports = (input) => input + input
+// 异步的Loader
+module.exports = function() {
+  const callback = this.async()
+  callback(null, input + input) //返回值用callback传递出去
+}
+```
+
+- loader-utils
+
+loader-utils 是编写 webpack loader 的官方工具库
+
+```js
+const loaderUtils = require('loader-utils')
+module.exports = function(source) {
+  // 获取配置
+  const options = loaderUtils.getOptions(this)
+  const result = source.replace('word', options.name)
+  return result
+}
+```
+
+- loader 中的 “洋葱模型”
+
+style-loader->css-loader->postcss-loader
+
+在 loader 执行的时候 webpack 从左到右依次调用`pitch`方法，然后在从右到左调用 loader 本身(execute 的过程)。
+
+```js
+const loaderUtils = require('loader-utils')
+module.exports = function(input) {
+  const { text } = loaderUtils.getOptions(this)
+  return input + input
+}
+/*
+ remainingReg 是loader链中排在当前这个loader后面所有的loader以及资源文件组成的一个链接，这个链接我们可以理解为一个路径
+ 在所有的loader处理完毕后，我们可以在webpack中使用一个特殊的require函数，去require这个路径，从而得到当前loader后所有的loader的处理结果。
+
+ precedingReq 是loader链中排在当前这个loader前面所有的loader以及资源文件所组成的链接
+
+ input 是一个对象，各个loader把共享的数据挂载这个对象上，如果pitch返回一个值；那么webpack就会跳过余下的loader pitch和execute的过程，
+ 也就是说pitch返回阻断了后续loader的执行
+
+*/
+module.exports.pitch = function(remainingReg, precedingReq, input) {
+  console.log(`
+        remainingReg request :${remainingReg}
+        precedingReq request :${precedingReq}
+        Input: ${JSON.stringify(input, null, 2)}
+    `)
+  return 'pitched'
+}
+```
+
+- 调试 loader
+
+```js
+const fs = require('fs')
+const path = require('path')
+const { runLoaders } = require('loader-runner') //可以创建一个简单loader调试环境
+
+runLoaders(
+  {
+    resource: './demo.txt',
+    loaders: [path.resolve(__dirname, './loaders/demo-loader')],
+    readResource: fs.readFile.bind(fs),
+  },
+  (err, result) => (err ? console.error(err) : console.log(result))
+)
+```
+
+### plugin 的编写
+
+loader 有`loader-runner`作为调试工具，webpack 的 plugin 因为需要的上下文信息太多了，所以没有一个模拟的环境，如果我们要开发`plugin`需要
+配置 webpack，在真实的环境中开发。
+
+[webpack 官方教你如何编写一个 plugin](https://www.webpackjs.com/contribute/writing-a-plugin/)
+
+编写 pugins 我们可以进入[webpack 网站](https://www.webpackjs.com/api/compiler-hooks/#emit)查看相关开发 api 和 hooks。
+
+1. 搭建开发环境
+
+```js
+const path = require('path')
+const DemoPlugin = require('./plugins/demo-plugin.js')
+const PATHS = {
+  lib: path.join(__dirname, 'app', 'shake.js'),
+  build: path.join(__dirname, 'build'),
+}
+module.exports = {
+  entry: {
+    lib: PATHS.lib,
+  },
+  output: {
+    path: PATHS.build,
+    filename: '[name].js',
+  },
+  plugins: [new DemoPlugin()],
+}
+```
+
+2. Compiler 和 Compilation
+
+webpack plugin 的本质就是由`apply`方法的类，通过`apply`的方法的类我们可以在运行时取得`compiler`和`Compilation`这 2 个实例；
+Compiler 是编译器的实例（即 Webpack），Compilation 是每一次编译的过程。
+
+```js
+module.exports = class DemoPlugin {
+  constructor() {
+    this.options = options
+  }
+  apply(compiler) {
+    compiler.plugin('emit', (compilation, cb) => {
+      cb()
+    })
+  }
+}
+```
+
+#### 案例实战
+
+编写一个 WebpackPlugin，统计 Webpack 打包结果中各个文件的大小，并以 JSON 形式输出统计结果。
+
+```js
+const webpackRources = require('webpack-sources')
+class WebpackSizePlugin {
+  constructor(options) {
+    this.options = options
+    this.PLUGIN_NAME = 'WebpackSizePlugin'
+  }
+  apply(complier) {
+    const outputOptions = complier.options.output // 拿到output配置，拿到文件最终的输出路径是什么
+    // 我们插件的目的是统计出打包出来文件的大小，所以我们需要注册到打包结果后的hooks上，由于要输出json，所以要在输出硬盘之前
+    complier.hooks.emit.tap(
+      this.PLUGIN_NAME, // 插件的名称
+      (compilation) => {
+        // 在这个函数中可以读取和操作本次编译的结果
+        const assets = compilation.assets // 所有的编译结果都可以通过compilation.assets拿到
+        const buildSize = {}
+        const files = Object.keys(assets)
+        let total = 0
+        for (let file of files) {
+          const size = assets[file].size() // 拿到字符数
+          buildSize[file] = size
+          total += size
+        }
+        console.log('Build Size', buildSize)
+        console.log('Total Size', total)
+        buildSize.total = total
+        // 想要webpack生成一个文件，只需这个文件以键值对的形式加入到assets对象中，那么在打包执行完毕之后，webpack会自动帮我们生成
+        assets[outputOptions.publicPath + '/' + (this.options ? this.options.fileName : 'build-size.json')] = new webpackRources.RawSource(JSON.stringify(buildSize, null, 4))
+        // assets对象中文件的内容，也就是说assets对象中每一项的值它是一个RawSource对象，而不是一个普通的字符串，上面要输出rawsource对象
+      }
+    )
+  }
+}
+```
+
+webpack 配置
+
+```js
+plugins: [new WebpackSizePlugin({ fileName: 'size.json' })]
+```
+
+### 扩展学习
+
+[loader-utils 项目地址：](https://www.npmjs.com/package/loader-utils)
+
+## webpack 性能优化
+
+### webpack 数据分析
+
+#### webpack-bundle-analyzer(文件体积分析)
+
+它能分析打包出的文件有哪些，大小占比如何，模块包含关系，依赖项，文件是否重复，压缩后大小
+
+1. webpack.config.js
+
+```js
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+module.exports = {
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
+      generateStatsFile: true, // 是否生成stats.json文件
+    }),
+  ],
+}
+```
+
+2. package.json
+
+```json
+"scripts": {
+  "build": "webpack",
+  "start": "webpack serve",
+  "dev":"webpack  --progress",
+   "analyzer": "webpack-bundle-analyzer --port 8888 ./dist/stats.json"
+}
+```
+
+#### speed-measure-webpack-plugin（分析打包速度）
+
+1. webpack.config.js
+
+```js
+const SpeedMeasureWebpackPlugin = require('speed-measure-webpack5-plugin');
+const smw = new SpeedMeasureWebpackPlugin();
+module.exports = smw.wrap({
+  mode: "development",
+  devtool: 'source-map',
+  ...
+});
+```
+
+#### friendly-errors-webpack-pluginK(美化输出日志)
+
+```bash
+yarn friendly-errors-webpack-plugin  node-notifier -D
+```
+
+```js
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+const notifier = require('node-notifier')
+
+module.exports = {
+  mode: 'development',
+  devtool: 'source-map',
+  context: process.cwd(),
+  entry: {
+    main: './src/index.js',
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.js',
+  },
+  plugins: [
+    new HtmlWebpackPlugin(),
+    new FriendlyErrorsWebpackPlugin({
+      onErrors: (severity, errors) => {
+        const error = errors[0]
+        notifier.notify({
+          title: 'Webpack编译失败',
+          message: severity + ': ' + error.name,
+          subtitle: error.file || '',
+        })
+      },
+    }),
+  ],
+}
+```
+
+### 编译时间优化
+
+#### :tomato: 1. extensions
+
+- 添加 extensions 后我们在用`require`、`import`的时候不用添加文件扩展名
+- 编译的时候会依次添加扩展名进行匹配
+
+```js
+module.exports = {
+  resolve: {
+    extensions:[".js"、".jsx"、".json"]
+  }
+}
+```
+
+#### :tomato: 2. alias
+
+配置文件别名可以加快 webpack 查找模块的速度
+
+```js
+const elementUi = path.resolve(__dirname,'node_modules/element-ui/lib/theme-chalk/index.css')
+module.exports = {
+  resolve: {
+    extensions:[".js"、".jsx"、".json"],
+    alias: {'element-ui'}
+  }
+}
+```
+
+当我们引入 elementUi 模块的时候，它会直接引入 elementUi，不需要从 node_modules 文件中按模块规则查找
+
+#### :tomato: 3. modules
+
+指定项目的所有第三方模块都是在项目根目录下的 node_modules
+
+```js
+const elementUi = path.resolve(__dirname,'node_modules/element-ui/lib/theme-chalk/index.css')
+module.exports = {
+  resolve: {
+    extensions:[".js"、".jsx"、".json"],
+    modules: ['node_modules']
+  }
+}
+```
+
+#### :tomato: 4. oneOf
+
+- 每个文件对于 rules 中的所有规则都会遍历一遍，如果使用 oneOf，只要能匹配一个就立即退出
+- 在 oneOf 中不能 2 个配置处理同一类型文件
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        oneOf: [
+          {
+            test: /\.js$/,
+            include: path.resolve(__dirname, 'src'),
+            exclude: /node_modules/,
+            use: [
+              {
+                loader: 'thread-loader',
+                options: {
+                  workers: 3,
+                },
+              },
+              {
+                loader: 'babel-loader',
+                options: {
+                  cacheDirectory: true,
+                },
+              },
+            ],
+          },
+          {
+            test: /\.css$/,
+            use: ['cache-loader', 'logger-loader', 'style-loader', 'css-loader'],
+          },
+        ],
+      },
+    ],
+  },
+}
+```
+
+#### :tomato: 5. external
+
+如果某个库我们不想让它被 webpack 打包，想让它用 cdn 的方法是引入，并且不影响我们在程序中以 CMD、AMD 方式进行使用
+
+下载插件
+
+```bash
+yarn add html-webpack-externals-plugin -D
+```
+
+在 html 文件中引入 cdn 的文件
+
+```html
+<script src="https://cdn.abc.com/vue/2.5.11/vue.min.js"></script>
+```
+
+webpack 中的配置
+
+```js
+externals: {
+  vue: 'vue',
+},
+```
+
+#### :tomato: 6. resolveLoader
+
+就是指定 loader 的 resolve，只作用于 loader；resolve 配置用来影响 webpack 模块解析规则。解析规则也可以称之为检索，索引规则。配置索引规则能够缩短 webpack 的解析时间，提升打包速度。
+
+```js
+module.exports = {
+  resolve: {
+    extensions:[".js"、".jsx"、".json"],
+    modules: ['node_modules']
+  },
+  resolveLoader:{
+    modules: [path.resolve(__dirname, "loaders"),'node_modules'],
+  },
+}
+```
+
+#### :tomato: 7. noParse
+
+- 用于配置哪些模块的文件内容不需要进行解析
+- 不需要解析依赖就是没有依赖的第三方大型类库，可以配置这个字段，以提高整体的构建速度
+- 使用 noparse 进行忽略的模块文件中不能使用 import、require 等语法
+
+```js
+module.exports = {
+  module: {
+    noParse: /test.js/, // 正则表达式
+  },
+}
+```
+
+#### :tomato: 8. thread-loader(多进程)
+
+- 把 thread-loader 放置在其他 loader 之前
+- include 表示哪些目录中的 .js 文件需要进行 babel-loader
+- exclude 表示哪些目录中的 .js 文件不要进行 babel-loader
+- exclude 的优先级高于 include ,尽量避免 exclude ，更倾向于使用 include
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        oneOf: [
+          {
+            test: /\.js$/,
+            include: path.resolve(__dirname, 'src'),
+            exclude: /node_modules/,
+            use: [
+              {
+                loader: 'thread-loader',
+                options: {
+                  workers: require('os').cpus().length - 1, // 自己电脑的核心数减1
+                },
+              },
+              {
+                loader: 'babel-loader',
+                options: {
+                  // babel在转移js非常耗时间，可以将结果缓存起来，下次直接读缓存；默认存放位置是 node_modules/.cache/babel-loader
+                  cacheDirectory: true,
+                },
+              },
+            ],
+          },
+          {
+            test: /\.css$/,
+            use: ['cache-loader', 'logger-loader', 'style-loader', 'css-loader'],
+          },
+        ],
+      },
+    ],
+  },
+}
+```
+
+#### :tomato: 8. cache-loader
+
+- 在一些性能开销较大的 loader 之前添加 cache-loader，可以将结果缓存到磁盘中
+- 默认保存在 node_modules/.cache/cache-loader 目录下
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        oneOf: [
+          {
+            test: /\.css$/,
+            use: ['cache-loader', 'logger-loader', 'style-loader', 'css-loader'],
+          },
+        ],
+      },
+    ],
+  },
+}
+```
+
+#### :tomato: 9. hard-source-webpack-plugin
+
+- HardSourceWebpackPlugin 为模块提供了中间缓存,缓存默认的存放路径是
+  node_modules/.cache/hard-source
+- 配置 hard-source-webpack-plugin 后，首次构建时间并不会有太大的变化，但是从第二次开始， 构建时间大约可以减少 80% 左右
+- webpack5 中已经内置了模块缓存,不需要再使用此插件
+
+```bash
+yarn add hard-source-webpack-plugin -D
+```
+
+```js
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+module.exports = {
+  plugins: [new HardSourceWebpackPlugin()],
+}
+```
+
+### 编译体积优化
+
+#### :tomato: 1. 压缩 js、css、HTML 和图片
+
+- optimize-css-assets-webpack-plugin 是一个优化和压缩 CSS 资源的插件
+- terser-webpack-plugin 是一个优化和压缩 JS 资源的插件
+- image-webpack-loader 可以帮助我们对图片进行压缩和优化
+
+```bash
+yarn terser-webpack-plugin optimize-css-assets-webpack-plugin image-webpack-
+loader -D
+```
+
+```js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin');
+
+module.exports = {,
+  optimization: {
+     minimize: true
+     minimizer: [
+         new TerserPlugin()
+     ]
+  },
+  module:{
+    rules:[{
+      test: /\.(png|svg|jpg|gif|jpeg|ico)$/,
+      use: [
+        'url-loader',
+        {
+          loader: 'image-webpack-loader',
+          options: {
+            mozjpeg: {
+              progressive:true,
+              quality: 65
+            },
+            optipng: {
+              enabled: false
+            },
+            pngquant: {
+              quality: '65-90',
+              speed: 4
+            },
+            gifsicle: {
+              interlaced: false
+            },
+            webp: {
+              quality: 75,
+            }
+          }
+        }
+      ]
+    }]
+  },
+  plugins:[
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true
+      }
+    })
+    new OptimizeCssAssetsWebpackPlugin(),
+  ]
+ }
+```
+
+#### :tomato: 2. 清除无用的 css
+
+purgecss-webpack-plugin 单独提取 CSS 并清除用不到的 CSS
+
+```js
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const PurgecssPlugin = require("purgecss-webpack-plugin");
+const glob = require("glob");
+const PATHS = {
+  src: path.join(__dirname, "src"),
+};
+
+module.exports = {,
+  optimization: {
+    minimize: true
+    minimizer: [
+      new TerserPlugin()
+    ]
+  },
+  module:{
+    rules:[{
+      test: /\.css$/,
+      include: path.resolve(__dirname, "src"),
+      exclude: /node_modules/,
+      use: [
+        {
+          loader: MiniCssExtractPlugin.loader,
+        },
+        "css-loader",
+      ]
+    }]
+  },
+  plugins:[
+    new MiniCssExtractPlugin({
+      filename: "[name].css"
+    })
+    new OptimizeCssAssetsWebpackPlugin({
+      paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true})
+    }),
+  ]
+ }
+```
+
+#### :tomato: 3. Tree shaking
+
+- webpack 默认支持,可在 production mode 下默认开启
+- 在 package.json 中配置:
+  - "sideEffects": false 所有的代码都没有副作用(都可以进行 tree shaking)
+  - 可能会把 css 和@babel/polyfill 文件干掉可以设置 "sideEffects":["*.css"]
+
+会把以下情况的代码 Tree shaking
+
+1. 没有导入和使用
+
+```js
+function func1() {
+  return 'func1'
+}
+function func2() {
+  return 'func2'
+}
+export { func1, func2 }
+```
+
+```js
+import { func2 } from './functions'
+var result2 = func2()
+console.log(result2)
+```
+
+2. 代码不会被执行，不可到达
+
+```js
+if (false) {
+  console.log('false')
+}
+```
+
+3. 代码执行的结果不会被用到
+
+```js
+import { func2 } from './functions'
+func2()
+```
+
+4. 代码中只写不读的变量
+
+```js
+var a = 1
+a = 2
+```
+
+#### :tomato: 3. Scope Hoisting
+
+- Scope Hoisting 可以让 Webpack 打包出来的代码文件更小、运行的更快，它又译作 "作用域提升"，是在 Webpack3 中新推出的功能。
+- scope hoisting 的原理是将所有的模块按照引用顺序放在一个函数作用域里，然后适当地重命名一 些变量以防止命名冲突
+- 这个功能在 mode 为 下默认开启,开发环境要用 webpack.optimizeModuleConcatenationPlugin 插件
+
+doc.js
+
+```js
+export default 'test'
+```
+
+app.js
+
+```js
+import str from './doc.js'
+console.log(str)
+```
+
+作用域提升
+
+```js
+var str = 'test'
+console.log(str)
+```
+
+### 运行速度优化
+
+- 对于大的 Web 应用来讲，将所有的代码都放在一个文件中显然是不够有效的，特别是当你的某些 代码块是在某些特殊的时候才会被用到。
+- webpack 有一个功能就是将你的代码库分割成 chunks 语块，当代码运行到需要它们的时候再进行 加载
+
+#### :tomato: 1. 入口点分割
+
+```js
+module.exports = {
+  entry: {
+    index: './src/index.js',
+    login: './src/login.js',
+  },
+}
+```
+
+- 这种方法的问题
+  - 如果入口 chunks 之间包含重复的模块(lodash)，那些重复模块都会被引入到各个 bundle 中
+  - 不够灵活，并且不能将核心应用程序逻辑进行动态拆分代码
+
+#### :tomato: 2. 懒加载
+
+可以用`import()`方式去引入模块，当需要的时候在加载某个功能对应代码
+
+```js
+const Login = () => import(/* webpackChunkName: "login" */ '@/components/Login/Login')
+```
+
+#### :tomato: 3. prefetch
+
+- 使用预先拉取，你表示该模块可能以后会用到。浏览器会在空闲时间下载该模块
+- prefetch 的作用是告诉浏览器未来可能会使用到的某个资源，浏览器就会在闲时去加载对应的资
+  源，若能预测到用户的行为，比如懒加载，点击到其它页面等则相当于提前预加载了需要的资源
+- `<link rel="prefetch" as="script" href="test.js">`此方法添加头部，浏览器会在空闲时间预先拉取该文件
+
+```js
+import(
+  /* webpackChunkName: 'login', webpackPrefetch: true
+   */ './login'
+).then((result) => {
+  console.log(result.default)
+})
+```
+
+#### :tomato: 4. 提取公共代码
+
+[splitChunks](https://webpack.js.org/plugins/split-chunks-plugin/#root)
+
+webpack
+
+```js
+module.exports = {
+  output:{
+    filename:'[name].js',
+      chunkFilename:'[name].js'
+    },
+    entry: {
+      index: "./src/index.js",
+      login: "./src/login.js"
+    },
+  }
+  optimization: {
+    splitChunks: {
+      chunks: 'all',  // 分割同步异步的代码
+      minSize: 0,    // 最小体积
+      minRemainingSize: 0, // 代码分割后的最小保留体积，默认等于minSize
+      maxSize: 0,  // 最大体积
+      minChunks: 1,  // 最小代码快
+      maxAsyncRequests: 30, // 最大异步请求数
+      maxInitialRequests: 30, // 最小异步请求数
+      automaticNameDelimiter: '~', // 名称分离符
+      enforceSizeThreshold: 50000, //执行拆分的大小阈值，忽略其他限制
+      // (minRemainingSize、maxAsyncRequests、maxInitialRequests)
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,//控制此缓存组选择哪些模块
+          priority: -10,//一个模块属于多个缓存组,默认缓存组的优先级是负数，自定义缓存组的优先级更高，默认值为0 //如果当前代码块包含已经主代码块中分离出来的模块，那么它将被重用，而不是生成新的模块。这可能会影响块的结果文件名。
+        },
+        default: {
+          minChunks: 2,
+          priority: -20
+        }
+      }
+    }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template:'./src/index.html',
+      filename:'page1.html',
+      chunks:['index']
+    }),
+    new HtmlWebpackPlugin({
+      template:'./src/index.html',
+      filename:'page2.html',
+      chunks:['login']
+    }),
+  ]
+}
+```
+
+#### :tomato: 4. CDN
+
+- 最影响用户体验的是网页首次打开时的加载等待。 导致这个问题的根本是网络传输过程耗时大， CDN 的作用就是加速网络传输。
+- CDN 又叫内容分发网络，通过把资源部署到世界各地，用户在访问时按照就近原则从离用户最近 的服务器获取资源，从而加速资源的获取速度
+- 用户使用浏览器第一次访问我们的站点时，该页面引入了各式各样的静态资源，如果我们能做到持 久化缓存的话，可以在 http 响应头加上 Cache-control Expires 字段来设置缓存，浏览器可以 将这些资源一一缓存到本地
+- 用户在后续访问的时候，如果需要再次请求同样的静态资源，且静态资源没有过期，那么浏览器可以直接走本地缓存而不用再通过网络请求资源
+- 缓存配置
+  - HTML 文件不缓存，放在自己的服务器上，关闭自己服务器的缓存，静态资源的 URL 变成指向 CDN 服务器的地址
+  - 静态的 JavaScript、CSS、图片等文件开启 CDN 和缓存，并且文件名带上 HASH 值
+  - 为了并行加载不阻塞，把不同的静态资源分配到不同的 CDN 服务器上
+- 域名限制
+  - 同一时刻针对同一个域名的资源并行请求是有限制 可以把这些静态资源分散到不同的 CDN 服务上去 多个域名后会增加域名解析时间
+  - 可以通过在 HTML HEAD 标签中 加入去预解析域名，以降低域名解析带来的延迟
