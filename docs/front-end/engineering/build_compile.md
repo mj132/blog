@@ -730,8 +730,7 @@ Babel 和 ESlint 一样，使用 EStree 规范生成 AST 结构，可以使用[A
 
 #### 遍历
 
-babel 编译经过 3 个步骤，解析->变换->生成；其中解析和生成我们都不用关注，我们只用关注变换，先要转换 AST，我们
-需要对其进行递归的树形遍历
+babel 编译经过 3 个步骤，解析->变换->生成；其中解析和生成我们都不用关注，我们只用关注变换，先要转换 AST，我们需要对其进行递归的树形遍历
 
 ```json
 {
@@ -817,8 +816,8 @@ path 是我们对节点的引用
 {
   type:"FunctionDeclaration",
   id:{
-      type:"Identifier",
-      name:"square"
+    type:"Identifier",
+    name:"square"
   }
   ......
 }
@@ -841,8 +840,7 @@ path 是我们对节点的引用
 
 - State
 
-插件的“状态，比如：
-当前 plugin 的信息、plugin 传入的配置参数，甚至处理过程中的自定义状态
+插件的状态，比如：当前 plugin 的信息、plugin 传入的配置参数，甚至处理过程中的自定义状态
 
 ```js
 {
@@ -925,14 +923,14 @@ module.exports = function OptionlChainingPlugin(babel) {
         // path.remove() // 删除当前节点
         // path.skip() //跳过子节点`
         path.repalceWith(
-          // 用 @babel/types这个包构造ConditionalExpression节点，但是这个包已经挂载到了bable上了，所以可以直接载babel访问
+          // 用 @babel/types这个包构造ConditionalExpression节点，但是这个包已经挂载到了bable上了，所以可以直接用babel访问
           // conditionalExpression具体参数可以访问babel官网查看，t.conditionalExpression(test, consequent, alternate)
           // 可以从对比图中看出，第一个参数test类型是BinaryExpression，是一个二元判断，也需要我们用babel.types构造
           babel.types.conditionalExpression(
             // 从babel文档中查看BinaryExpression所需要的的参数t.binaryExpression(operator, left, right)
             // operator就是 ==   left(左值)就是foo  right(右值)就是null
-            babel.types.BinaryExpression('==', babel.types.identifier(path.node.object.name), babel.types.nulLiteral()),
-            template.expression('void 0'), //将字符串转换称号ast
+            babel.types.BinaryExpression('==', babel.types.identifier(path.node.object.name), babel.types.nullLiteral()),
+            template.expression('void 0'), //将字符串转换成ast
             babel.types.memberExpression(
               babel.types.identifier(path.node.object.name), // 对象名称
               babel.types.identifier(path.node.property.name) // 属性名称
@@ -981,10 +979,10 @@ syncHook.tap('1', (name, age) => {
   console.log('1', name, age)
 })
 syncHook.tap('2', (name, age) => {
-  console.log('1', name, age)
+  console.log('2', name, age)
 })
 syncHook.tap('3', (name, age) => {
-  console.log('1', name, age)
+  console.log('3', name, age)
 })
 
 syncHook.call('Harry Potter', 18)
@@ -1020,7 +1018,7 @@ class Compiler extends Tapable {
 
 2. 准备工作（初始化 Plugins 等）
 
-初始化`plugin`的过程就是依次调用`plugin`apply 的过程
+初始化`plugin`的过程就是依次调用`plugin apply` 的过程
 
 ```js
 class SourceMapDevToolPlugin {
@@ -1029,7 +1027,7 @@ class SourceMapDevToolPlugin {
     compiler.hooks.compilation.tap('SourceMapDevToolPlugin', (compilation) => {
       compilation.hooks.afterOptimizeChunkAssets.tap(xxx, () => {
         context, chunks
-      })
+      })-
     })
   }
 }
@@ -1159,9 +1157,11 @@ module.exports = {
 ```js
 // 要为每个入口命名
 module.exports = {
-  home: './home.js',
-  about: './about.js',
-  contact: './contact.js',
+  entry: {
+    home: './home.js',
+    about: './about.js',
+    contact: './contact.js',
+  },
 }
 ```
 
@@ -1186,7 +1186,7 @@ module.exports={
 ```js
 // css/rest.css
 body {
-    margin:0px;
+  margin:0px;
 }
 // app.js
 import './css/reset.css'
@@ -1219,9 +1219,9 @@ module.exports={
 }
 ```
 
-需要注意的是，loader 的执行顺序是反的，从数组的最后往前执行，如果使用使用`sass`，需要配置最后面；这样等 sass-loader 执行完后的结果
+需要注意的是，loader 的执行顺序是反的，从数组的最后往前执行，如果使用使用`sass`，需要配置最后面；这样等 `sass-loader` 执行完后的结果
 
-在交给 css-loader，要不然依赖倒置就会出现错误。
+在交给 `css-loader`，要不然依赖倒置就会出现错误。
 
 ```js
 module.exports={
@@ -1282,7 +1282,7 @@ module.exports={
       // 输出的文件名
       filename:'index.html'
       // 模块文件的路径
-      template：path.resolve(__dirname,'src/index.html'),
+      template: path.resolve(__dirname,'src/index.html'),
       // 配置生成页面的标题
       title:'webpack-主页'
     })
@@ -1330,7 +1330,7 @@ module.exports={
 
 - babel-loader
 
-不另行指定配置的话，会使用项目的.babelrc.json 配置
+不另行指定配置的话，会使用项目的 `.babelrc.json` 配置
 
 ```js
 module: {
@@ -1363,9 +1363,7 @@ Mode 用来表示当前的 webpack 运行环境，本质是在不同的环境下
 想要在代码发生变化后自动编译代码，有三种方式：
 
 1. webpack watch mode
-
 2. webpack-dev-server
-
 3. webpack-dev-middleware
 
 ```js
@@ -1402,7 +1400,7 @@ module.exports = {
 
 - 如何代码分离？
 
-1. 入口起起点：使用 entry 配置手动地分离代码
+1. 入口起点：使用 entry 配置手动地分离代码
 2. 防止重复：使用 SplitChunkPlugin 去重和分离 chunk
 3. 动态导入：通过在代码中使用动态加载模块的语法来分离代码
 
@@ -1424,8 +1422,10 @@ module.exports = {
 
 最终结果：
 
+```js
 index.bundle.js
 another.bundle.js
+```
 
 问题：
 
@@ -1447,7 +1447,7 @@ module.exports = {
   },
   // 在webpack4 中将splitChunks统一到了optimization中
   optimization: {
-    //    查询相关用法，不是插询optimization，而是查询SplitChunksPlugin这个插件
+    // 查询相关用法，不是插询optimization，而是查询SplitChunksPlugin这个插件
     splitChunks: {
       chunks: 'all',
     },
@@ -1468,10 +1468,8 @@ es module 提供语言级的方法
 ```js
 // 动态导入是异步的
 import(/*webpackChunkName:loaash*/,'lodash').then(({default:_})=>{
-
 })
 .catch(err=>{
-
 })
 ```
 
@@ -1773,7 +1771,6 @@ module.exports = {
 指定项目的所有第三方模块都是在项目根目录下的 node_modules
 
 ```js
-const elementUi = path.resolve(__dirname,'node_modules/element-ui/lib/theme-chalk/index.css')
 module.exports = {
   resolve: {
     extensions:[".js"、".jsx"、".json"],
@@ -1985,7 +1982,7 @@ module.exports = {,
   optimization: {
      minimize: true
      minimizer: [
-         new TerserPlugin()
+        new TerserPlugin()
      ]
   },
   module:{
@@ -2067,7 +2064,7 @@ module.exports = {,
     new MiniCssExtractPlugin({
       filename: "[name].css"
     })
-    new OptimizeCssAssetsWebpackPlugin({
+    new PurgecssPlugin({
       paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true})
     }),
   ]
@@ -2127,7 +2124,7 @@ a = 2
 
 - Scope Hoisting 可以让 Webpack 打包出来的代码文件更小、运行的更快，它又译作 "作用域提升"，是在 Webpack3 中新推出的功能。
 - scope hoisting 的原理是将所有的模块按照引用顺序放在一个函数作用域里，然后适当地重命名一 些变量以防止命名冲突
-- 这个功能在 mode 为 下默认开启,开发环境要用 webpack.optimizeModuleConcatenationPlugin 插件
+- 这个功能在生产环境下默认开启,开发环境要用 `webpack.optimize.ModuleConcatenationPlugin` 插件
 
 doc.js
 
@@ -2180,8 +2177,7 @@ const Login = () => import(/* webpackChunkName: "login" */ '@/components/Login/L
 #### :tomato: 3. prefetch
 
 - 使用预先拉取，你表示该模块可能以后会用到。浏览器会在空闲时间下载该模块
-- prefetch 的作用是告诉浏览器未来可能会使用到的某个资源，浏览器就会在闲时去加载对应的资
-  源，若能预测到用户的行为，比如懒加载，点击到其它页面等则相当于提前预加载了需要的资源
+- prefetch 的作用是告诉浏览器未来可能会使用到的某个资源，浏览器就会在闲时去加载对应的资源，若能预测到用户的行为，比如懒加载，点击到其它页面等则相当于提前预加载了需要的资源
 - `<link rel="prefetch" as="script" href="test.js">`此方法添加头部，浏览器会在空闲时间预先拉取该文件
 
 ```js
