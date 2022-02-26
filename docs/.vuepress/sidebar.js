@@ -678,4 +678,10 @@ module.exports = {
       path: 'middleware'
     },
   ],
+  '/life/': [
+    {
+      title: '程序员健康指南',
+      path: './'
+    },
+  ]
 }
