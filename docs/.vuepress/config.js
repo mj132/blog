@@ -51,6 +51,10 @@ module.exports = {
         link: "/structure-algorithm/"
       },
       {
+        text: "生活",
+        link: "/life/"
+      },
+      {
         text: "Github",
         link: "https://github.com/mj132"
       }
