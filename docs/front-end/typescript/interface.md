@@ -77,7 +77,7 @@ interface User {
 
 如果传递的对象不仅仅是上述的属性，这时候可以使用：
 
-- 类型推断
+- 类型断言
 
 ```ts
 interface User {

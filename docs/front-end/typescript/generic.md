@@ -83,8 +83,6 @@ interface ReturnItemFn<T> {
 const returnItem: ReturnItemFn<number> = (para) => para
 ```
 
-###
-
 ### 类声明
 
 使用泛型声明类的时候，既可以作用于类本身，也可以作用与类的成员函数
@@ -108,7 +106,7 @@ class Stack<T> {
 使用方式如下：
 
 ```ts
-const stack = new Stacn<number>()
+const stack = new Stack<number>()
 ```
 
 如果上述只能传递 `string` 和 `number` 类型，这时候就可以使用 `<T extends xx>` 的方式猜实现**约束泛型**，如下所示：
@@ -119,7 +117,7 @@ const stack = new Stacn<number>()
 
 例如要设计一个函数，这个函数接受两个参数，一个参数为对象，另一个参数为对象上的属性，我们通过这两个参数返回这个属性的值
 
-这时候就设计到泛型的索引类型和约束类型共同实现
+这时候就涉及到泛型的索引类型和约束类型共同实现
 
 ### 索引类型、约束类型
 
