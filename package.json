@@ -1,31 +1,17 @@
 {
   "name": "blog",
   "version": "1.0.0",
-  "author": "MJ",
-  "keywords": [
-    "javascript",
-    "vue",
-    "css",
-    "html",
-    "node",
-    "front-end"
-  ],
+  "description": "'vue js node blog'",
   "main": "index.js",
+  "author": "mj",
   "license": "MIT",
   "scripts": {
-    "start": "vuepress dev docs",
-    "build": "vuepress build docs",
-    "eject": "vuepress eject docs",
-    "deploy": "bash deploy.sh",
-    "server": "vuepress build docs && pm2 start app.js --name='blog'"
+    "start": "vitepress dev docs --host --port 8888",
+    "build": "vitepress build docs",
+    "serve": "vitepress serve docs"
   },
   "devDependencies": {
-    "@vuepress/plugin-back-to-top": "^1.5.0",
-    "@vuepress/plugin-medium-zoom": "^1.5.2",
-    "vuepress": "^1.5.1"
-  },
-  "dependencies": {
-    "express": "^4.17.1",
-    "pm2": "^4.4.0"
+    "vitepress": "^1.0.0-alpha.31",
+    "vue": "^3.2.45"
   }
 }

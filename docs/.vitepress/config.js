@@ -1,9 +1,10 @@
-module.exports = {
+export default {
   base: "/blog/",
+  appearance: true,
   title: '大前端',
   description: '前端技术博客，记录成长轨迹',
   head: [
-    ['link', { rel: 'icon', href: '/img/logo.png' }],
+    ['link', { rel: 'icon', href: '../img/logo.png' }],
     ['script', {}, `
       var _hmt = _hmt || [];
       (function () {
@@ -16,12 +17,8 @@ module.exports = {
   ],
   port: '8888',
   themeConfig: {
-    logo: '/img/logo.png',
+    logo: '../img/logo.png',
     nav: [
-      {
-        text: "主页",
-        link: "/"
-      },
       {
         text: "前端",
         link: "/front-end/"
@@ -29,10 +26,6 @@ module.exports = {
       {
         text: "Vue",
         link: "/vue/"
-      },
-      {
-        text: "React",
-        link: "/react/"
       },
       {
         text: "性能优化",
@@ -45,33 +38,28 @@ module.exports = {
       {
         text: "node",
         link: "/node/"
-      },
-      {
-        text: "数据结构和算法",
-        link: "/structure-algorithm/"
-      },
-      {
-        text: "生活",
-        link: "/life/"
-      },
-      {
-        text: "Github",
-        link: "https://github.com/mj132"
       }
     ],
     sidebarDepth: 2,
-    sidebar: require('./sidebar.js')
+    sidebar: require('./sidebar.js'),
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/mj132' }
+    ],
+    footer: {
+      copyright: 'Copyright © 2022-present MJ'
+    }
   },
   markdown: {
+    theme: 'material-palenight',
     lineNumbers: true
   },
   plugins: [
-    ['@vuepress/back-to-top', true],
-    ['@vuepress/medium-zoom', {
-      options: {
-        margin: 16,
-        background: 'rgba(30, 30, 30, .9)'
-      }
-    }]
+    // ['@vuepress/back-to-top', true],
+    // ['@vuepress/medium-zoom', {
+    //   options: {
+    //     margin: 16,
+    //     background: 'rgba(30, 30, 30, .9)'
+    //   }
+    // }]
   ]
 }
