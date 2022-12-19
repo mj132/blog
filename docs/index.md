@@ -6,7 +6,7 @@ hero:
   text: 多年技术积累，让我们一起走进高级前端的世界吧！
   tagline: javascript  vue typescript css node
   image:
-    src: './img/clock.gif'
+    src: '/clock.gif'
   actions:
     - theme: brand
       text: 开始阅读 →

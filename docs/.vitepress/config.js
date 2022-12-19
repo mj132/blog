@@ -4,7 +4,7 @@ export default {
   title: '大前端',
   description: '前端技术博客，记录成长轨迹',
   head: [
-    ['link', { rel: 'icon', href: '../img/logo.png' }],
+    ['link', { rel: 'icon', href: '/logo.png' }],
     ['script', {}, `
       var _hmt = _hmt || [];
       (function () {
@@ -17,7 +17,7 @@ export default {
   ],
   port: '8888',
   themeConfig: {
-    logo: '../img/logo.png',
+    logo: '/logo.png',
     nav: [
       {
         text: "前端",
