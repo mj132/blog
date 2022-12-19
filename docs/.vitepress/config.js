@@ -21,26 +21,30 @@ export default {
     nav: [
       {
         text: "前端",
-        link: "/front-end/"
+        link: "/front-end/",
+        activeMatch: '/front-end'
       },
       {
         text: "Vue",
-        link: "/vue/"
+        link: "/vue/",
+        activeMatch: '/vue'
       },
       {
         text: "性能优化",
-        link: "/performance-optimization/"
+        link: "/performance/",
+        activeMatch: '/performance'
       },
       {
         text: "面试题",
-        link: "/interview/"
+        link: "/interview/",
+        activeMatch: '/interview'
       },
       {
         text: "node",
-        link: "/node/"
+        link: "/node/",
+        activeMatch: '/node'
       }
     ],
-    sidebarDepth: 2,
     sidebar: require('./sidebar.js'),
     socialLinks: [
       { icon: 'github', link: 'https://github.com/mj132' }

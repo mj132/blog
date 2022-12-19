@@ -45,7 +45,7 @@
 
 为了更容易理解，我们可以随便在一个目录中打开 `Git`，使用 `Linux` 命令 `ls -al` 来查目录中文件和文件夹的权限位
 
-```linux
+```sh
 drwxr-xr-x 1 mj 197121 0 Jun 28 14:41 core
 -rw-r--r-- 1 mj 197121 293 Jun 23 17:44 index.md
 ```

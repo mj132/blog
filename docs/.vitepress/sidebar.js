@@ -152,37 +152,37 @@ module.exports = {
       collapsible: true,
       collapsed: true,
       items: [
-        ["/front-end/webpack/webpack", "webpack的介绍"],
-        ["/front-end/webpack/build_process", "webpack的构建流程"],
-        ["/front-end/webpack/Loader", "webpack中的Loader"],
-        ["/front-end/webpack/Plugin", "webpack中常见的Plugin"],
-        ["/front-end/webpack/Loader_Plugin", "Loader和Plugin的区别"],
-        ["/front-end/webpack/HMR", "webpack的热更新原理"],
-        ["/front-end/webpack/proxy", "webpack proxy工作原理"],
-        ["/front-end/webpack/performance", "webpack优化前端性能"],
-        ["/front-end/webpack/improve_build", "提高webpack的构建速度"],
-        ["/front-end/webpack/Rollup_Parcel_snowpack_Vite", "与webpack类似的工具"],
+        { link: "/front-end/webpack/webpack", text: "webpack的介绍" },
+        { link: "/front-end/webpack/build_process", text: "webpack的构建流程" },
+        { link: "/front-end/webpack/Loader", text: "webpack中的Loader" },
+        { link: "/front-end/webpack/Plugin", text: "webpack中常见的Plugin" },
+        { link: "/front-end/webpack/Loader_Plugin", text: "Loader和Plugin的区别" },
+        { link: "/front-end/webpack/HMR", text: "webpack的热更新原理" },
+        { link: "/front-end/webpack/proxy", text: "webpack proxy工作原理" },
+        { link: "/front-end/webpack/performance", text: "webpack优化前端性能" },
+        { link: "/front-end/webpack/improve_build", text: "提高webpack的构建速度" },
+        { link: "/front-end/webpack/Rollup_Parcel_snowpack_Vite", text: "与webpack类似的工具" },
       ]
     },
     {
-      text: "http",
+      text: "HTTP",
       collapsible: true,
       collapsed: true,
       items: [
-        ["/front-end/http/HTTP_HTTPS", "HTTP 和 HTTPS 的区别"],
-        ["/front-end/http/HTTPS", "HTTPS是如何保证安全的"],
-        ["/front-end/http/UDP_TCP", "UDP 和 TCP区别和应用场景"],
-        ["/front-end/http/OSI", "OSI七层模型"],
-        ["/front-end/http/TCP_IP", "TCP/IP协议"],
-        ["/front-end/http/DNS", "DNS协议 和 DNS 完整的查询过程"],
-        ["/front-end/http/CDN", "CDN实现原理"],
-        ["/front-end/http/1.0_1.1_2.0", "HTTP1.0/1.1/2.0 的区别"],
-        ["/front-end/http/status", "HTTP 常见的状态码"],
-        ["/front-end/http/GET_POST", "GET 和 POST 的区别"],
-        ["/front-end/http/headers", "HTTP 常见的请求头"],
-        ["/front-end/http/after_url", "地址栏输入 URL 敲下回车后发生了什么"],
-        ["/front-end/http/handshakes_waves", "TCP为什么需要三次握手和四次挥手"],
-        ["/front-end/http/WebSocket", "WebSocket的理解和应用场景"]
+        { link: "/front-end/http/HTTP_HTTPS", text: "HTTP 和 HTTPS 的区别" },
+        { link: "/front-end/http/HTTPS", text: "HTTPS是如何保证安全的" },
+        { link: "/front-end/http/UDP_TCP", text: "UDP 和 TCP区别和应用场景" },
+        { link: "/front-end/http/OSI", text: "OSI七层模型" },
+        { link: "/front-end/http/TCP_IP", text: "TCP/IP协议" },
+        { link: "/front-end/http/DNS", text: "DNS协议 和 DNS 完整的查询过程" },
+        { link: "/front-end/http/CDN", text: "CDN实现原理" },
+        { link: "/front-end/http/1.0_1.1_2.0", text: "HTTP1.0/1.1/2.0 的区别" },
+        { link: "/front-end/http/status", text: "HTTP 常见的状态码" },
+        { link: "/front-end/http/GET_POST", text: "GET 和 POST 的区别" },
+        { link: "/front-end/http/headers", text: "HTTP 常见的请求头" },
+        { link: "/front-end/http/after_url", text: "地址栏输入 URL 敲下回车后发生了什么" },
+        { link: "/front-end/http/handshakes_waves", text: "TCP为什么需要三次握手和四次挥手" },
+        { link: "/front-end/http/WebSocket", text: "WebSocket的理解和应用场景" }
       ]
     },
     {
@@ -327,241 +327,273 @@ module.exports = {
   ],
   '/vue/': [
     {
-      link: './',
-      text: '生命周期原理',
-    },
-    {
-      link: 'responsiveData',
-      text: '响应式数据原理'
-    },
-    {
-      link: 'compile',
-      text: '模板编译原理'
-    },
-    {
-      link: 'initialRender',
-      text: '初始渲染原理'
-    },
-    {
-      link: 'update',
-      text: '渲染更新原理'
-    },
-    {
-      link: 'nextTick',
-      text: 'NextTick异步更新原理'
-    },
-    {
-      link: 'diff',
-      text: 'diff算法原理'
-    },
-    {
-      link: 'mixin',
-      text: 'Mixin混入原理'
-    },
-    {
-      link: 'component',
-      text: '组件原理'
-    },
-    {
-      link: 'watch',
-      text: '侦听属性原理'
-    },
-    {
-      link: 'computed',
-      text: '计算属性原理'
-    },
-    {
-      link: 'globalApi',
-      text: '全局api原理'
-    },
-  ],
-  '/performance-optimization/': [
-    {
-      link: './',
-      text: '启程'
-    },
-    {
-      link: 'cache',
-      text: '一、缓存'
-    },
-    {
-      link: 'request',
-      text: '二、发送请求'
-    },
-    {
-      link: 'response',
-      text: '三、服务端响应'
-    },
-    {
-      link: 'parse',
-      text: '四、页面解析与处理'
-    },
-    {
-      link: '/performance-optimization/resources/',
-      text: '五、页面静态资源',
+      text: 'vue2',
+      collapsible: true,
       items: [
         {
-          link: 'resources/javascript',
-          text: 'javascript'
+          link: '/vue/',
+          text: '生命周期原理',
         },
         {
-          link: 'resources/css',
-          text: 'css'
+          link: '/vue/responsiveData',
+          text: '响应式数据原理'
         },
         {
-          link: 'resources/image',
-          text: 'image'
+          link: '/vue/compile',
+          text: '模板编译原理'
         },
         {
-          link: 'resources/font',
-          text: 'font'
+          link: '/vue/initialRender',
+          text: '初始渲染原理'
         },
         {
-          link: 'resources/video',
-          text: 'video'
+          link: '/vue/update',
+          text: '渲染更新原理'
+        },
+        {
+          link: '/vue/nextTick',
+          text: 'NextTick异步更新原理'
+        },
+        {
+          link: '/vue/diff',
+          text: 'diff算法原理'
+        },
+        {
+          link: '/vue/mixin',
+          text: 'Mixin混入原理'
+        },
+        {
+          link: '/vue/component',
+          text: '组件原理'
+        },
+        {
+          link: '/vue/watch',
+          text: '侦听属性原理'
+        },
+        {
+          link: '/vue/computed',
+          text: '计算属性原理'
+        },
+        {
+          link: '/vue/globalApi',
+          text: '全局api原理'
         },
       ]
     },
     {
-      link: 'runtime',
-      text: '六、运行时'
+      text: 'vue3',
+      collapsible: true,
+      collapsed: true,
+      items: []
     },
+  ],
+  '/performance/': [
     {
-      link: 'preload',
-      text: '七、预加载'
-    },
-    {
-      link: 'END',
-      text: '尾声'
-    },
+      items: [
+        {
+          link: '/performance/',
+          text: '启程'
+        },
+        {
+          link: '/performance/cache',
+          text: '一、缓存'
+        },
+        {
+          link: '/performance/request',
+          text: '二、发送请求'
+        },
+        {
+          link: '/performance/response',
+          text: '三、服务端响应'
+        },
+        {
+          link: '/performance/parse',
+          text: '四、页面解析与处理'
+        },
+        {
+          text: '五、页面静态资源',
+          collapsible: true,
+          collapsed: true,
+          items: [
+            {
+              link: '/performance/resources/javascript',
+              text: 'javascript'
+            },
+            {
+              link: '/performance/resources/css',
+              text: 'css'
+            },
+            {
+              link: '/performance/resources/image',
+              text: 'image'
+            },
+            {
+              link: '/performance/resources/font',
+              text: 'font'
+            },
+            {
+              link: '/performance/resources/video',
+              text: 'video'
+            },
+          ]
+        },
+        {
+          link: '/performance/runtime',
+          text: '六、运行时'
+        },
+        {
+          link: '/performance/preload',
+          text: '七、预加载'
+        },
+        {
+          link: '/performance/END',
+          text: '尾声'
+        },
+      ]
+    }
   ],
   '/interview/': [
     {
-      text: '面试题-css',
-      link: './'
-    },
-    {
-      text: '面试题-js',
-      link: 'javascript'
-    },
-    {
-      text: '面试题-手写js',
-      link: 'handwriteJs'
+      text: '基础题',
+      items: [
+        {
+          text: '面试题-手写js',
+          link: '/interview/'
+        },
+        {
+          text: '面试题-css',
+          link: '/interview/css'
+        },
+        {
+          text: '面试题-js',
+          link: '/interview/javascript'
+        },
+      ]
     },
     {
       text: '面试题-vue',
+      collapsible: true,
+      collapsed: true,
       items: [
-        ["vue/vue", "说说你对vue的理解?"],
-        ["vue/spa", "说说你对SPA（单页应用）的理解?"],
-        ["vue/show_if", "Vue中的v-show和v-if怎么理解？"],
-        ["vue/new_vue", "Vue实例挂载的过程中发生了什么?"],
-        ["vue/lifecycle", "说说你对Vue生命周期的理解?"],
-        ["vue/if_for", "为什么Vue中的v-if和v-for不建议一起用?"],
-        ["vue/first_page_time", "SPA（单页应用）首屏加载速度慢怎么解决？"],
-        ["vue/data", "为什么data属性是一个函数而不是一个对象？"],
-        ["vue/data_object_add_attrs", "Vue中给对象添加新属性界面不刷新?"],
-        ["vue/components_plugin", "Vue中组件和插件有什么区别？"],
-        ["vue/communication", "Vue组件间通信方式都有哪些?"],
-        ["vue/bind", "说说你对双向绑定的理解?"],
-        ["vue/nexttick", "说说你对nexttick的理解?"],
-        ["vue/mixin", "说说你对vue的mixin的理解，有什么应用场景？"],
-        ["vue/slot", "说说你对slot的理解？slot使用场景有哪些？"],
-        ["vue/observable", "Vue.observable你有了解过吗？说说看"],
-        ["vue/key", "你知道vue中key的原理吗？说说你对它的理解？"],
-        ["vue/keepalive", "怎么缓存当前的组件？缓存后怎么更新？说说你对keep-alive的理解是什么？"],
-        ["vue/modifier", "Vue常用的修饰符有哪些？有什么应用场景？"],
-        ["vue/directive", "你有写过自定义指令吗？自定义指令的应用场景有哪些？"],
-        ["vue/filter", "Vue中的过滤器了解吗？过滤器的应用场景有哪些？"],
-        ["vue/vnode", "什么是虚拟DOM？如何实现一个虚拟DOM？说说你的思路"],
-        ["vue/diff", "你了解vue的diff算法吗？说说看"],
-        ["vue/axios", "Vue项目中有封装过axios吗？主要是封装哪方面的？"],
-        ["vue/axiosCode", "你了解axios的原理吗？有看过它的源码吗？"],
-        ["vue/ssr", "SSR解决了什么问题？有做过SSR吗？你是怎么做的？"],
-        ["vue/structure", "说下你的vue项目的目录结构，如果是大型项目你该怎么划分结构和划分组件呢？"],
-        ["vue/permission", "vue要做权限管理该怎么做？如果控制到按钮级别的权限怎么做？"],
-        ["vue/cors", "Vue项目中你是如何解决跨域的呢？"],
-        ["vue/404", "vue项目本地开发完成后部署到服务器后报404是什么原因呢？"],
-        ["vue/error", "你是怎么处理vue项目中的错误的？"],
-        ["vue/vue3_vue2", "Vue3有了解过吗？能说说跟Vue2的区别吗？"]
+        { link: "/interview/vue/vue", text: "说说你对vue的理解?" },
+        { link: "/interview/vue/spa", text: "说说你对SPA（单页应用）的理解?" },
+        { link: "/interview/vue/show_if", text: "Vue中的v-show和v-if怎么理解？" },
+        { link: "/interview/vue/new_vue", text: "Vue实例挂载的过程中发生了什么?" },
+        { link: "/interview/vue/lifecycle", text: "说说你对Vue生命周期的理解?" },
+        { link: "/interview/vue/if_for", text: "为什么Vue中的v-if和v-for不建议一起用?" },
+        { link: "/interview/vue/first_page_time", text: "SPA（单页应用）首屏加载速度慢怎么解决？" },
+        { link: "/interview/vue/data", text: "为什么data属性是一个函数而不是一个对象？" },
+        { link: "/interview/vue/data_object_add_attrs", text: "Vue中给对象添加新属性界面不刷新?" },
+        { link: "/interview/vue/components_plugin", text: "Vue中组件和插件有什么区别？" },
+        { link: "/interview/vue/communication", text: "Vue组件间通信方式都有哪些?" },
+        { link: "/interview/vue/bind", text: "说说你对双向绑定的理解?" },
+        { link: "/interview/vue/nexttick", text: "说说你对nexttick的理解?" },
+        { link: "/interview/vue/mixin", text: "说说你对vue的mixin的理解，有什么应用场景？" },
+        { link: "/interview/vue/slot", text: "说说你对slot的理解？slot使用场景有哪些？" },
+        { link: "/interview/vue/observable", text: "Vue.observable你有了解过吗？说说看" },
+        { link: "/interview/vue/key", text: "你知道vue中key的原理吗？说说你对它的理解？" },
+        { link: "/interview/vue/keepalive", text: "怎么缓存当前的组件？缓存后怎么更新？说说你对keep-alive的理解是什么？" },
+        { link: "/interview/vue/modifier", text: "Vue常用的修饰符有哪些？有什么应用场景？" },
+        { link: "/interview/vue/directive", text: "你有写过自定义指令吗？自定义指令的应用场景有哪些？" },
+        { link: "/interview/vue/filter", text: "Vue中的过滤器了解吗？过滤器的应用场景有哪些？" },
+        { link: "/interview/vue/vnode", text: "什么是虚拟DOM？如何实现一个虚拟DOM？说说你的思路" },
+        { link: "/interview/vue/diff", text: "你了解vue的diff算法吗？说说看" },
+        { link: "/interview/vue/axios", text: "Vue项目中有封装过axios吗？主要是封装哪方面的？" },
+        { link: "/interview/vue/axiosCode", text: "你了解axios的原理吗？有看过它的源码吗？" },
+        { link: "/interview/vue/ssr", text: "SSR解决了什么问题？有做过SSR吗？你是怎么做的？" },
+        { link: "/interview/vue/structure", text: "说下你的vue项目的目录结构，如果是大型项目你该怎么划分结构和划分组件呢？" },
+        { link: "/interview/vue/permission", text: "vue要做权限管理该怎么做？如果控制到按钮级别的权限怎么做？" },
+        { link: "/interview/vue/cors", text: "Vue项目中你是如何解决跨域的呢？" },
+        { link: "/interview/vue/404", text: "vue项目本地开发完成后部署到服务器后报404是什么原因呢？" },
+        { link: "/interview/vue/error", text: "你是怎么处理vue项目中的错误的？" },
+        { link: "/interview/vue/vue3_vue2", text: "Vue3有了解过吗？能说说跟Vue2的区别吗？" }
       ],
     },
     {
       text: '面试题-vue3',
+      collapsible: true,
+      collapsed: true,
       items: [
-        ["vue3/goal", "Vue3.0的设计目标是什么？做了哪些优化?"],
-        ["vue3/performance", "Vue3.0 性能提升主要是通过哪几方面体现的？"],
-        ["vue3/proxy", "Vue3.0里为什么要用 Proxy API 替代 defineProperty API ？"],
-        ["vue3/composition", "Vue3.0 所采用的 Composition Api 与 Vue2.x 使用的 Options Api 有什么不同？"],
-        ["vue3/treeshaking", "说说Vue 3.0中Treeshaking特性？举例说明一下？"],
-        ["vue3/modal_component", "用Vue3.0 写过组件吗？如果想实现一个 Modal你会怎么设计？"],
+        { link: "/interview/vue3/goal", text: "Vue3.0的设计目标是什么？做了哪些优化?" },
+        { link: "/interview/vue3/performance", text: "Vue3.0 性能提升主要是通过哪几方面体现的？" },
+        { link: "/interview/vue3/proxy", text: "Vue3.0里为什么要用 Proxy API 替代 defineProperty API ？" },
+        { link: "/interview/vue3/composition", text: "Vue3.0 所采用的 Composition Api 与 Vue2.x 使用的 Options Api 有什么不同？" },
+        { link: "/interview/vue3/treeshaking", text: "说说Vue 3.0中Treeshaking特性？举例说明一下？" },
+        { link: "/interview/vue3/modal_component", text: "用Vue3.0 写过组件吗？如果想实现一个 Modal你会怎么设计？" },
       ]
     },
     {
       text: '面试题-react',
+      collapsible: true,
+      collapsed: true,
       items: [
-        ["react/react", "说说对React的理解"],
-        ["react/virtual_dom", "说说 Real DOM和 Virtual DOM 的区别"],
-        ["react/lifecycle", "说说 React 生命周期"],
-        ["react/state_props", "说说 state 和 props 区别"],
-        ["react/super()_super(props)", "说说 super() 和 super(props) 区别"],
-        ["react/set_state", "说说 React 中的 setState 执行机制"],
-        ["react/synthetic_event", "说说 React 中的 事件机制"],
-        ["react/binding_events", "React 事件绑定的方式有哪些"],
-        ["react/building_components", "React 构建组件的方式有哪些"],
-        ["react/communication", "React 中组件之间如何通信"],
-        ["react/refs", "说说对 React refs 的理解"],
-        ["react/hooks", "说说对 React Hooks 的理解"],
-        ["react/redux", "说说对 Redux 的理解"],
-        ["react/router", "说说对 React Router 的理解"],
-        ["react/immutable", "说说对 immutable 的理解"],
-        ["react/render", "说说 React render 方法的原理"],
-        ["react/diff", "说说React diff原理和Fiber架构"],
-        ["react/jsx_to_dom", "说说React Jsx转换成真实DOM过程"],
-        ["react/optimize", "说说 React 性能优化的手段"],
-        ["react/server_render", "说说 React 服务端渲染怎么做"],
+        { link: "/interview/react/react", text: "说说对React的理解" },
+        { link: "/interview/react/virtual_dom", text: "说说 Real DOM和 Virtual DOM 的区别" },
+        { link: "/interview/react/lifecycle", text: "说说 React 生命周期" },
+        { link: "/interview/react/state_props", text: "说说 state 和 props 区别" },
+        { link: "/interview/react/super()_super(props)", text: "说说 super() 和 super(props) 区别" },
+        { link: "/interview/react/set_state", text: "说说 React 中的 setState 执行机制" },
+        { link: "/interview/react/synthetic_event", text: "说说 React 中的 事件机制" },
+        { link: "/interview/react/binding_events", text: "React 事件绑定的方式有哪些" },
+        { link: "/interview/react/building_components", text: "React 构建组件的方式有哪些" },
+        { link: "/interview/react/communication", text: "React 中组件之间如何通信" },
+        { link: "/interview/react/refs", text: "说说对 React refs 的理解" },
+        { link: "/interview/react/hooks", text: "说说对 React Hooks 的理解" },
+        { link: "/interview/react/redux", text: "说说对 Redux 的理解" },
+        { link: "/interview/react/router", text: "说说对 React Router 的理解" },
+        { link: "/interview/react/immutable", text: "说说对 immutable 的理解" },
+        { link: "/interview/react/render", text: "说说 React render 方法的原理" },
+        { link: "/interview/react/diff", text: "说说React diff原理和Fiber架构" },
+        { link: "/interview/react/jsx_to_dom", text: "说说React Jsx转换成真实DOM过程" },
+        { link: "/interview/react/optimize", text: "说说 React 性能优化的手段" },
+        { link: "/interview/react/server_render", text: "说说 React 服务端渲染怎么做" },
       ]
     },
   ],
   '/node/': [
     {
-      text: 'node是什么',
-      link: './'
-    },
-    {
-      text: 'node事件循环',
-      link: 'event_loop'
-    },
-    {
-      text: 'node核心模块-path',
-      link: 'path'
-    },
-    {
-      text: 'node核心模块-fs',
-      link: 'fs'
-    },
-    {
-      text: 'node核心模块-stream',
-      link: 'stream'
-    },
-    {
-      text: 'node核心模块-buffer',
-      link: 'buffer'
-    },
-    {
-      text: '深入理解Node.js 中的进程与线程',
-      link: 'processAndThread'
-    },
-    {
-      text: '一文彻底搞懂Events模块',
-      link: 'events'
-    },
-    {
-      text: 'require 文件查找策略',
-      link: 'require_order'
-    },
-    {
-      text: '中间件',
-      link: 'middleware'
-    },
+      items: [
+        {
+          text: 'node是什么',
+          link: '/node/',
+        },
+        {
+          text: 'node事件循环',
+          link: '/node/event_loop'
+        },
+        {
+          text: 'node核心模块-path',
+          link: '/node/path'
+        },
+        {
+          text: 'node核心模块-fs',
+          link: '/node/fs'
+        },
+        {
+          text: 'node核心模块-stream',
+          link: '/node/stream'
+        },
+        {
+          text: 'node核心模块-buffer',
+          link: '/node/buffer'
+        },
+        {
+          text: '深入理解Node.js 中的进程与线程',
+          link: '/node/processAndThread'
+        },
+        {
+          text: '一文彻底搞懂Events模块',
+          link: '/node/events'
+        },
+        {
+          text: 'require 文件查找策略',
+          link: '/node/require_order'
+        },
+        {
+          text: '中间件',
+          link: '/node/middleware'
+        },
+      ]
+    }
   ],
 }

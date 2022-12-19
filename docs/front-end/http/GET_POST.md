@@ -48,14 +48,14 @@
 
 `GET` 方法简约版报文是这样的
 
-```http
+```
 GET /index.html?name=qiming.c&age=22 HTTP/1.1
 Host: localhost
 ```
 
 `POST`方法简约版报文是这样的
 
-```http
+```
 POST /index.html HTTP/1.1
 Host: localhost
 Content-Type: application/x-www-form-urlencoded

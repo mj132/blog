@@ -76,7 +76,7 @@ $ /usr/local/Cellar/rabbitmq/3.7.8
 $ sbin/rabbitmq-server
 ```
 
-浏览器输入 http://localhost:15672/#/ 默认用户名密码 guest
+浏览器输入 `http://localhost:15672/#/` 默认用户名密码 `guest`
 
 #### 安装后的基本示意图
 

@@ -12,7 +12,7 @@ HTTP 头部字段可以自己根据需要定义，因此可能在 `Web`服务器
 
 下面是一个`HTTP`请求的请求头：
 
-```http
+```
 GET /home.html HTTP/1.1
 Host: developer.mozilla.org
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:50.0) Gecko/20100101 Firefox/50.0
