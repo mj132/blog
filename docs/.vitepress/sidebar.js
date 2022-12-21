@@ -76,7 +76,7 @@ module.exports = {
       collapsed: true,
       items: [
         {
-          link: '/html/01',
+          link: '/front-end/html/01',
           text: '01: HTML5和HTML4究竟有哪些不同？'
         },
         {
