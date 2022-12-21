@@ -25,7 +25,7 @@
 |     \8 进制     |   `'\141'`   |   0-255    |              模板字符串中不可直接使用               |
 | \x 两位 16 进制 |   `'\x61'`   |   0-255    |                      必须两位                       |
 | \u 四位 16 进制 |  `'\u0061'`  |  0-65535   |                      必须四位                       |
-|   \u{16 进制}   | `'\u{0061}'` | 0-0x10FFFF | 码点大于 0xFFFF,length 为 2，下标访问值是高低位的值 |
+|   `\u{16 进制}`   | `'\u{0061}'` | 0-0x10FFFF | 码点大于 0xFFFF,length 为 2，下标访问值是高低位的值 |
 
 ## 编码基础知识
 
@@ -311,7 +311,7 @@ regZH.test('𠀠') // false 尴尬了不
 
 ```js
 if (!String.prototype.trim) {
-  String.prototype.trim = function() {
+  String.prototype.trim = function () {
     return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+\$/g, '')
   }
 }
