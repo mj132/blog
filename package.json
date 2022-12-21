@@ -8,10 +8,14 @@
   "scripts": {
     "start": "vitepress dev docs --host --port 8888",
     "build": "vitepress build docs",
-    "serve": "vitepress serve docs"
+    "serve": "vitepress serve docs",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "vitepress": "^1.0.0-alpha.31",
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "@commitlint/cli": "^16.3.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "husky": "^8.0.2"
   }
 }
