@@ -1,0 +1,13 @@
+::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 4px;
+  background: linear-gradient(to bottom, #8360c3, #2ebf91);
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #aa4b6b, #6b6b83, #3b8d99);
+}

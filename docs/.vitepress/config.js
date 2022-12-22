@@ -1,6 +1,6 @@
 export default {
   base: "/blog/",
-  appearance: true,
+  appearance: 'dark',
   title: '大前端',
   description: '前端技术博客，记录成长轨迹',
   head: [
