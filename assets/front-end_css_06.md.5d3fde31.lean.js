@@ -1,0 +1,1 @@
+import{_ as s,c as n,o as a,a as l}from"./app.8ae323eb.js";const A=JSON.parse('{"title":"06: CSS如何实现双飞翼布局？","description":"","frontmatter":{},"headers":[],"relativePath":"front-end/css/06.md"}'),p={name:"front-end/css/06.md"},o=l("",4),e=[o];function t(c,r,D,F,y,C){return a(),n("div",null,e)}const b=s(p,[["render",t]]);export{A as __pageData,b as default};
