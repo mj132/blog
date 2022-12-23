@@ -49,6 +49,11 @@ export default {
     socialLinks: [
       { icon: 'github', link: 'https://github.com/mj132' }
     ],
+    algolia: {
+      appId: 'C4PC7T7WCR',
+      apiKey: 'af4b6ea65c248c885e1b0ce587926ea8',
+      indexName: 'blog'
+    },
     footer: {
       copyright: 'Copyright © 2022-present MJ'
     }
