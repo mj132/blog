@@ -30,6 +30,11 @@ export default {
         activeMatch: '/vue'
       },
       {
+        text: "React",
+        link: "/react/",
+        activeMatch: '/react'
+      },
+      {
         text: "性能优化",
         link: "/performance/",
         activeMatch: '/performance'
@@ -55,7 +60,7 @@ export default {
       indexName: 'blog'
     },
     footer: {
-      copyright: 'Copyright © 2022-present MJ'
+      copyright: 'Copyright © 2023-present MJ'
     }
   },
   markdown: {
