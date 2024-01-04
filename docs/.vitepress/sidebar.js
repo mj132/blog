@@ -387,36 +387,36 @@ module.exports = {
       items: []
     }
   ],
-  '/react/': [
-    {
-      items: [
-        {
-          link: '/react/',
-          text: 'React理念'
-        },
-        {
-          link: '/react/structure',
-          text: 'React 架构'
-        },
-        {
-          link: '/react/fiber',
-          text: 'Fiber 架构'
-        },
-        {
-          link: '/react/render',
-          text: 'render 阶段'
-        },
-        {
-          link: '/react/commit',
-          text: 'commit 阶段'
-        },
-        {
-          link: '/react/diff',
-          text: 'Diff 算法'
-        }
-      ]
-    }
-  ],
+  // '/react/': [
+  //   {
+  //     items: [
+  //       {
+  //         link: '/react/',
+  //         text: 'React理念'
+  //       },
+  //       {
+  //         link: '/react/structure',
+  //         text: 'React 架构'
+  //       },
+  //       {
+  //         link: '/react/fiber',
+  //         text: 'Fiber 架构'
+  //       },
+  //       {
+  //         link: '/react/render',
+  //         text: 'render 阶段'
+  //       },
+  //       {
+  //         link: '/react/commit',
+  //         text: 'commit 阶段'
+  //       },
+  //       {
+  //         link: '/react/diff',
+  //         text: 'Diff 算法'
+  //       }
+  //     ]
+  //   }
+  // ],
   '/performance/': [
     {
       items: [

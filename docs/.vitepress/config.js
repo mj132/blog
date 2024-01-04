@@ -29,11 +29,11 @@ export default {
         link: "/vue/",
         activeMatch: '/vue'
       },
-      {
-        text: "React",
-        link: "/react/",
-        activeMatch: '/react'
-      },
+      // {
+      //   text: "React",
+      //   link: "/react/",
+      //   activeMatch: '/react'
+      // },
       {
         text: "性能优化",
         link: "/performance/",
