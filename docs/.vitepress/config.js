@@ -60,7 +60,7 @@ export default {
       indexName: 'blog'
     },
     footer: {
-      copyright: 'Copyright © 2023-present MJ'
+      copyright: 'Copyright © 2024-present MJ'
     }
   },
   markdown: {

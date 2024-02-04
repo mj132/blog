@@ -3,8 +3,8 @@ layout: home
 
 hero:
   # name: 大前端
-  text: 多年技术积累，让我们一起走进高级前端的世界吧！
-  tagline: javascript  vue typescript css node
+  text: 多年技术积累，让我们一起走进大前端的世界
+  tagline: js/ts vue react webpack node mysql
   image:
     src: '/clock.gif'
   actions:
